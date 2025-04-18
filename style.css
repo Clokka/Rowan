@@ -1,0 +1,153 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  background-color: #fff;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* HEADER */
+.header {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.logo {
+  height: 40px;
+}
+
+.search-bar input {
+  width: 300px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.icons span {
+  margin-left: 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.main-nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 0.75rem 0;
+  list-style: none;
+  border-top: 1px solid #eee;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
+
+/* PROMO BAR */
+.promo-bar {
+  background-color: #004d40;
+  color: white;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.promo-bar a {
+  color: #ffeb3b;
+  text-decoration: underline;
+}
+
+/* HERO SECTION */
+.hero {
+  position: relative;
+  background: linear-gradient(to bottom, #a6d4fa, #111);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.hero-watch {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 3rem;
+  text-align: center;
+  color: #fff;
+}
+
+.hero-content h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.7rem 1.5rem;
+  background: white;
+  color: black;
+  border: none;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header-top {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .search-bar input {
+    width: 100%;
+  }
+
+  .hero {
+    flex-direction: column;
+  }
+
+  .hero-content {
+    position: static;
+    margin-top: 2rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
