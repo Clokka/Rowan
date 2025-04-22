@@ -4,31 +4,91 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stylish Watch Gallery</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f3f4f6;
+      color: #1f2937;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    section.text-center {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    section.text-center a {
+      font-size: 1.2rem;
+      color: #2563eb;
+      text-decoration: underline;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <header class="bg-white shadow-md p-6 mb-6">
-    <h1 class="text-3xl font-bold text-center">Stylish Watch Gallery</h1>
+<body>
+  <header>
+    <h1>Stylish Watch Gallery</h1>
   </header>
 
   <section class="text-center mb-10">
     <p class="text-lg mb-4">Check out this featured watch on Amazon:</p>
-    <a href="https://www.amazon.com/dp/B09F9XF9CW" target="_blank" class="text-blue-600 underline text-xl">Shop on Amazon</a>
+    <a href="https://www.amazon.com/dp/B09F9XF9CW" target="_blank">Shop on Amazon</a>
   </section>
 
-  <section class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  <section class="gallery">
     <!-- Replace the src with actual stylish watch images -->
-    <img src="https://m.media-amazon.com/images/I/61QeNWSSHaL._AC_SL1001_.jpg" alt="Watch 1" class="rounded-xl shadow-md" />
-    <img src="https://m.media-amazon.com/images/I/71Z0U0H3PaL._AC_SL1500_.jpg" alt="Watch 2" class="rounded-xl shadow-md" />
-    <img src="https://m.media-amazon.com/images/I/81C3p3PZ2OL._AC_SL1500_.jpg" alt="Watch 3" class="rounded-xl shadow-md" />
-    <img src="https://m.media-amazon.com/images/I/61p6A7gRtUL._AC_SL1500_.jpg" alt="Watch 4" class="rounded-xl shadow-md" />
-    <img src="https://m.media-amazon.com/images/I/71cJr0GQp+L._AC_SL1500_.jpg" alt="Watch 5" class="rounded-xl shadow-md" />
-    <img src="https://m.media-amazon.com/images/I/81cdp+MmyxL._AC_SL1500_.jpg" alt="Watch 6" class="rounded-xl shadow-md" />
-    <img src="https://m.media-amazon.com/images/I/81GsDP7VHPL._AC_SL1500_.jpg" alt="Watch 7" class="rounded-xl shadow-md" />
-    <img src="https://m.media-amazon.com/images/I/81FTke2DOLL._AC_SL1500_.jpg" alt="Watch 8" class="rounded-xl shadow-md" />
+    <img src="https://m.media-amazon.com/images/I/61QeNWSSHaL._AC_SL1001_.jpg" alt="Watch 1" />
+    <img src="https://m.media-amazon.com/images/I/71Z0U0H3PaL._AC_SL1500_.jpg" alt="Watch 2" />
+    <img src="https://m.media-amazon.com/images/I/81C3p3PZ2OL._AC_SL1500_.jpg" alt="Watch 3" />
+    <img src="https://m.media-amazon.com/images/I/61p6A7gRtUL._AC_SL1500_.jpg" alt="Watch 4" />
+    <img src="https://m.media-amazon.com/images/I/71cJr0GQp+L._AC_SL1500_.jpg" alt="Watch 5" />
+    <img src="https://m.media-amazon.com/images/I/81cdp+MmyxL._AC_SL1500_.jpg" alt="Watch 6" />
+    <img src="https://m.media-amazon.com/images/I/81GsDP7VHPL._AC_SL1500_.jpg" alt="Watch 7" />
+    <img src="https://m.media-amazon.com/images/I/81FTke2DOLL._AC_SL1500_.jpg" alt="Watch 8" />
   </section>
 
-  <footer class="text-center py-6 text-sm text-gray-500">
+  <footer>
     &copy; 2025 Stylish Watch Gallery
   </footer>
 </body>
