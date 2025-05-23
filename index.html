@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Luxury Watch Brand</title>
   <style>
-    /* Reset and base */
     * {
       margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -17,7 +16,6 @@
       overflow-x: hidden;
     }
 
-    /* Top navigation bar */
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -37,18 +35,23 @@
       align-items: center;
     }
 
-    /* Logo / Home */
     .logo {
       font-weight: 700;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       letter-spacing: 2px;
       color: #000;
       cursor: pointer;
       text-transform: uppercase;
       user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
     }
 
-    /* Navigation menu */
+    .logo img {
+      height: 30px;
+    }
+
     .nav-links {
       list-style: none;
       display: flex;
@@ -66,17 +69,15 @@
     }
 
     .nav-links li:hover {
-      color: #b28704; /* luxurious gold-ish accent */
+      color: #b28704;
     }
 
-    /* Basket icon container */
     .basket {
       position: relative;
       cursor: pointer;
       margin-left: 2rem;
     }
 
-    /* Basket icon svg style */
     .basket svg {
       width: 24px;
       height: 24px;
@@ -90,7 +91,6 @@
       stroke: #b28704;
     }
 
-    /* Basket item count */
     .basket-count {
       position: absolute;
       top: -6px;
@@ -107,7 +107,6 @@
       font-weight: 700;
     }
 
-    /* CTA button */
     .cta-button {
       background-color: #b28704;
       color: white;
@@ -126,7 +125,6 @@
       background-color: #8c6503;
     }
 
-    /* Ebay link container */
     .ebay-link {
       display: flex;
       align-items: center;
@@ -139,16 +137,17 @@
       transition: color 0.3s ease;
       margin-left: 1.5rem;
     }
+
     .ebay-link:hover {
       color: #004a9f;
     }
+
     .ebay-logo {
       width: 50px;
       height: auto;
       filter: drop-shadow(0 0 1px rgba(0,0,0,0.1));
     }
 
-    /* Hero section with video */
     .hero {
       position: relative;
       width: 100%;
@@ -157,12 +156,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      color: white;
-      font-size: 3rem;
-      font-weight: 700;
-      letter-spacing: 4px;
-      user-select: none;
-      text-shadow: 0 0 15px rgba(0,0,0,0.7);
     }
 
     .hero-video {
@@ -176,13 +169,35 @@
 
     .hero-content {
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
-    /* Trending section */
+    .video-controls {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 3;
+    }
+
+    .video-controls button {
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .video-controls button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
     .trending-section {
       margin: 3rem 3rem 5rem 3rem;
     }
+
     .trending-title {
       font-size: 1.8rem;
       font-weight: 700;
@@ -192,7 +207,6 @@
       user-select: none;
     }
 
-    /* Horizontal scrolling container */
     .trending-gallery {
       display: flex;
       gap: 1.2rem;
@@ -200,18 +214,20 @@
       padding-bottom: 1rem;
       scroll-behavior: smooth;
     }
+
     .trending-gallery::-webkit-scrollbar {
       height: 8px;
     }
+
     .trending-gallery::-webkit-scrollbar-thumb {
       background: #b28704;
       border-radius: 10px;
     }
+
     .trending-gallery::-webkit-scrollbar-track {
       background: #f5f5f5;
     }
 
-    /* Each image card */
     .trend-item {
       flex: 0 0 auto;
       width: 220px;
@@ -233,12 +249,12 @@
       transition: transform 0.3s ease;
     }
 
-    /* Hover effect */
     .trend-item:hover {
       transform: scale(1.05);
       box-shadow: 0 8px 20px rgba(178,135,4,0.5);
       z-index: 10;
     }
+
     .trend-item:hover img {
       transform: scale(1.1);
     }
@@ -261,54 +277,71 @@
 </head>
 <body>
 
-  <nav class="navbar" role="navigation" aria-label="Primary">
+  <nav class="navbar">
     <div class="navbar-left">
-      <div class="logo" tabindex="0" role="link" aria-label="Home">LUXWATCH</div>
+      <div class="logo">
+        LUXWATCH <span style="font-weight: 400;">in partnership with</span>
+        <img src="images/clokka-logo.png" alt="Clokka Logo" />
+      </div>
       <ul class="nav-links">
-        <li tabindex="0">New & Featured</li>
-        <li tabindex="0">Men</li>
-        <li tabindex="0">Women</li>
+        <li>New & Featured</li>
+        <li>Men</li>
+        <li>Women</li>
       </ul>
     </div>
-
     <div class="navbar-right">
-      <button class="cta-button" aria-label="Shop Now">Shop Now</button>
-      <a href="https://www.ebay.co.uk/itm/388448045062" target="_blank" rel="noopener" class="ebay-link" aria-label="Shop on eBay">
+      <button class="cta-button">Shop Now</button>
+      <a href="https://www.ebay.co.uk/itm/388448045062" target="_blank" class="ebay-link">
         <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/EBay_logo.svg" alt="eBay Logo" class="ebay-logo" />
         Shop on eBay
       </a>
-      <div class="basket" role="button" tabindex="0" aria-label="View Basket">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
+      <div class="basket">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M6 6h15l-1.5 9h-12L4 4H1" />
           <circle cx="9" cy="20" r="1" />
           <circle cx="18" cy="20" r="1" />
         </svg>
-        <div class="basket-count" aria-live="polite" aria-atomic="true">2</div>
+        <div class="basket-count">2</div>
       </div>
     </div>
   </nav>
 
-  <section class="hero" role="img" aria-label="Luxury watch hero video">
-    <video autoplay muted loop playsinline class="hero-video">
-      <source src="Images/clokka123.mp4" type="video/mp4" />
+  <section class="hero">
+    <video id="heroVideo" autoplay muted loop playsinline class="hero-video">
+      <source src="images/clokka123.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
-    <div class="hero-content">
-      TIMELESS ELEGANCE
+    <div class="hero-content"></div>
+    <div class="video-controls">
+      <button onclick="toggleVideo()">Pause</button>
     </div>
   </section>
 
-  <section class="trending-section" aria-label="Trending watches">
+  <section class="trending-section">
     <h2 class="trending-title">Trending</h2>
     <div class="trending-gallery">
-      <div class="trend-item" tabindex="0"><img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Trending Watch 1" /></div>
-      <div class="trend-item" tabindex="0"><img src="https://i.ebayimg.com/images/g/kasAAOSwHhBoLY-K/s-l1600.webp" alt="Trending Watch 2" /></div>
-      <div class="trend-item" tabindex="0"><img src="https://i.ebayimg.com/images/g/H~gAAOSwZPxoLY-r/s-l1600.webp" alt="Trending Watch 3" /></div>
-      <div class="trend-item" tabindex="0"><img src="https://i.ebayimg.com/images/g/xVUAAOSwPApoLZAV/s-l1600.webp" alt="Trending Watch 4" /></div>
-      <div class="trend-item" tabindex="0"><img src="https://i.ebayimg.com/images/g/LFsAAOSwVrhoLZAx/s-l1600.webp" alt="Trending Watch 5" /></div>
-      <div class="trend-item" tabindex="0"><img src="https://i.ebayimg.com/images/g/eAQAAOSwvbVoLZBR/s-l1600.webp" alt="Trending Watch 6" /></div>
+      <div class="trend-item"><img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Trending Watch 1" /></div>
+      <div class="trend-item"><img src="https://i.ebayimg.com/images/g/kasAAOSwHhBoLY-K/s-l1600.webp" alt="Trending Watch 2" /></div>
+      <div class="trend-item"><img src="https://i.ebayimg.com/images/g/H~gAAOSwZPxoLY-r/s-l1600.webp" alt="Trending Watch 3" /></div>
+      <div class="trend-item"><img src="https://i.ebayimg.com/images/g/xVUAAOSwPApoLZAV/s-l1600.webp" alt="Trending Watch 4" /></div>
+      <div class="trend-item"><img src="https://i.ebayimg.com/images/g/LFsAAOSwVrhoLZAx/s-l1600.webp" alt="Trending Watch 5" /></div>
+      <div class="trend-item"><img src="https://i.ebayimg.com/images/g/eAQAAOSwvbVoLZBR/s-l1600.webp" alt="Trending Watch 6" /></div>
     </div>
   </section>
 
+  <script>
+    const video = document.getElementById('heroVideo');
+    const button = document.querySelector('.video-controls button');
+
+    function toggleVideo() {
+      if (video.paused) {
+        video.play();
+        button.textContent = 'Pause';
+      } else {
+        video.pause();
+        button.textContent = 'Play';
+      }
+    }
+  </script>
 </body>
 </html>
