@@ -2,108 +2,112 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stylish Watch Gallery - Clokka</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OLEVS Watches</title>
   <style>
     body {
-      background-color: #f3f4f6;
-      color: #1f2937;
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      color: #222;
     }
-
-    .logo-header {
-      background-color: #ffffff;
+    .top-banner {
+      background-color: #ffcc00;
+      color: #111;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+    }
+    .top-banner span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 20s linear infinite;
+    }
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+    header {
+      background-color: #111;
+      color: white;
+      padding: 1rem;
       text-align: center;
-      padding: 2rem 1rem 1rem;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-
-    .clokka-logo {
-      height: 80px;
-      max-width: 100%;
+    .hero {
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 2rem 1rem;
     }
-
-    header h1 {
+    .hero h1 {
       font-size: 2.5rem;
-      font-weight: bold;
-      margin: 1rem 0 2rem;
-      text-align: center;
     }
-
-    section.text-center {
-      text-align: center;
-      margin-bottom: 2.5rem;
+    .featured-products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
     }
-
-    section.text-center a {
-      font-size: 1.2rem;
-      color: #2563eb;
-      text-decoration: underline;
-      display: block;
+    .product {
+      border: 1px solid #ddd;
+      padding: 1rem;
+      text-align: center;
+      border-radius: 8px;
+    }
+    .product img {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+    }
+    .product h3 {
       margin: 0.5rem 0;
     }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 1rem;
+    .product p {
+      margin: 0.5rem 0;
     }
-
-    .gallery img {
-      width: 100%;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .gallery img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-    }
-
     footer {
+      background-color: #111;
+      color: white;
       text-align: center;
-      padding: 1.5rem;
-      font-size: 0.875rem;
-      color: #6b7280;
+      padding: 1rem;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-
-  <!-- Clokka Logo Header -->
-  <header class="logo-header">
-    <img src="images/clokkalogo.png" alt="Clokka Logo" class="clokkalogo">
-  </header>
-
+  <div class="top-banner">
+    <span>Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up! &nbsp;&nbsp;&nbsp;&nbsp; Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up! &nbsp;&nbsp;&nbsp;&nbsp;</span>
+  </div>
   <header>
-    <h1>Stylish Watch Gallery</h1>
+    <h1>OLEVS Fashion Watches</h1>
+    <p>Style Meets Precision</p>
   </header>
-
-  <section class="text-center mb-10">
-    <p class="text-lg mb-4">Check out these featured watches:</p>
-    <a href="https://www.amazon.com/dp/B09F9XF9CW" target="_blank">Shop on Amazon</a>
-    <a href="https://www.ebay.co.uk/itm/388448045062" target="_blank">Shop on eBay</a>
+  <section class="hero">
+    <h1>Explore Timeless Elegance</h1>
+    <p>Shop our curated OLEVS collection</p>
   </section>
-
-  <section class="gallery">
-    <img src="https://m.media-amazon.com/images/I/61QeNWSSHaL._AC_SL1001_.jpg" alt="Watch 1" />
-    <img src="https://m.media-amazon.com/images/I/51e6zi1LHWS._AC_UY900_.jpg" alt="Watch 2" />
-    <img src="https://m.media-amazon.com/images/I/61MPLojLuvL._AC_UY900_.jpg" alt="Watch 3" />
-    <img src="https://img.joomcdn.net/1cd733ba550706d4347035bdac4c705b3dd94514_original.jpeg" alt="Watch 4" />
-    <img src="https://img.joomcdn.net/68ae83a614824454044c578d941c43ca04b7cf5d_original.jpeg" alt="Watch 5" />
-    <img src="https://m.media-amazon.com/images/I/71UtS4nIV9L._AC_UY900_.jpg" alt="Watch 6" />
-    <img src="https://i.ebayimg.com/images/g/6tUAAOSwbdNlKqnV/s-l1200.jpg" alt="Watch 7" />
-    <img src="https://img.joomcdn.net/df55654a9ec8464a87b60afc9bdc741734c69e8d_original.jpeg" alt="Watch 8" />
+  <section class="featured-products">
+    <div class="product">
+      <img src="https://globalboutique.com/wp-content/uploads/2023/05/featured-gold-watches.jpg" alt="OLEVS Gold Watch" />
+      <h3>OLEVS Gold Classic</h3>
+      <p>$129.00</p>
+    </div>
+    <div class="product">
+      <a href="https://photos.app.goo.gl/MHBYp3NcSfwPWeEn8" target="_blank" rel="noopener noreferrer">
+        <img src="https://via.placeholder.com/250?text=View+OLEVS+Photo" alt="OLEVS Watch from Google Photos" />
+      </a>
+      <h3>OLEVS Exclusive Photo</h3>
+      <p>Click image to view</p>
+    </div>
   </section>
-
   <footer>
-    &copy; 2025 Clokka - Stylish Watch Gallery
+    <p>&copy; 2025 OLEVS Fashion. All rights reserved.</p>
   </footer>
 </body>
 </html>
