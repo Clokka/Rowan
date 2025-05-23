@@ -34,21 +34,31 @@
         transform: translateX(-100%);
       }
     }
+
+    /* Updated header */
     header {
       background-color: #111;
       color: white;
-      padding: 1rem;
-      text-align: center;
+      padding: 0.5rem 2rem;
       display: flex;
       align-items: center;
-      justify-content: center;
-      flex-direction: column;
+      justify-content: flex-start;
+      gap: 1rem;
     }
     .logo {
-      max-width: 150px;
+      max-width: 100px;
       height: auto;
-      margin-bottom: 0.5rem;
     }
+    .header-text h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    .header-text p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
     .hero {
       background-color: #f4f4f4;
       text-align: center;
@@ -57,6 +67,7 @@
     .hero h1 {
       font-size: 2.5rem;
     }
+
     .featured-products {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -80,6 +91,7 @@
     .product p {
       margin: 0.5rem 0;
     }
+
     footer {
       background-color: #111;
       color: white;
@@ -91,14 +103,16 @@
 </head>
 <body>
   <div class="top-banner">
-    <span>Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up! &nbsp;&nbsp;&nbsp;&nbsp; Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up! &nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span>Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up! &nbsp;&nbsp;&nbsp;&nbsp; Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up!</span>
   </div>
 
-  <!-- Header with updated logo -->
+  <!-- Updated header with left-aligned logo and compact size -->
   <header>
     <img src="https://i.imgur.com/VtMMSyI.png" alt="OLEVS Logo" class="logo">
-    <h1>OLEVS Fashion Watches</h1>
-    <p>Style Meets Precision</p>
+    <div class="header-text">
+      <h1>OLEVS Fashion Watches</h1>
+      <p>Style Meets Precision</p>
+    </div>
   </header>
 
   <section class="hero">
