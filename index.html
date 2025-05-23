@@ -1,140 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CLOKKA Watches</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #fff;
-      color: #222;
-    }
-    .top-banner {
-      background-color: #ffcc00;
-      color: #111;
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative;
-      height: 2rem;
-      display: flex;
-      align-items: center;
-    }
-    .top-banner span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-left 20s linear infinite;
-    }
-    @keyframes scroll-left {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
-    header {
-      background-color: #111;
-      color: white;
-      padding: 0.5rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 1rem;
-    }
-    .logo {
-      max-width: 100px;
-      height: auto;
-    }
-    .header-text h1 {
-      margin: 0;
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      color: #c0392b; /* red tone */
-    }
-    .header-text p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #ccc;
-    }
+const watches = [
+  {
+    id: 1,
+    image: "https://s.alicdn.com/@sc04/kf/H07fa5254db644ea986a73cd4d8159a9d9.jpg_720x720q50.jpg",
+    name: "Elegant Gold Watch",
+    model: "EGW-001",
+    price: "£129.99",
+    description: "A timeless gold-plated wristwatch with quartz movement."
+  },
+  {
+    id: 2,
+    image: "https://s.alicdn.com/@sc04/kf/H907379f1ae1f47fd965b19b6806da4e7L.jpg_720x720q50.jpg",
+    name: "Midnight Black Chrono",
+    model: "MBC-042",
+    price: "£159.99",
+    description: "Modern chronograph in matte black finish with leather strap."
+  }
+];
 
-    .hero {
-      background-color: #f4f4f4;
-      text-align: center;
-      padding: 2rem 1rem;
-    }
-    .hero h1 {
-      font-size: 2.5rem;
-    }
+export default function ClokkaHome() {
+  return (
+    <div className="min-h-screen bg-white text-black font-sans">
+      {/* Top Navigation Bar */}
+      <header className="flex items-center justify-between p-6 border-b border-gray-200 bg-white">
+        <div className="flex items-center space-x-4">
+          <img src="https://i.imgur.com/VtMMSyI_d.png?maxwidth=520&shape=thumb&fidelity=high" alt="Clokka Logo" className="h-20 w-20" />
+          <span className="text-4xl font-extrabold tracking-wide">Clokka</span>
+        </div>
+        <nav className="flex space-x-6 text-lg">
+          <button onClick={() => window.location.reload()} className="hover:underline">Home</button>
+          <button onClick={() => window.location.href = "https://www.ebay.co.uk/itm/388448045062"} className="hover:underline">eBay Store</button>
+          <button onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })} className="hover:underline">Contact</button>
+        </nav>
+      </header>
 
-    .featured-products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
-    }
-    .product {
-      border: 1px solid #ddd;
-      padding: 1rem;
-      text-align: center;
-      border-radius: 8px;
-    }
-    .product img {
-      width: 100%;
-      max-width: 250px;
-      height: auto;
-    }
-    .product h3 {
-      margin: 0.5rem 0;
-    }
-    .product p {
-      margin: 0.5rem 0;
-    }
+      {/* New Arrivals Banner */}
+      <div className="bg-black text-white text-center py-2 text-sm font-medium tracking-widest">
+        <motion.div animate={{ x: ["100%", "-100%"] }} transition={{ repeat: Infinity, duration: 10, ease: "linear" }} className="inline-block whitespace-nowrap">
+          New Arrivals: Elegant Gold Watch • Midnight Black Chrono • More Coming Soon •
+        </motion.div>
+      </div>
 
-    footer {
-      background-color: #111;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
-    }
-  </style>
-</head>
-<body>
-  <div class="top-banner">
-    <span>Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up! &nbsp;&nbsp;&nbsp;&nbsp; Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up!</span>
-  </div>
+      {/* CTA Section */}
+      <section className="bg-white py-16 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">Timeless Style, Unmatched Precision</h1>
+        <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">Discover a curated selection of sophisticated timepieces that make every moment count. Explore our newest arrivals today.</p>
+        <Button onClick={() => window.location.href = "https://www.ebay.co.uk/itm/388448045062"} className="px-6 py-3 text-white bg-black hover:bg-gray-900 rounded-full text-lg font-semibold">
+          Shop Now
+        </Button>
+      </section>
 
-  <header>
-    <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo">
-    <div class="header-text">
-      <h1>CLOKKA</h1>
-      <p>Style Meets Precision</p>
+      {/* Product Showcase */}
+      <main className="px-8 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {watches.map((watch) => (
+          <motion.div
+            key={watch.id}
+            whileHover={{ scale: 1.03 }}
+            className="cursor-pointer"
+            onClick={() => alert(`Model: ${watch.model}\nPrice: ${watch.price}\nDescription: ${watch.description}`)}
+          >
+            <Card className="rounded-2xl border border-gray-200 overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+              <img src={watch.image} alt={watch.name} className="w-full h-72 object-cover" />
+              <CardContent className="p-5">
+                <h3 className="text-xl font-semibold mb-1">{watch.name}</h3>
+                <p className="text-gray-600 text-sm mb-2">Model: {watch.model}</p>
+                <p className="text-lg font-bold">{watch.price}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </main>
+
+      {/* Contact Section */}
+      <footer id="contact" className="mt-16 border-t border-gray-200 bg-gray-50 py-10 text-center">
+        <h2 className="text-2xl font-bold mb-2">Contact Us</h2>
+        <p className="text-gray-700 mb-4">We'd love to hear from you! Reach out with questions, feedback, or just to say hello.</p>
+        <a href="mailto:contact@clokka.com" className="text-blue-600 underline">contact@clokka.com</a>
+        <p className="mt-4 text-sm text-gray-500">&copy; 2025 Clokka. All rights reserved.</p>
+      </footer>
     </div>
-  </header>
-
-  <section class="hero">
-    <h1>Explore Timeless Elegance</h1>
-    <p>Shop our curated CLOKKA collection</p>
-  </section>
-
-  <section class="featured-products">
-    <div class="product">
-      <img src="https://globalboutique.com/wp-content/uploads/2023/05/featured-gold-watches.jpg" alt="Gold Watch" />
-      <h3>CLOKKA Gold Classic</h3>
-      <p>$129.00</p>
-    </div>
-    <div class="product">
-      <a href="https://photos.app.goo.gl/MHBYp3NcSfwPWeEn8" target="_blank" rel="noopener noreferrer">
-        <img src="https://via.placeholder.com/250?text=View+Product+Photo" alt="Google Photos Watch" />
-      </a>
-      <h3>Exclusive Photo</h3>
-      <p>Click image to view</p>
-    </div>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 CLOKKA. All rights reserved.</p>
-  </footer>
-</body>
-</html>
-
+  );
+}
