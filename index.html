@@ -2,182 +2,170 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CLOKKA</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luxury Watch Brand</title>
   <style>
+    /* Reset and base */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
     body {
-      margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background-color: #fff;
-      color: #111;
-    }
-
-    /* Top banner (unchanged) */
-    .top-banner {
-      background-color: #ffcc00;
-      color: #111;
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative;
-      height: 2rem;
-      display: flex;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-    .top-banner span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-left 20s linear infinite;
-    }
-    @keyframes scroll-left {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    /* Header like Nike */
-    header {
-      background-color: #111;
-      color: white;
-      display: flex;
-      align-items: center;
-      padding: 1rem 2rem;
-      justify-content: space-between;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .logo {
-      width: 60px;
-      height: auto;
-    }
-    .brand h1 {
-      font-family: 'Playfair Display', serif;
-      color: #fff;
-      font-size: 1.5rem;
-      margin: 0;
-    }
-
-    /* Hero section */
-    .hero {
-      background: url('https://images.unsplash.com/photo-1519741491158-4e4e58d6d0d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
-      height: 70vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: white;
-      padding: 2rem;
-    }
-    .hero h1 {
-      font-size: 3rem;
-      margin: 0.5rem 0;
-      font-weight: 700;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      margin: 0.5rem 0 1.5rem;
-    }
-    .hero .cta-button {
       background: #fff;
       color: #111;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      font-weight: bold;
+    }
+
+    /* Top navigation bar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 3rem;
+      border-bottom: 1px solid #ddd;
+      background-color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
+    }
+
+    .navbar-left,
+    .navbar-center,
+    .navbar-right {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Logo / Home */
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      color: #000;
       cursor: pointer;
-      border-radius: 100px;
-      transition: background 0.3s ease;
-    }
-    .hero .cta-button:hover {
-      background: #ddd;
+      text-transform: uppercase;
+      user-select: none;
     }
 
-    /* Product cards like Nike */
-    .featured-products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    /* Navigation menu */
+    .nav-links {
+      list-style: none;
+      display: flex;
       gap: 2rem;
-      padding: 4rem 2rem;
-      background-color: #f5f5f5;
-    }
-    .product {
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s ease;
-    }
-    .product:hover {
-      transform: translateY(-5px);
-    }
-    .product img {
-      width: 100%;
-      display: block;
-    }
-    .product-info {
-      padding: 1rem;
-      text-align: center;
-    }
-    .product-info h3 {
-      margin: 0.5rem 0;
-      font-size: 1.2rem;
-    }
-    .product-info p {
-      margin: 0;
-      font-weight: 500;
+      margin-left: 3rem;
     }
 
-    footer {
-      background-color: #111;
+    .nav-links li {
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 1rem;
+      position: relative;
+      padding: 0.3rem 0;
+      color: #222;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links li:hover {
+      color: #b28704; /* luxurious gold-ish accent */
+    }
+
+    /* Basket icon container */
+    .basket {
+      position: relative;
+      cursor: pointer;
+      margin-right: 2rem;
+    }
+
+    /* Basket icon svg style */
+    .basket svg {
+      width: 24px;
+      height: 24px;
+      stroke: #111;
+      stroke-width: 2;
+      fill: none;
+      transition: stroke 0.3s ease;
+    }
+
+    .basket:hover svg {
+      stroke: #b28704;
+    }
+
+    /* Basket item count */
+    .basket-count {
+      position: absolute;
+      top: -6px;
+      right: -8px;
+      background: #b28704;
       color: white;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 700;
+    }
+
+    /* CTA button */
+    .cta-button {
+      background-color: #b28704;
+      color: white;
+      font-weight: 700;
+      border: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: 3px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: background-color 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .cta-button:hover {
+      background-color: #8c6503;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-wrap: wrap;
+        padding: 1rem 1.5rem;
+      }
+      .nav-links {
+        margin-left: 0;
+        gap: 1.5rem;
+      }
+      .navbar-right {
+        margin-left: auto;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="top-banner">
-    <span>Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up! &nbsp;&nbsp;&nbsp;&nbsp; Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up!</span>
-  </div>
 
-  <header>
-    <div class="brand">
-      <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo" />
-      <h1>CLOKKA</h1>
+  <nav class="navbar" role="navigation" aria-label="Primary">
+    <div class="navbar-left">
+      <div class="logo" tabindex="0" role="link" aria-label="Home">LUXWATCH</div>
+      <ul class="nav-links">
+        <li tabindex="0">New & Featured</li>
+        <li tabindex="0">Men</li>
+        <li tabindex="0">Women</li>
+      </ul>
     </div>
-  </header>
 
-  <section class="hero">
-    <h1>Discover Precision</h1>
-    <p>Luxury Watches. Urban Edge.</p>
-    <button class="cta-button">Shop Now</button>
-  </section>
-
-  <section class="featured-products">
-    <div class="product">
-      <img src="https://globalboutique.com/wp-content/uploads/2023/05/featured-gold-watches.jpg" alt="CLOKKA Gold Watch" />
-      <div class="product-info">
-        <h3>Gold Classic</h3>
-        <p>$129.00</p>
+    <div class="navbar-right">
+      <button class="cta-button" aria-label="Shop Now">Shop Now</button>
+      <div class="basket" role="button" tabindex="0" aria-label="View Basket">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
+          <path d="M6 6h15l-1.5 9h-12L4 4H1" />
+          <circle cx="9" cy="20" r="1" />
+          <circle cx="18" cy="20" r="1" />
+        </svg>
+        <div class="basket-count" aria-live="polite" aria-atomic="true">2</div>
       </div>
     </div>
-    <div class="product">
-      <a href="https://photos.app.goo.gl/MHBYp3NcSfwPWeEn8" target="_blank">
-        <img src="https://via.placeholder.com/250x250?text=Click+to+View" alt="Google Photo Watch" />
-      </a>
-      <div class="product-info">
-        <h3>Exclusive Photo</h3>
-        <p>Click to View</p>
-      </div>
-    </div>
-  </section>
+  </nav>
 
-  <footer>
-    <p>&copy; 2025 CLOKKA. All rights reserved.</p>
-  </footer>
 </body>
 </html>
