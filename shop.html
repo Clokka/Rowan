@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shop CLOKKA Watches</title>
+  <title>Shop | CLOKKA Watches</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -16,21 +16,22 @@
     header {
       background-color: #111;
       color: white;
-      padding: 1rem 2rem;
+      padding: 0.5rem 2rem;
       display: flex;
       align-items: center;
+      justify-content: flex-start;
       gap: 1rem;
     }
 
     .logo {
-      max-width: 80px;
+      max-width: 100px;
       height: auto;
     }
 
     .header-text h1 {
       margin: 0;
       font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
+      font-size: 2rem;
       color: #c0392b;
     }
 
@@ -40,12 +41,7 @@
       color: #ccc;
     }
 
-    h2 {
-      text-align: center;
-      margin-top: 2rem;
-    }
-
-    .product-grid {
+    .featured-products {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
@@ -80,46 +76,23 @@
       padding: 1rem;
       margin-top: 2rem;
     }
-
-    .back-link {
-      display: block;
-      text-align: center;
-      margin: 1rem auto;
-      color: #007BFF;
-      text-decoration: none;
-    }
-
-    .back-link:hover {
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
 
   <header>
-    <a href="index.html">
-      <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo">
-    </a>
+    <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo">
     <div class="header-text">
       <h1>CLOKKA</h1>
-      <p>Shop Our Timeless Collection</p>
+      <p>Style Meets Precision</p>
     </div>
   </header>
 
-  <h2>Our Collection</h2>
-  <section class="product-grid">
+  <section class="featured-products">
     <div class="product">
       <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
       <h3>OLEVS Men's Watches Top Brand Original Waterproof Quartz Watch for Man Gold Skeleton Style 24 Hour Day Night 9947</h3>
       <p>$129.00</p>
-    </div>
-
-    <div class="product">
-      <a href="https://photos.app.goo.gl/MHBYp3NcSfwPWeEn8" target="_blank" rel="noopener noreferrer">
-        <img src="https://via.placeholder.com/250?text=View+Product+Photo" alt="Google Photos Watch" />
-      </a>
-      <h3>Exclusive Photo</h3>
-      <p>Click image to view</p>
     </div>
 
     <div class="product">
@@ -128,8 +101,6 @@
       <p>5.0 ★ (1 review) — 7 sold</p>
     </div>
   </section>
-
-  <a class="back-link" href="index.html">← Back to Home</a>
 
   <footer>
     <p>&copy; 2025 CLOKKA. All rights reserved.</p>
