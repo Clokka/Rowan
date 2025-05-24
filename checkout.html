@@ -1,0 +1,80 @@
+<!-- checkout.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart - CLOKKA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    .cart {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #ccc;
+      padding: 0.5rem 0;
+    }
+    .checkout-btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      background: #c0392b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Your Cart</h1>
+  <div class="cart" id="cart">
+    <!-- Cart items will be injected here -->
+  </div>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartDiv = document.getElementById('cart');
+
+    if (cart.length === 0) {
+      cartDiv.innerHTML = '<p>Your cart is empty.</p>';
+    } else {
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price;
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('cart-item');
+        itemDiv.innerHTML = `<span>${item.name}</span><span>$${item.price.toFixed(2)}</span>`;
+        cartDiv.appendChild(itemDiv);
+      });
+
+      const totalDiv = document.createElement('div');
+      totalDiv.classList.add('cart-item');
+      totalDiv.innerHTML = `<strong>Total</strong><strong>$${total.toFixed(2)}</strong>`;
+      cartDiv.appendChild(totalDiv);
+
+      const checkoutBtn = document.createElement('button');
+      checkoutBtn.classList.add('checkout-btn');
+      checkoutBtn.innerText = 'Proceed to Checkout';
+      checkoutBtn.onclick = () => alert('Checkout process goes here...');
+      cartDiv.appendChild(checkoutBtn);
+    }
+  </script>
+</body>
+</html>
