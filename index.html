@@ -41,8 +41,9 @@
       padding: 0.5rem 2rem;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
       gap: 1rem;
+      position: relative;
     }
 
     .logo {
@@ -61,6 +62,52 @@
       margin: 0;
       font-size: 0.9rem;
       color: #ccc;
+    }
+
+    /* Profile Icon & Dropdown */
+    .profile-container {
+      position: relative;
+    }
+
+    .profile-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      filter: brightness(0) invert(1);
+    }
+
+    .profile-menu {
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      min-width: 120px;
+      z-index: 1000;
+    }
+
+    .profile-menu a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-bottom: 1px solid #444;
+      transition: background-color 0.2s ease;
+    }
+
+    .profile-menu a:last-child {
+      border-bottom: none;
+    }
+
+    .profile-menu a:hover {
+      background-color: #444;
+    }
+
+    .hidden {
+      display: none;
     }
 
     .hero-video {
@@ -123,6 +170,16 @@
       <h1>CLOKKA</h1>
       <p>Style Meets Precision</p>
     </div>
+
+    <div class="profile-container">
+      <button id="profile-btn" aria-label="User menu">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile Icon" class="profile-icon" />
+      </button>
+      <div id="profile-menu" class="profile-menu hidden">
+        <a href="/signin.html">Sign In</a>
+        <a href="/contact.html">Contact Us</a>
+      </div>
+    </div>
   </header>
 
   <!-- Hero Video Section -->
@@ -140,5 +197,20 @@
   <footer>
     <p>&copy; 2025 CLOKKA. All rights reserved.</p>
   </footer>
+
+  <script>
+    const profileBtn = document.getElementById('profile-btn');
+    const profileMenu = document.getElementById('profile-menu');
+
+    profileBtn.addEventListener('click', () => {
+      profileMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+        profileMenu.classList.add('hidden');
+      }
+    });
+  </script>
 </body>
 </html>
