@@ -12,6 +12,7 @@
       background-color: #fff;
       color: #222;
     }
+
     .top-banner {
       background-color: #ffcc00;
       color: #111;
@@ -22,11 +23,13 @@
       display: flex;
       align-items: center;
     }
+
     .top-banner span {
       display: inline-block;
       padding-left: 100%;
       animation: scroll-left 20s linear infinite;
     }
+
     @keyframes scroll-left {
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
@@ -41,29 +44,63 @@
       justify-content: flex-start;
       gap: 1rem;
     }
+
     .logo {
       max-width: 100px;
       height: auto;
     }
+
     .header-text h1 {
       margin: 0;
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
-      color: #c0392b; /* red tone */
+      color: #c0392b;
     }
+
     .header-text p {
       margin: 0;
       font-size: 0.9rem;
       color: #ccc;
     }
 
-    .hero {
-      background-color: #f4f4f4;
-      text-align: center;
-      padding: 2rem 1rem;
+    .hero-video {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
     }
-    .hero h1 {
-      font-size: 2.5rem;
+
+    .hero-video video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-content a {
+      background: white;
+      color: black;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
     }
 
     .featured-products {
@@ -72,20 +109,24 @@
       gap: 1.5rem;
       padding: 2rem;
     }
+
     .product {
       border: 1px solid #ddd;
       padding: 1rem;
       text-align: center;
       border-radius: 8px;
     }
+
     .product img {
       width: 100%;
       max-width: 250px;
       height: auto;
     }
+
     .product h3 {
       margin: 0.5rem 0;
     }
+
     .product p {
       margin: 0.5rem 0;
     }
@@ -112,14 +153,22 @@
     </div>
   </header>
 
-  <section class="hero">
-    <h1>Explore Timeless Elegance</h1>
-    <p>Shop our curated CLOKKA collection</p>
+  <!-- Hero Video Section -->
+  <section class="hero-video">
+    <video autoplay muted loop playsinline>
+      <source src="images/Clokka123.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-content">
+      <h1>Explore Timeless Elegance</h1>
+      <a href="#products">Shop Now</a>
+    </div>
   </section>
 
-  <section class="featured-products">
+  <!-- Featured Products Section -->
+  <section class="featured-products" id="products">
     <div class="product">
-      <img src="https://globalboutique.com/wp-content/uploads/2023/05/featured-gold-watches.jpg" alt="Gold Watch" />
+      <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
       <h3>CLOKKA Gold Classic</h3>
       <p>$129.00</p>
     </div>
@@ -136,15 +185,4 @@
     <p>&copy; 2025 CLOKKA. All rights reserved.</p>
   </footer>
 </body>
-</html><section class="hero-video">
-  <video autoplay muted loop playsinline class="hero-background">
-    <source src="videos/Clokka123.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-  <div class="hero-content">
-    <h1>Welcome to Clokka</h1>
-    <p>Your time-tracking, evolved.</p>
-    <a href="#get-started" class="cta-button">Get Started</a>
-  </div>
-</section>
-
+</html>
