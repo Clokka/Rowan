@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CLOKKA Watches - Shop</title>
+  <title>CLOKKA Watches</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -11,8 +11,30 @@
       font-family: Arial, sans-serif;
       background-color: #fff;
       color: #222;
-      padding: 1rem;
     }
+
+    .top-banner {
+      background-color: #ffcc00;
+      color: #111;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .top-banner span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 20s linear infinite;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
     header {
       background-color: #111;
       color: white;
@@ -21,76 +43,108 @@
       align-items: center;
       justify-content: flex-start;
       gap: 1rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: relative;
     }
+
     .logo {
       max-width: 100px;
       height: auto;
     }
+
     .header-text h1 {
       margin: 0;
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
       color: #c0392b;
     }
+
     .header-text p {
       margin: 0;
       font-size: 0.9rem;
       color: #ccc;
     }
+
     #cart-link {
       margin-left: auto;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
       position: relative;
-      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
     }
-    .featured-products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem 0;
+
+    #cart-link:hover {
+      color: #c0392b;
     }
-    .product {
-      border: 1px solid #ddd;
-      padding: 1rem;
+
+    #cart-count {
+      background: #c0392b; 
+      color: white; 
+      border-radius: 50%; 
+      padding: 2px 8px; 
+      font-size: 0.8rem; 
+      font-weight: bold; 
+      position: relative; 
+      top: -10px; 
+      left: -8px;
+      display: inline-block;
+      min-width: 20px;
       text-align: center;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
     }
-    .product img {
+
+    .hero-video {
+      position: relative;
       width: 100%;
-      max-width: 250px;
-      height: auto;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .hero-video video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
       margin-bottom: 1rem;
     }
-    .product h3 {
-      margin: 0.5rem 0;
-      font-size: 1.1rem;
-    }
-    .product p {
-      margin: 0.5rem 0;
-      font-weight: bold;
-    }
-    .product button {
-      background-color: #c0392b;
-      color: white;
-      border: none;
-      padding: 10px 20px;
+
+    .hero-content a {
+      background: white;
+      color: black;
+      padding: 12px 24px;
+      text-decoration: none;
       border-radius: 8px;
       font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
     }
-    .product button:hover {
-      background-color: #a93226;
+
+    footer {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
+  <div class="top-banner">
+    <span>Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up! &nbsp;&nbsp;&nbsp;&nbsp; Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up!</span>
+  </div>
 
   <header>
     <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo">
@@ -98,41 +152,28 @@
       <h1>CLOKKA</h1>
       <p>Style Meets Precision</p>
     </div>
-    <a href="checkout.html" id="cart-link">🛒 Cart (<span id="cart-count">0</span>)</a>
+    <a href="checkout.html" id="cart-link" aria-label="View Cart">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="white" height="24" width="24" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M7 18c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm10 0c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm-12.83-2.083l1.415-7.083h11.507l.922-3.5H6v-2H2v2l2.17 10.083z"/>
+      </svg>
+      <span id="cart-count">0</span>
+    </a>
   </header>
 
-  <section class="featured-products">
-    <div class="product">
-      <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
-      <h3>OLEVS Men's Watches Top Brand Original Waterproof Quartz Watch for Man Gold Skeleton Style 24 Hour Day Night 9947</h3>
-      <p>$129.00</p>
-      <button onclick="addToCart('OLEVS 9947', 129.00)">Add to Cart</button>
-    </div>
-
-    <div class="product">
-      <img src="https://s.alicdn.com/@sc04/kf/H9e83709f82754182ac3d2c3a45cac6deI.jpg_720x720q50.jpg" alt="POEDAGAR 827 Watch" />
-      <h3>POEDAGAR 827 Wholesale Hot Sale Model Business Men's Wrist Watch Waterproof Men Watch Classic Stainless Steel Belt Fashion Watch</h3>
-      <p>5.0 ★ (1 review) — 7 sold</p>
-      <button onclick="addToCart('POEDAGAR 827', 129.00)">Add to Cart</button>
+  <!-- Hero Video Section -->
+  <section class="hero-video">
+    <video autoplay muted loop playsinline>
+      <source src="Clokka123.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-content">
+      <h1>Explore Timeless Elegance</h1>
+      <a href="shop.html">Shop Now</a>
     </div>
   </section>
 
-  <script>
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    function updateCartCount() {
-      document.getElementById('cart-count').innerText = cart.length;
-    }
-
-    function addToCart(name, price) {
-      cart.push({ name, price });
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateCartCount();
-      alert(name + ' added to cart!');
-    }
-
-    updateCartCount();
-  </script>
-  
+  <footer>
+    <p>&copy; 2025 CLOKKA. All rights reserved.</p>
+  </footer>
 </body>
 </html>
