@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Cart - CLOKKA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #222;
+      padding: 1rem 2rem;
+    }
+    header {
+      background-color: #111;
+      color: white;
+      padding: 0.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1rem;
+      position: relative;
+    }
+    .logo {
+      max-width: 100px;
+      height: auto;
+    }
+    .header-text h1 {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: #c0392b;
+    }
+    .header-text p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    #cart-link {
+      margin-left: auto;
+      position: relative;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+    }
+    #cart-link:hover {
+      color: #c0392b;
+    }
+    #cart-count {
+      background: #c0392b;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 8px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      position: relative;
+      top: -10px;
+      left: -8px;
+      display: inline-block;
+      min-width: 20px;
+      text-align: center;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      margin-top: 2rem;
+    }
+    .cart-items {
+      margin-top: 1rem;
+      border-top: 1px solid #ddd;
+      padding-top: 1rem;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 1rem 0;
+      gap: 1rem;
+    }
+    .cart-item img {
+      width: 100px;
+      border-radius: 6px;
+    }
+    .cart-item-info {
+      flex: 1;
+    }
+    .cart-item-info h3 {
+      margin: 0 0 0.5rem 0;
+    }
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .cart-item-controls button {
+      padding: 6px 10px;
+      border: none;
+      background: #c0392b;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .cart-item-controls button:hover {
+      background: #a32b20;
+    }
+    .cart-total {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-align: right;
+    }
+    .checkout-btn {
+      margin-top: 1rem;
+      background: #c0392b;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      float: right;
+    }
+    .checkout-btn:hover {
+      background: #a32b20;
+    }
+    footer {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 4rem;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo" />
+  <div class="header-text">
+    <h1>CLOKKA</h1>
+    <p>Style Meets Precision</p>
+  </div>
+  <a href="cart.html" id="cart-link" aria-label="View Cart">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="white" height="24" width="24" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 18c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm10 0c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm-12.83-2.083l1.415-7.083h11.507l.922-3.5H6v-2H2v2l2.17 10.083z"/>
+    </svg>
+    <span id="cart-count">0</span>
+  </a>
+</header>
+
+<h2>Your Cart</h2>
+<div class="cart-items" id="cart-items">
+  <!-- Cart items injected here -->
+</div>
+
+<div class="cart-total" id="cart-total">Total: $0.00</div>
+
+<button class="checkout-btn" onclick="goToCheckout()">Proceed to Checkout</button>
+
+<footer>
+  <p>&copy; 2025 CLOKKA. All rights reserved.</p>
+</footer>
+
+<script>
+  const cartItemsEl = document.getElementById("cart-items");
+  const cartCountEl = document.getElementById("cart-count");
+  const cartTotalEl = document.getElementById("cart-total");
+
+  function getCart() {
+    const cart = localStorage.getItem("clokkaCart");
+    return cart ? JSON.parse(cart) : [];
+  }
+
+  function saveCart(cart) {
+    localStorage.setItem("clokkaCart", JSON.stringify(cart));
+  }
+
+  function updateCartCount() {
+    const cart = getCart();
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartCountEl.textContent = totalItems;
+  }
+
+  function renderCart() {
+    const cart = getCart();
+    cartItemsEl.innerHTML = "";
+    if (cart.length === 0) {
+      cartItemsEl.innerHTML = "<p>Your cart is empty.</p>";
+      cartTotalEl.textContent = "Total: $0.00";
+      updateCartCount();
+      return;
+    }
+    let total = 0;
+    cart.forEach((item, index) => {
+      total += item.price * item.quantity;
+      const itemEl = document.createElement("div");
+      itemEl.className = "cart-item";
+      itemEl.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" />
+        <div class="cart-item-info">
+          <h3>${item.name}</h3>
+          <p>Price: $${item.price.toFixed(2)}</p>
+          <p>Quantity: ${item.quantity}</p>
+          <div class="cart-item-controls">
+            <button onclick="decreaseQty(${index})">-</button>
+            <button onclick="increaseQty(${index})">+</button>
+            <button onclick="removeItem(${index})" style="background:#555;">Remove</button>
+          </div>
+        </div>
+      `;
+      cartItemsEl.appendChild(itemEl);
+    });
+    cartTotalEl.textContent = `Total: $${total.toFixed(2)}`;
+    updateCartCount();
+  }
+
+  function increaseQty(index) {
+    const cart = getCart();
+    cart[index].quantity++;
+    saveCart(cart);
+    renderCart();
+  }
+
+  function decreaseQty(index) {
+    const cart = getCart();
+    if (cart[index].quantity > 1) {
+      cart[index].quantity--;
+    } else {
+      // Optionally remove if quantity 1 and user clicks -
+      if (confirm("Quantity is 1. Remove item from cart?")) {
+        cart.splice(index, 1);
+      }
+    }
+    saveCart(cart);
+    renderCart();
+  }
+
+  function removeItem(index) {
+    const cart = getCart();
+    cart.splice(index, 1);
+    saveCart(cart);
+    renderCart();
+  }
+
+  function goToCheckout() {
+    if (getCart().length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+    window.location.href = "checkout.html";
+  }
+
+  // Initialize
+  renderCart();
+</script>
+
+</body>
+</html>
