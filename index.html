@@ -74,8 +74,8 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      min-width: 100%;
+      min-height: 100%;
       object-fit: cover;
       z-index: -1;
     }
@@ -103,34 +103,6 @@
       font-weight: bold;
     }
 
-    .featured-products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
-    }
-
-    .product {
-      border: 1px solid #ddd;
-      padding: 1rem;
-      text-align: center;
-      border-radius: 8px;
-    }
-
-    .product img {
-      width: 100%;
-      max-width: 250px;
-      height: auto;
-    }
-
-    .product h3 {
-      margin: 0.5rem 0;
-    }
-
-    .product p {
-      margin: 0.5rem 0;
-    }
-
     footer {
       background-color: #111;
       color: white;
@@ -156,35 +128,12 @@
   <!-- Hero Video Section -->
   <section class="hero-video">
     <video autoplay muted loop playsinline>
-      <source src="Clokka123.mp4" type="video/mp4">
+      <source src="images/Clokka123.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
     <div class="hero-content">
       <h1>Explore Timeless Elegance</h1>
-      <a href="#products">Shop Now</a>
-    </div>
-  </section>
-
-  <!-- Featured Products Section -->
-  <section class="featured-products" id="products">
-    <div class="product">
-      <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
-      <h3>OLEVS Men's Watches Top Brand Original Waterproof Quartz Watch for Man Gold Skeleton Style 24 Hour Day Night 9947</h3>
-      <p>$129.00</p>
-    </div>
-
-    <div class="product">
-      <a href="https://photos.app.goo.gl/MHBYp3NcSfwPWeEn8" target="_blank" rel="noopener noreferrer">
-        <img src="https://via.placeholder.com/250?text=View+Product+Photo" alt="Google Photos Watch" />
-      </a>
-      <h3>Exclusive Photo</h3>
-      <p>Click image to view</p>
-    </div>
-
-    <div class="product">
-      <img src="https://s.alicdn.com/@sc04/kf/H9e83709f82754182ac3d2c3a45cac6deI.jpg_720x720q50.jpg" alt="POEDAGAR 827 Watch" />
-      <h3>POEDAGAR 827 Wholesale Hot Sale Model Business Men's Wrist Watch Waterproof Men Watch Classic Stainless Steel Belt Fashion Watch</h3>
-      <p>5.0 ★ (1 review) — 7 sold</p>
+      <a href="shop.html">Shop Now</a>
     </div>
   </section>
 
