@@ -6,18 +6,31 @@
   <title>Sign in with Google - Clokka</title>
   <!-- Google Identity Services script -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    #user-info {
+      margin-top: 20px;
+    }
+
+    #user-info img {
+      margin-top: 10px;
+      border-radius: 50%;
+    }
+  </style>
 </head>
 <body>
   <h2>Sign in with Google</h2>
 
   <div id="g_id_signin"></div>
-
-  <div id="user-info" style="margin-top: 20px;"></div>
+  <div id="user-info"></div>
 
   <script>
     window.onload = function () {
-      console.log("Page loaded - initializing Google Sign-In");
-
       google.accounts.id.initialize({
         client_id: '861110207927-45sban532nrcomev624v6bv5ps19als5.apps.googleusercontent.com',
         callback: handleCredentialResponse,
@@ -28,32 +41,25 @@
         { theme: 'outline', size: 'large' }
       );
 
-      // Optional: prompt the One Tap UI
+      // Optional: Prompt the One Tap dialog
       // google.accounts.id.prompt();
     };
 
     function handleCredentialResponse(response) {
       const idToken = response.credential;
-      console.log("ID Token:", idToken);
-
-      // Decode JWT (basic decoding without verification)
       const base64Url = idToken.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split('')
-          .map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join('')
+        atob(base64).split('').map(c =>
+          '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+        ).join('')
       );
       const user = JSON.parse(jsonPayload);
-      console.log('User info:', user);
 
       document.getElementById('user-info').innerHTML = `
         <p><strong>Name:</strong> ${user.name}</p>
         <p><strong>Email:</strong> ${user.email}</p>
-        <img src="${user.picture}" alt="User picture" />
+        <img src="${user.picture}" alt="User picture" width="100" height="100" />
       `;
     }
   </script>
