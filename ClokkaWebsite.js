@@ -1,3 +1,7 @@
+import React from 'react';
+import { auth } from './firebase'; // adjust path if needed
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,6 +16,21 @@ export default function ClokkaWebsite() {
     "/Clokka 4.jpg",
   ];
 
+  // Google Sign-In handler
+  const handleGoogleSignIn = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        alert(`Welcome, ${user.displayName}!`);
+        // TODO: Add more logic here, like user state or redirect
+      })
+      .catch((error) => {
+        console.error('Google sign-in error:', error);
+        alert('Failed to sign in.');
+      });
+  };
+
   return (
     <main className="bg-black text-white font-sans">
       <header className="sticky top-0 bg-black z-50 shadow-md py-4 px-6 flex justify-between items-center">
@@ -22,10 +41,21 @@ export default function ClokkaWebsite() {
           <a href="#faq" className="hover:text-gray-300">FAQ</a>
           <a href="#contact" className="hover:text-gray-300">Contact</a>
         </nav>
+        <Button
+          onClick={handleGoogleSignIn}
+          className="ml-4 bg-white text-black hover:bg-gray-200 rounded-full px-4 py-2 text-sm"
+        >
+          Sign in with Google
+        </Button>
       </header>
 
       <section className="min-h-screen flex flex-col items-center justify-center text-center px-6">
-        <motion.h1 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-5xl md:text-7xl font-bold mb-4">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-7xl font-bold mb-4"
+        >
           Clokka
         </motion.h1>
         <p className="text-lg md:text-xl text-gray-400 max-w-xl mb-6">
@@ -37,7 +67,12 @@ export default function ClokkaWebsite() {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-16 w-full max-w-6xl">
           {images.map((src, index) => (
-            <img key={index} src={src} alt={\`Clokka Showcase \${index + 1}\`} className="rounded-2xl shadow-lg w-full h-auto object-cover" />
+            <img
+              key={index}
+              src={src}
+              alt={`Clokka Showcase ${index + 1}`}
+              className="rounded-2xl shadow-lg w-full h-auto object-cover"
+            />
           ))}
         </div>
       </section>
@@ -48,7 +83,11 @@ export default function ClokkaWebsite() {
           {images.map((src, index) => (
             <Card key={index} className="bg-black border border-gray-700">
               <CardContent className="p-4">
-                <img src={src} alt={\`Clokka Watch \${index + 1}\`} className="rounded-xl mb-4 w-full h-auto object-cover" />
+                <img
+                  src={src}
+                  alt={`Clokka Watch ${index + 1}`}
+                  className="rounded-xl mb-4 w-full h-auto object-cover"
+                />
                 <h3 className="text-xl font-semibold">Clokka Watch {index + 1}</h3>
                 <p className="text-gray-400 mt-2">Sleek. Bold. Affordable.</p>
                 <Button className="mt-4 w-full bg-white text-black hover:bg-gray-200">
