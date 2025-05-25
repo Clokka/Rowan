@@ -1,43 +1,280 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './styles/index.css';
-import ClokkaWebsite from './ClokkaWebsite';
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CLOKKA Watches</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      color: #222;
+    }
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCZ3j2xm2-DYFxZ7KyMw-tCUllYJtc3uBU",
-  authDomain: "clokka.firebaseapp.com",
-  projectId: "clokka",
-  storageBucket: "clokka.firebasestorage.app",
-  messagingSenderId: "861110207927",
-  appId: "1:861110207927:web:6b1e0f2e18859d67ab5432",
-  measurementId: "G-M8KEW5QG1X"
-};
+    .top-banner {
+      background-color: #ffcc00;
+      color: #111;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+    }
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+    .top-banner span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 20s linear infinite;
+    }
 
-// Optional: Make auth accessible globally (for quick access in dev)
-window.signInWithGoogle = () => {
-  signInWithPopup(auth, provider)
-    .then(result => {
-      const user = result.user;
-      console.log('User signed in:', user);
-      alert(`Welcome, ${user.displayName}`);
-    })
-    .catch(error => {
-      console.error(error);
-      alert('Login failed: ' + error.message);
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    header {
+      background-color: #111;
+      color: white;
+      padding: 0.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      max-width: 100px;
+      height: auto;
+    }
+
+    .header-text h1 {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: #c0392b;
+    }
+
+    .header-text p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    .hero-video {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .hero-video video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-content a {
+      background: white;
+      color: black;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .menu-container {
+      position: relative;
+    }
+
+    .hamburger {
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background: white;
+      border-radius: 2px;
+    }
+
+    .menu-dropdown {
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 6px;
+      min-width: 120px;
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+    }
+
+    .menu-dropdown a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-bottom: 1px solid #444;
+    }
+
+    .menu-dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    .menu-dropdown a:hover {
+      background-color: #444;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    footer {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-banner">
+    <span>Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up! &nbsp;&nbsp;&nbsp;&nbsp; Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up!</span>
+  </div>
+
+  <header>
+    <div class="header-left">
+      <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo">
+      <div class="header-text">
+        <h1>CLOKKA</h1>
+        <p>Style Meets Precision</p>
+      </div>
+    </div>
+    <div class="menu-container">
+      <button id="menu-btn" aria-label="Menu" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div id="menu-dropdown" class="menu-dropdown hidden">
+        <a href="/signin.html">Sign In</a>
+        <a href="/contact.html">Contact Us</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Video Section -->
+  <section class="hero-video">
+    <video autoplay muted loop playsinline>
+      <source src="Clokka123.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="hero-content">
+      <h1>Explore Timeless Elegance</h1>
+      <a href="shop.html">Shop Now</a>
+    </div>
+  </section>
+
+  <!-- Google Sign-In Button -->
+  <div style="text-align:center; margin: 2rem;">
+    <button id="googleSignInBtn" style="padding: 1rem 2rem; font-size: 1rem; cursor: pointer;">Sign in with Google</button>
+    <div id="user-info" style="margin-top: 1rem;"></div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 CLOKKA. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const menuDropdown = document.getElementById('menu-dropdown');
+
+    menuBtn.addEventListener('click', () => {
+      menuDropdown.classList.toggle('hidden');
     });
-};
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <ClokkaWebsite />
-  </React.StrictMode>
-);
+    document.addEventListener('click', (e) => {
+      if (!menuBtn.contains(e.target) && !menuDropdown.contains(e.target)) {
+        menuDropdown.classList.add('hidden');
+      }
+    });
+  </script>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <script>
+    // TODO: Replace with your Firebase project config
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    const signInBtn = document.getElementById('googleSignInBtn');
+    const userInfoDiv = document.getElementById('user-info');
+
+    signInBtn.addEventListener('click', () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+
+      auth.signInWithPopup(provider)
+        .then(result => {
+          const user = result.user;
+          userInfoDiv.innerHTML = `
+            <p>Signed in as: ${user.displayName} (${user.email})</p>
+            <img src="${user.photoURL}" alt="User Photo" width="100" />
+          `;
+          signInBtn.style.display = 'none';
+        })
+        .catch(error => {
+          console.error("Error signing in:", error);
+          alert("Failed to sign in: " + error.message);
+        });
+    });
+  </script>
+</body>
+</html>
