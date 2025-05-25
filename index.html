@@ -151,9 +151,6 @@
       margin-top: 2rem;
     }
   </style>
-
-  <!-- Google Identity Services script -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <div class="top-banner">
@@ -193,29 +190,18 @@
     </div>
   </section>
 
-  <!-- Google Sign-In Button -->
+  <!-- Google Sign-In Section -->
   <div style="text-align:center; margin: 2rem;">
-    <div id="g_id_onload"
-         data-client_id="861110207927-45sban532nrcomev624v6bv5ps19als5.apps.googleusercontent.com"
-         data-callback="handleCredentialResponse"
-         data-auto_prompt="false">
-    </div>
-
-    <div class="g_id_signin"
-         data-type="standard"
-         data-shape="rectangular"
-         data-theme="outline"
-         data-text="sign_in_with"
-         data-size="large"
-         data-logo_alignment="left">
-    </div>
-
-    <div id="user-info" style="margin-top: 20px; font-weight: bold;"></div>
+    <div id="g_id_signin"></div>
+    <div id="user-info" style="margin-top: 1rem;"></div>
   </div>
 
   <footer>
     <p>&copy; 2025 CLOKKA. All rights reserved.</p>
   </footer>
+
+  <!-- Load Google's Identity Services Library -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <script>
     const menuBtn = document.getElementById('menu-btn');
@@ -231,22 +217,35 @@
       }
     });
 
-    // Google Sign-In callback
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: "861110207927-45sban532nrcomev624v6bv5ps19als5.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById("g_id_signin"),
+        { theme: "outline", size: "large" }
+      );
+
+      google.accounts.id.prompt(); // optional
+    };
+
     function handleCredentialResponse(response) {
-      const base64Url = response.credential.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-
-      const user = JSON.parse(jsonPayload);
-
-      const userInfoDiv = document.getElementById('user-info');
-      userInfoDiv.innerHTML = `
-        Signed in as: ${user.name} <br/>
-        Email: ${user.email} <br/>
-        <img src="${user.picture}" alt="User Picture" style="border-radius:50%; margin-top:10px; width:80px; height:80px;" />
+      const data = parseJwt(response.credential);
+      document.getElementById("user-info").innerHTML = `
+        <p><strong>Welcome, ${data.name}</strong></p>
+        <img src="${data.picture}" alt="Profile picture" style="border-radius: 50%; width: 50px; height: 50px;" />
       `;
+    }
+
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(c =>
+        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      ).join(''));
+      return JSON.parse(jsonPayload);
     }
   </script>
 </body>
