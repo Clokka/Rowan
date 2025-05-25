@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CLOKKA Watches</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
@@ -12,7 +13,6 @@
       background-color: #fff;
       color: #222;
     }
-
     .top-banner {
       background-color: #ffcc00;
       color: #111;
@@ -23,18 +23,15 @@
       display: flex;
       align-items: center;
     }
-
     .top-banner span {
       display: inline-block;
       padding-left: 100%;
       animation: scroll-left 20s linear infinite;
     }
-
     @keyframes scroll-left {
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
-
     header {
       background-color: #111;
       color: white;
@@ -43,38 +40,32 @@
       align-items: center;
       justify-content: space-between;
     }
-
     .header-left {
       display: flex;
       align-items: center;
       gap: 1rem;
     }
-
     .logo {
       max-width: 100px;
       height: auto;
     }
-
     .header-text h1 {
       margin: 0;
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
       color: #c0392b;
     }
-
     .header-text p {
       margin: 0;
       font-size: 0.9rem;
       color: #ccc;
     }
-
     .hero-video {
       position: relative;
       width: 100%;
       height: 100vh;
       overflow: hidden;
     }
-
     .hero-video video {
       position: absolute;
       top: 0;
@@ -84,7 +75,6 @@
       object-fit: cover;
       z-index: -1;
     }
-
     .hero-content {
       position: absolute;
       top: 50%;
@@ -93,12 +83,10 @@
       text-align: center;
       color: white;
     }
-
     .hero-content h1 {
       font-size: 3rem;
       margin-bottom: 1rem;
     }
-
     .hero-content a {
       background: white;
       color: black;
@@ -107,11 +95,9 @@
       border-radius: 8px;
       font-weight: bold;
     }
-
     .menu-container {
       position: relative;
     }
-
     .hamburger {
       background: none;
       border: none;
@@ -123,7 +109,6 @@
       cursor: pointer;
       padding: 0;
     }
-
     .hamburger span {
       display: block;
       height: 3px;
@@ -131,7 +116,6 @@
       background: white;
       border-radius: 2px;
     }
-
     .menu-dropdown {
       position: absolute;
       top: 30px;
@@ -144,26 +128,21 @@
       flex-direction: column;
       z-index: 1000;
     }
-
     .menu-dropdown a {
       color: white;
       text-decoration: none;
       padding: 10px 15px;
       border-bottom: 1px solid #444;
     }
-
     .menu-dropdown a:last-child {
       border-bottom: none;
     }
-
     .menu-dropdown a:hover {
       background-color: #444;
     }
-
     .hidden {
       display: none;
     }
-
     footer {
       background-color: #111;
       color: white;
@@ -180,7 +159,7 @@
 
   <header>
     <div class="header-left">
-      <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo">
+      <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo" />
       <div class="header-text">
         <h1>CLOKKA</h1>
         <p>Style Meets Precision</p>
@@ -202,7 +181,7 @@
   <!-- Hero Video Section -->
   <section class="hero-video">
     <video autoplay muted loop playsinline>
-      <source src="Clokka123.mp4" type="video/mp4">
+      <source src="Clokka123.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
     <div class="hero-content">
@@ -211,9 +190,9 @@
     </div>
   </section>
 
-  <!-- Google Sign-In Button -->
+  <!-- Google Sign-In Button Placeholder -->
   <div style="text-align:center; margin: 2rem;">
-    <button id="googleSignInBtn" style="padding: 1rem 2rem; font-size: 1rem; cursor: pointer;">Sign in with Google</button>
+    <!-- We’ll add the Google Sign-In code here next -->
   </div>
 
   <footer>
@@ -235,7 +214,6 @@
     });
   </script>
 
-  <!-- Firebase Sign-in Script -->
-  <script type="module" src="src/index.js"></script>
+  <!-- No Firebase scripts here anymore -->
 </body>
 </html>
