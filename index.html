@@ -204,6 +204,7 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <script>
+    // Menu toggle code
     const menuBtn = document.getElementById('menu-btn');
     const menuDropdown = document.getElementById('menu-dropdown');
 
@@ -217,10 +218,11 @@
       }
     });
 
+    // Google Sign-In initialization and handling
     window.onload = function () {
       google.accounts.id.initialize({
         client_id: "861110207927-45sban532nrcomev624v6bv5ps19als5.apps.googleusercontent.com",
-        callback: handleCredentialResponse
+        callback: handleCredentialResponse,
       });
 
       google.accounts.id.renderButton(
@@ -228,7 +230,7 @@
         { theme: "outline", size: "large" }
       );
 
-      google.accounts.id.prompt(); // optional
+      google.accounts.id.prompt(); // Optional: show One Tap prompt
     };
 
     function handleCredentialResponse(response) {
