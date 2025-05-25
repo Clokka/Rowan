@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CLOKKA Watches</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-
   <style>
     body {
       margin: 0;
@@ -190,21 +189,12 @@
     </div>
   </section>
 
-  <!-- Google Sign-In Section -->
-  <div style="text-align:center; margin: 2rem;">
-    <div id="g_id_signin"></div>
-    <div id="user-info" style="margin-top: 1rem;"></div>
-  </div>
-
   <footer>
     <p>&copy; 2025 CLOKKA. All rights reserved.</p>
   </footer>
 
-  <!-- Load Google's Identity Services Library -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-
+  <!-- Menu Script -->
   <script>
-    // Menu toggle code
     const menuBtn = document.getElementById('menu-btn');
     const menuDropdown = document.getElementById('menu-dropdown');
 
@@ -217,38 +207,6 @@
         menuDropdown.classList.add('hidden');
       }
     });
-
-    // Google Sign-In initialization and handling
-    window.onload = function () {
-      google.accounts.id.initialize({
-        client_id: "861110207927-45sban532nrcomev624v6bv5ps19als5.apps.googleusercontent.com",
-        callback: handleCredentialResponse,
-      });
-
-      google.accounts.id.renderButton(
-        document.getElementById("g_id_signin"),
-        { theme: "outline", size: "large" }
-      );
-
-      google.accounts.id.prompt(); // Optional: show One Tap prompt
-    };
-
-    function handleCredentialResponse(response) {
-      const data = parseJwt(response.credential);
-      document.getElementById("user-info").innerHTML = `
-        <p><strong>Welcome, ${data.name}</strong></p>
-        <img src="${data.picture}" alt="Profile picture" style="border-radius: 50%; width: 50px; height: 50px;" />
-      `;
-    }
-
-    function parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(c =>
-        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-      ).join(''));
-      return JSON.parse(jsonPayload);
-    }
   </script>
 </body>
 </html>
