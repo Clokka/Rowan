@@ -213,7 +213,21 @@
 
   <!-- Google Sign-In Button -->
   <div style="text-align:center; margin: 2rem;">
-    <button id="googleSignInBtn" style="padding: 1rem 2rem; font-size: 1rem; cursor: pointer;">Sign in with Google</button>
+    <div id="g_id_onload"
+         data-client_id="861110207927-45sban532nrcomev624v6bv5ps19als5.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse"
+         data-auto_prompt="false">
+    </div>
+
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="pill"
+         data-logo_alignment="left">
+    </div>
+
     <div id="user-info" style="margin-top: 1rem;"></div>
   </div>
 
@@ -234,47 +248,19 @@
         menuDropdown.classList.add('hidden');
       }
     });
+
+    function handleCredentialResponse(response) {
+      const data = jwt_decode(response.credential);
+      document.getElementById('user-info').innerHTML = `
+        <p>Welcome, ${data.name} (${data.email})</p>
+        <img src="${data.picture}" width="80" style="border-radius: 50%" alt="Profile"/>
+      `;
+      document.querySelector('.g_id_signin').style.display = 'none';
+    }
   </script>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-  <script>
-    // TODO: Replace with your Firebase project config
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    const signInBtn = document.getElementById('googleSignInBtn');
-    const userInfoDiv = document.getElementById('user-info');
-
-    signInBtn.addEventListener('click', () => {
-      const provider = new firebase.auth.GoogleAuthProvider();
-
-      auth.signInWithPopup(provider)
-        .then(result => {
-          const user = result.user;
-          userInfoDiv.innerHTML = `
-            <p>Signed in as: ${user.displayName} (${user.email})</p>
-            <img src="${user.photoURL}" alt="User Photo" width="100" />
-          `;
-          signInBtn.style.display = 'none';
-        })
-        .catch(error => {
-          console.error("Error signing in:", error);
-          alert("Failed to sign in: " + error.message);
-        });
-    });
-  </script>
+  <!-- Google Identity Services SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 </body>
 </html>
