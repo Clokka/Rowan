@@ -2,123 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign In - CLOKKA</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .signin-container {
-      background: #fff;
-      padding: 2.5rem;
-      max-width: 420px;
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.08);
-      text-align: center;
-    }
-
-    h2 {
-      margin-bottom: 1.5rem;
-      color: #333;
-      font-weight: 600;
-      font-size: 1.5rem;
-    }
-
-    .social-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.75rem;
-      width: 100%;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      gap: 12px;
-      background: white;
-    }
-
-    .social-btn img {
-      height: 20px;
-    }
-
-    .social-btn:hover {
-      background: #f0f0f0;
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      text-align: center;
-      margin: 1.5rem 0;
-      color: #888;
-      font-size: 0.85rem;
-    }
-
-    .divider::before, .divider::after {
-      content: "";
-      flex: 1;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .divider:not(:empty)::before {
-      margin-right: .75em;
-    }
-
-    .divider:not(:empty)::after {
-      margin-left: .75em;
-    }
-
-    .create-btn {
-      padding: 0.75rem;
-      width: 100%;
-      background-color: #c0392b;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    .create-btn:hover {
-      background-color: #a93124;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign in with Google - Clokka</title>
+  <!-- Google Identity Services script -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+  <h2>Sign in with Google</h2>
 
-  <div class="signin-container">
-    <h2>Welcome Back to CLOKKA</h2>
+  <div id="g_id_signin"></div>
 
-    <button class="social-btn">
-      <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
-      Continue with Google
-    </button>
+  <div id="user-info" style="margin-top: 20px;"></div>
 
-    <button class="social-btn">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook logo">
-      Continue with Facebook
-    </button>
+  <script>
+    window.onload = function () {
+      console.log("Page loaded - initializing Google Sign-In");
 
-    <div class="divider">or</div>
+      google.accounts.id.initialize({
+        client_id: '861110207927-45sban532nrcomev624v6bv5ps19als5.apps.googleusercontent.com',
+        callback: handleCredentialResponse,
+      });
 
-    <button class="create-btn">Create an Account</button>
-  </div>
+      google.accounts.id.renderButton(
+        document.getElementById('g_id_signin'),
+        { theme: 'outline', size: 'large' }
+      );
 
+      // Optional: prompt the One Tap UI
+      // google.accounts.id.prompt();
+    };
+
+    function handleCredentialResponse(response) {
+      const idToken = response.credential;
+      console.log("ID Token:", idToken);
+
+      // Decode JWT (basic decoding without verification)
+      const base64Url = idToken.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join('')
+      );
+      const user = JSON.parse(jsonPayload);
+      console.log('User info:', user);
+
+      document.getElementById('user-info').innerHTML = `
+        <p><strong>Name:</strong> ${user.name}</p>
+        <p><strong>Email:</strong> ${user.email}</p>
+        <img src="${user.picture}" alt="User picture" />
+      `;
+    }
+  </script>
 </body>
 </html>
