@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Cart - CLOKKA</title>
   <style>
     body {
@@ -27,34 +27,11 @@
     .cart-item {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       border-bottom: 1px solid #ccc;
-      padding: 0.75rem 0;
+      padding: 0.5rem 0;
     }
 
-    .item-info {
-      flex: 1;
-    }
-
-    .item-name {
-      font-weight: bold;
-    }
-
-    .quantity {
-      font-size: 0.9rem;
-      color: #555;
-    }
-
-    .remove-btn {
-      background: transparent;
-      color: #c0392b;
-      border: none;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    .checkout-btn,
-    .clear-btn {
+    .checkout-btn {
       display: block;
       width: 100%;
       padding: 1rem;
@@ -62,93 +39,47 @@
       color: white;
       border: none;
       border-radius: 8px;
-      font-size: 1.1rem;
-      margin-top: 1.2rem;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
       cursor: pointer;
-    }
-
-    .clear-btn {
-      background: #888;
-      margin-top: 0.5rem;
-    }
-
-    .total {
-      font-weight: bold;
-      text-align: right;
-      padding-top: 1rem;
     }
   </style>
 </head>
 <body>
   <h1>Your Cart</h1>
-  <div class="cart" id="cart"></div>
+  <div class="cart" id="cart">
+    <!-- Cart items will be injected here -->
+  </div>
 
   <script>
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartDiv = document.getElementById('cart');
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    function renderCart() {
-      cartDiv.innerHTML = '';
-
-      if (cart.length === 0) {
-        cartDiv.innerHTML = '<p>Your cart is empty.</p>';
-        return;
-      }
-
+    if (cart.length === 0) {
+      cartDiv.innerHTML = '<p>Your cart is empty.</p>';
+    } else {
       let total = 0;
-
-      cart.forEach((item, index) => {
-        total += item.price * item.quantity;
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
 
         const itemDiv = document.createElement('div');
         itemDiv.classList.add('cart-item');
-
-        itemDiv.innerHTML = `
-          <div class="item-info">
-            <div class="item-name">${item.name}</div>
-            <div class="quantity">Qty: ${item.quantity} x $${item.price.toFixed(2)}</div>
-          </div>
-          <div>
-            <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
-          </div>
-        `;
-
+        itemDiv.innerHTML = `<span>${item.name} × ${item.quantity}</span><span>$${itemTotal.toFixed(2)}</span>`;
         cartDiv.appendChild(itemDiv);
       });
 
       const totalDiv = document.createElement('div');
-      totalDiv.classList.add('total');
-      totalDiv.textContent = `Total: $${total.toFixed(2)}`;
+      totalDiv.classList.add('cart-item');
+      totalDiv.innerHTML = `<strong>Total</strong><strong>$${total.toFixed(2)}</strong>`;
       cartDiv.appendChild(totalDiv);
 
       const checkoutBtn = document.createElement('button');
-      checkoutBtn.className = 'checkout-btn';
-      checkoutBtn.textContent = 'Proceed to Checkout';
-      checkoutBtn.onclick = () => alert('Redirecting to payment...');
+      checkoutBtn.classList.add('checkout-btn');
+      checkoutBtn.innerText = 'Proceed to Checkout';
+      checkoutBtn.onclick = () => alert('Checkout process goes here...');
       cartDiv.appendChild(checkoutBtn);
-
-      const clearBtn = document.createElement('button');
-      clearBtn.className = 'clear-btn';
-      clearBtn.textContent = 'Clear Cart';
-      clearBtn.onclick = clearCart;
-      cartDiv.appendChild(clearBtn);
     }
-
-    function removeItem(index) {
-      cart.splice(index, 1);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      renderCart();
-    }
-
-    function clearCart() {
-      if (confirm('Are you sure you want to clear your cart?')) {
-        cart = [];
-        localStorage.removeItem('cart');
-        renderCart();
-      }
-    }
-
-    renderCart();
   </script>
 </body>
 </html>
