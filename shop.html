@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shop - CLOKKA</title>
   <style>
     body {
@@ -24,6 +24,11 @@
     .header-left h1 {
       margin: 0;
       color: #c0392b;
+    }
+
+    .basket-icon {
+      font-size: 1.5rem;
+      cursor: pointer;
     }
 
     .sort-container {
@@ -48,7 +53,7 @@
       background: #fff;
       padding: 1rem;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
 
@@ -65,6 +70,20 @@
     .product p {
       margin: 0.25rem 0;
     }
+
+    .add-to-basket {
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      background-color: #c0392b;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .add-to-basket:hover {
+      background-color: #a93226;
+    }
   </style>
 </head>
 <body>
@@ -73,6 +92,7 @@
     <div class="header-left">
       <h1>CLOKKA Shop</h1>
     </div>
+    <div class="basket-icon" title="Basket 🛒">🛒</div>
   </header>
 
   <div class="sort-container">
@@ -90,12 +110,14 @@
       <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
       <h3>OLEVS Men's Gold Skeleton Watch</h3>
       <p>$129.00</p>
+      <button class="add-to-basket">Add to Basket</button>
     </div>
 
     <div class="product" data-price="89" data-date="2024-05-01" data-sales="50">
       <img src="https://s.alicdn.com/@sc04/kf/H9e83709f82754182ac3d2c3a45cac6deI.jpg_720x720q50.jpg" alt="POEDAGAR Watch" />
       <h3>POEDAGAR 827 Business Watch</h3>
       <p>$89.00</p>
+      <button class="add-to-basket">Add to Basket</button>
     </div>
   </section>
 
@@ -129,9 +151,17 @@
         }
       });
 
-      // Clear and re-add products
       grid.innerHTML = "";
       sorted.forEach(product => grid.appendChild(product));
+    });
+
+    // Basic add-to-basket functionality
+    document.addEventListener('click', function (e) {
+      if (e.target.classList.contains('add-to-basket')) {
+        const product = e.target.closest('.product');
+        const name = product.querySelector('h3').textContent;
+        alert(`Added "${name}" to your basket!`);
+      }
     });
   </script>
 </body>
