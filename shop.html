@@ -29,18 +29,10 @@
     .basket-icon {
       font-size: 1.5rem;
       cursor: pointer;
-      position: relative;
     }
 
-    .basket-count {
-      position: absolute;
-      top: -8px;
-      right: -12px;
-      background: red;
-      color: white;
-      font-size: 0.8rem;
-      padding: 2px 6px;
-      border-radius: 50%;
+    .basket-icon:hover {
+      text-decoration: underline;
     }
 
     .sort-container {
@@ -104,9 +96,7 @@
     <div class="header-left">
       <h1>CLOKKA Shop</h1>
     </div>
-    <div class="basket-icon" title="View Basket" onclick="window.location.href='checkout.html'">
-      🛒<span class="basket-count" id="basket-count">0</span>
-    </div>
+    <div class="basket-icon" onclick="window.location.href='checkout.html'" title="Go to Basket">🛒 Basket</div>
   </header>
 
   <div class="sort-container">
@@ -138,14 +128,6 @@
   <script>
     const sortSelect = document.getElementById("sort-select");
     const grid = document.getElementById("product-grid");
-    const basketCount = document.getElementById("basket-count");
-
-    function updateBasketCount() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      basketCount.textContent = cart.length;
-    }
-
-    updateBasketCount();
 
     sortSelect.addEventListener("change", () => {
       const products = Array.from(grid.children);
@@ -181,14 +163,20 @@
       if (e.target.classList.contains('add-to-basket')) {
         const product = e.target.closest('.product');
         const name = product.querySelector('h3').textContent;
-        const price = parseFloat(product.dataset.price);
+        const priceText = product.querySelector('p').textContent;
+        const price = parseFloat(priceText.replace('$', ''));
 
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        cart.push({ name, price });
-        localStorage.setItem('cart', JSON.stringify(cart));
 
+        const existing = cart.find(item => item.name === name);
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          cart.push({ name, price, quantity: 1 });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
         alert(`Added "${name}" to your basket!`);
-        updateBasketCount();
       }
     });
   </script>
