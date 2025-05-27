@@ -114,14 +114,14 @@
       <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
       <h3>OLEVS Men's Gold Skeleton Watch</h3>
       <p>$129.00</p>
-      <button class="add-to-basket">Add to Basket</button>
+      <button class="add-to-basket">Preorder</button>
     </div>
 
     <div class="product" data-price="89" data-date="2024-05-01" data-sales="50">
       <img src="https://s.alicdn.com/@sc04/kf/H9e83709f82754182ac3d2c3a45cac6deI.jpg_720x720q50.jpg" alt="POEDAGAR Watch" />
       <h3>POEDAGAR 827 Business Watch</h3>
       <p>$89.00</p>
-      <button class="add-to-basket">Add to Basket</button>
+      <button class="add-to-basket">Preorder</button>
     </div>
   </section>
 
@@ -176,10 +176,10 @@
         }
 
         localStorage.setItem('cart', JSON.stringify(cart));
-        alert(`Added "${name}" to your basket!`);
+        console.log("Cart:", cart); // Optional: For debugging
+        alert(`Preordered "${name}" successfully!`);
       }
     });
   </script>
 </body>
 </html>
-
