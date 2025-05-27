@@ -1,17 +1,24 @@
 <style>
-  body {
-    background-color: #f3f4f6;
-    color: #1f2937;
-    font-family: Arial, sans-serif;
+  /* Reset basics */
+  * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
   }
 
+  /* Body */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: #fff;
+    line-height: 1.6;
+  }
+
+  /* Header + Navbar */
   header {
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #000;
     padding: 1.5rem;
-    margin-bottom: 2rem;
+    border-bottom: 1px solid #222;
     text-align: center;
     position: relative;
   }
@@ -20,6 +27,34 @@
     font-size: 2rem;
     font-weight: bold;
     margin: 0;
+    color: #fff;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    height: 50px;
+    width: auto;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .nav-links a:hover {
+    color: #c0392b;
   }
 
   /* Cart Icon Styles */
@@ -30,21 +65,64 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #1f2937;
+    color: #fff;
     text-decoration: none;
   }
 
   .cart-icon svg.icon {
     width: 28px;
     height: 28px;
-    stroke: #1f2937;
+    stroke: #fff;
     transition: stroke 0.3s ease;
   }
 
   .cart-icon:hover svg.icon {
-    stroke: #2563eb; /* A subtle highlight color */
+    stroke: #c0392b;
   }
 
+  /* Hero Section */
+  .hero {
+    background-color: #1c1c1c;
+    text-align: center;
+    padding: 4rem 1rem;
+  }
+
+  .hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+
+  .hero-content p {
+    font-size: 1.2rem;
+    color: #bbb;
+  }
+
+  .hero-placeholder {
+    height: 300px;
+    background-color: #2a2a2a;
+    margin-top: 2rem;
+    border: 2px dashed #444;
+    border-radius: 10px;
+  }
+
+  /* Main Content */
+  main {
+    padding: 2rem 1rem;
+  }
+
+  .about h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .about p {
+    max-width: 800px;
+    margin: 0 auto;
+    color: #ddd;
+  }
+
+  /* Light-themed Gallery Section */
   section.text-center {
     text-align: center;
     margin-bottom: 2.5rem;
@@ -52,7 +130,7 @@
 
   section.text-center a {
     font-size: 1.2rem;
-    color: #2563eb;
+    color: #c0392b;
     text-decoration: underline;
   }
 
@@ -76,10 +154,13 @@
     transform: scale(1.05);
   }
 
+  /* Footer */
   footer {
     text-align: center;
-    padding: 1.5rem;
+    padding: 2rem 1rem;
+    background-color: #000;
+    color: #777;
+    border-top: 1px solid #222;
     font-size: 0.875rem;
-    color: #6b7280;
   }
 </style>
