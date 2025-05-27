@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shop - CLOKKA</title>
+
+  <!-- Font Awesome for Sleek Basket Icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-/zMeJ5GzQK3LQ8Shk8xEl3vI5jPzzOkCZsFdZkD/JXlZYvFqShd9VDKRGewxMLSkK13NkXtUDugjkq+5gJDwWw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <style>
     body {
       margin: 0;
@@ -27,8 +31,14 @@
     }
 
     .basket-icon {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .basket-icon i {
+      margin-right: 0.5rem;
     }
 
     .basket-icon:hover {
@@ -96,7 +106,9 @@
     <div class="header-left">
       <h1>CLOKKA Shop</h1>
     </div>
-    <div class="basket-icon" onclick="window.location.href='checkout.html'" title="Go to Basket">🛒 Basket</div>
+    <div class="basket-icon" onclick="window.location.href='checkout.html'" title="Go to Basket">
+      <i class="fas fa-shopping-basket"></i> Basket
+    </div>
   </header>
 
   <div class="sort-container">
