@@ -45,6 +45,20 @@
     stroke: #2563eb; /* A subtle highlight color */
   }
 
+  /* ===== Cart Notification Badge ===== */
+  .cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+    display: none; /* Hidden when empty */
+  }
+
   section.text-center {
     text-align: center;
     margin-bottom: 2.5rem;
