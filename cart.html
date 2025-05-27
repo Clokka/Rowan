@@ -3,173 +3,96 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shop - CLOKKA</title>
+  <title>Your Cart - CLOKKA</title>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
       background: #f9f9f9;
+      margin: 0;
+      padding: 2rem;
       color: #333;
     }
 
-    header {
-      background: #111;
-      color: white;
-      padding: 1rem 2rem;
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .cart-item {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-    }
-
-    .header-left h1 {
-      margin: 0;
-      color: #c0392b;
-    }
-
-    .cart-icon {
-      color: white;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-    }
-
-    .cart-icon svg {
-      width: 28px;
-      height: 28px;
-      stroke: white;
-    }
-
-    .sort-container {
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    select {
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
-    }
-
-    .product {
       background: #fff;
       padding: 1rem;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
-    .product img {
-      max-width: 100%;
+    .cart-item img {
+      width: 80px;
       height: auto;
       border-radius: 6px;
+      margin-right: 1rem;
     }
 
-    .product h3 {
-      margin: 0.75rem 0 0.25rem;
+    .cart-item-details {
+      flex-grow: 1;
     }
 
-    .product p {
+    .cart-item h3 {
+      margin: 0;
+    }
+
+    .cart-item p {
       margin: 0.25rem 0;
     }
 
-    .add-to-basket {
-      margin-top: 0.75rem;
-      padding: 0.5rem 1rem;
-      background-color: #c0392b;
+    .cart-item input[type="number"] {
+      width: 60px;
+      padding: 0.25rem;
+      font-size: 1rem;
+    }
+
+    .remove-button, .clear-button {
+      background: #c0392b;
       color: white;
       border: none;
+      padding: 0.5rem 1rem;
       border-radius: 5px;
       cursor: pointer;
     }
 
-    .add-to-basket:hover {
-      background-color: #a93226;
+    .remove-button:hover, .clear-button:hover {
+      background: #a93226;
+    }
+
+    .cart-footer {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .total-price {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .empty-cart {
+      text-align: center;
+      color: #777;
+      font-size: 1.2rem;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-left">
-      <h1>CLOKKA Shop</h1>
-    </div>
-    <!-- ✅ Basket Icon (Link to cart.html) -->
-    <a href="cart.html" class="cart-icon" aria-label="View Basket">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <circle cx="9" cy="21" r="1" />
-        <circle cx="20" cy="21" r="1" />
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-      </svg>
-    </a>
-  </header>
+  <h1>Your Basket</h1>
+  <div id="cart-container"></div>
 
-  <div class="sort-container">
-    <label for="sort-select">Sort by: </label>
-    <select id="sort-select">
-      <option value="newest">Newest Arrivals</option>
-      <option value="price-low">Price: Low to High</option>
-      <option value="price-high">Price: High to Low</option>
-      <option value="bestselling">Best Selling</option>
-    </select>
-  </div>
-
-  <section class="product-grid" id="product-grid">
-    <div class="product" data-price="129" data-date="2024-03-15" data-sales="25">
-      <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
-      <h3>OLEVS Men's Gold Skeleton Watch</h3>
-      <p>$129.00</p>
-      <button class="add-to-basket">Add to Basket</button>
-    </div>
-
-    <div class="product" data-price="89" data-date="2024-05-01" data-sales="50">
-      <img src="https://s.alicdn.com/@sc04/kf/H9e83709f82754182ac3d2c3a45cac6deI.jpg_720x720q50.jpg" alt="POEDAGAR Watch" />
-      <h3>POEDAGAR 827 Business Watch</h3>
-      <p>$89.00</p>
-      <button class="add-to-basket">Add to Basket</button>
-    </div>
-  </section>
+  <div class="cart-footer" id="cart-footer"></div>
 
   <script>
-    const sortSelect = document.getElementById("sort-select");
-    const grid = document.getElementById("product-grid");
-
-    sortSelect.addEventListener("change", () => {
-      const products = Array.from(grid.children);
-
-      const sorted = products.sort((a, b) => {
-        const sortType = sortSelect.value;
-        const priceA = parseFloat(a.dataset.price);
-        const priceB = parseFloat(b.dataset.price);
-        const dateA = new Date(a.dataset.date);
-        const dateB = new Date(b.dataset.date);
-        const salesA = parseInt(a.dataset.sales);
-        const salesB = parseInt(b.dataset.sales);
-
-        switch (sortType) {
-          case "price-low":
-            return priceA - priceB;
-          case "price-high":
-            return priceB - priceA;
-          case "newest":
-            return dateB - dateA;
-          case "bestselling":
-            return salesB - salesA;
-          default:
-            return 0;
-        }
-      });
-
-      grid.innerHTML = "";
-      sorted.forEach(product => grid.appendChild(product));
-    });
-
     function getCart() {
       const cart = localStorage.getItem("clokkaCart");
       return cart ? JSON.parse(cart) : [];
@@ -179,27 +102,78 @@
       localStorage.setItem("clokkaCart", JSON.stringify(cart));
     }
 
-    // ✅ Add to Basket functionality
-    document.addEventListener('click', function (e) {
-      if (e.target.classList.contains('add-to-basket')) {
-        const product = e.target.closest('.product');
-        const name = product.querySelector('h3').textContent;
-        const price = parseFloat(product.dataset.price);
-        const image = product.querySelector('img').src;
+    function calculateTotal(cart) {
+      return cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+    }
 
+    function renderCart() {
+      const cart = getCart();
+      const container = document.getElementById("cart-container");
+      const footer = document.getElementById("cart-footer");
+
+      container.innerHTML = "";
+      footer.innerHTML = "";
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p class="empty-cart">Your basket is empty.</p>';
+        return;
+      }
+
+      cart.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" />
+          <div class="cart-item-details">
+            <h3>${item.name}</h3>
+            <p>Price: $${item.price.toFixed(2)}</p>
+            <p>
+              Quantity: 
+              <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="quantity-input" />
+            </p>
+            <p>Subtotal: $${(item.price * item.quantity).toFixed(2)}</p>
+          </div>
+          <button class="remove-button" data-index="${index}">Remove</button>
+        `;
+        container.appendChild(div);
+      });
+
+      footer.innerHTML = `
+        <p class="total-price">Total: $${calculateTotal(cart)}</p>
+        <button class="clear-button" id="clear-cart">Clear Cart</button>
+      `;
+    }
+
+    // Event delegation
+    document.addEventListener("click", function(e) {
+      if (e.target.classList.contains("remove-button")) {
+        const index = parseInt(e.target.dataset.index);
         let cart = getCart();
-
-        const existing = cart.find(item => item.name === name);
-        if (existing) {
-          existing.quantity += 1;
-        } else {
-          cart.push({ name, price, image, quantity: 1 });
-        }
-
+        cart.splice(index, 1);
         saveCart(cart);
-        alert(`Added "${name}" to your basket!`);
+        renderCart();
+      }
+
+      if (e.target.id === "clear-cart") {
+        localStorage.removeItem("clokkaCart");
+        renderCart();
       }
     });
+
+    document.addEventListener("input", function(e) {
+      if (e.target.classList.contains("quantity-input")) {
+        const index = parseInt(e.target.dataset.index);
+        const newQuantity = parseInt(e.target.value);
+        if (newQuantity > 0) {
+          let cart = getCart();
+          cart[index].quantity = newQuantity;
+          saveCart(cart);
+          renderCart();
+        }
+      }
+    });
+
+    renderCart();
   </script>
 </body>
 </html>
