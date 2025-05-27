@@ -12,6 +12,40 @@
       padding: 2rem;
     }
 
+    header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 1rem;
+      background-color: #1a1a1a;
+    }
+
+    .cart-icon {
+      position: relative;
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+    }
+
+    .cart-icon svg {
+      width: 30px;
+      height: 30px;
+      stroke: white;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background-color: red;
+      color: white;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 50%;
+      font-weight: bold;
+      display: none;
+    }
+
     h1 {
       text-align: center;
       margin-bottom: 2rem;
@@ -76,6 +110,17 @@
   </style>
 </head>
 <body>
+
+  <!-- Cart icon with notification badge -->
+  <header>
+    <a href="cart.html" class="cart-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 9M7 13V6h13M5 21a1 1 0 100-2 1 1 0 000 2zm14 0a1 1 0 100-2 1 1 0 000 2z" />
+      </svg>
+      <span class="cart-count" id="cart-count">0</span>
+    </a>
+  </header>
+
   <h1>Your Basket</h1>
   <div id="cart-container"></div>
   <div class="total" id="cart-total">Total: $0.00</div>
@@ -88,6 +133,18 @@
 
     function saveCart(cart) {
       localStorage.setItem("clokkaCart", JSON.stringify(cart));
+    }
+
+    function updateCartCount() {
+      const countEl = document.getElementById("cart-count");
+      const cart = getCart();
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      if (totalItems > 0) {
+        countEl.style.display = "inline-block";
+        countEl.textContent = totalItems;
+      } else {
+        countEl.style.display = "none";
+      }
     }
 
     function renderCart() {
@@ -121,6 +178,7 @@
       });
 
       totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
+      updateCartCount();
     }
 
     // Update quantity
