@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Cart - CLOKKA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Basket - CLOKKA</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      margin: 0;
+      background-color: #121212;
+      color: white;
       padding: 2rem;
-      color: #333;
     }
 
     h1 {
@@ -22,75 +21,64 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #fff;
+      background-color: #1f1f1f;
       padding: 1rem;
-      border-radius: 8px;
+      border-radius: 10px;
       margin-bottom: 1rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
     .cart-item img {
-      width: 80px;
-      height: auto;
-      border-radius: 6px;
-      margin-right: 1rem;
+      height: 80px;
+      border-radius: 8px;
     }
 
     .cart-item-details {
-      flex-grow: 1;
+      flex: 1;
+      margin-left: 1rem;
     }
 
-    .cart-item h3 {
-      margin: 0;
-    }
-
-    .cart-item p {
-      margin: 0.25rem 0;
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .cart-item input[type="number"] {
-      width: 60px;
+      width: 50px;
       padding: 0.25rem;
-      font-size: 1rem;
-    }
-
-    .remove-button, .clear-button {
-      background: #c0392b;
+      background: #333;
       color: white;
       border: none;
-      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .remove-btn {
+      background-color: #c0392b;
+      color: white;
+      border: none;
+      padding: 0.5rem 0.75rem;
       border-radius: 5px;
       cursor: pointer;
     }
 
-    .remove-button:hover, .clear-button:hover {
-      background: #a93226;
+    .remove-btn:hover {
+      background-color: #a93226;
     }
 
-    .cart-footer {
+    .total {
+      text-align: right;
+      font-size: 1.25rem;
       margin-top: 2rem;
-      text-align: center;
-    }
-
-    .total-price {
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .empty-cart {
-      text-align: center;
-      color: #777;
-      font-size: 1.2rem;
+      border-top: 1px solid #444;
+      padding-top: 1rem;
     }
   </style>
 </head>
 <body>
-
   <h1>Your Basket</h1>
   <div id="cart-container"></div>
-
-  <div class="cart-footer" id="cart-footer"></div>
+  <div class="total" id="cart-total">Total: $0.00</div>
 
   <script>
     function getCart() {
@@ -102,74 +90,61 @@
       localStorage.setItem("clokkaCart", JSON.stringify(cart));
     }
 
-    function calculateTotal(cart) {
-      return cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
-    }
-
     function renderCart() {
-      const cart = getCart();
       const container = document.getElementById("cart-container");
-      const footer = document.getElementById("cart-footer");
+      const totalDisplay = document.getElementById("cart-total");
+      const cart = getCart();
 
       container.innerHTML = "";
-      footer.innerHTML = "";
-
-      if (cart.length === 0) {
-        container.innerHTML = '<p class="empty-cart">Your basket is empty.</p>';
-        return;
-      }
+      let total = 0;
 
       cart.forEach((item, index) => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+
         const div = document.createElement("div");
         div.className = "cart-item";
+
         div.innerHTML = `
           <img src="${item.image}" alt="${item.name}" />
           <div class="cart-item-details">
             <h3>${item.name}</h3>
-            <p>Price: $${item.price.toFixed(2)}</p>
-            <p>
-              Quantity: 
-              <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="quantity-input" />
-            </p>
-            <p>Subtotal: $${(item.price * item.quantity).toFixed(2)}</p>
+            <p>$${item.price.toFixed(2)}</p>
           </div>
-          <button class="remove-button" data-index="${index}">Remove</button>
+          <div class="cart-item-controls">
+            <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="quantity-input" />
+            <button class="remove-btn" data-index="${index}">Remove</button>
+          </div>
         `;
+
         container.appendChild(div);
       });
 
-      footer.innerHTML = `
-        <p class="total-price">Total: $${calculateTotal(cart)}</p>
-        <button class="clear-button" id="clear-cart">Clear Cart</button>
-      `;
+      totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
     }
 
-    // Event delegation
-    document.addEventListener("click", function(e) {
-      if (e.target.classList.contains("remove-button")) {
-        const index = parseInt(e.target.dataset.index);
+    // Update quantity
+    document.addEventListener("input", function (e) {
+      if (e.target.classList.contains("quantity-input")) {
+        const index = e.target.dataset.index;
+        let cart = getCart();
+        let newQty = parseInt(e.target.value);
+        if (newQty >= 1) {
+          cart[index].quantity = newQty;
+          saveCart(cart);
+          renderCart();
+        }
+      }
+    });
+
+    // Remove item
+    document.addEventListener("click", function (e) {
+      if (e.target.classList.contains("remove-btn")) {
+        const index = e.target.dataset.index;
         let cart = getCart();
         cart.splice(index, 1);
         saveCart(cart);
         renderCart();
-      }
-
-      if (e.target.id === "clear-cart") {
-        localStorage.removeItem("clokkaCart");
-        renderCart();
-      }
-    });
-
-    document.addEventListener("input", function(e) {
-      if (e.target.classList.contains("quantity-input")) {
-        const index = parseInt(e.target.dataset.index);
-        const newQuantity = parseInt(e.target.value);
-        if (newQuantity > 0) {
-          let cart = getCart();
-          cart[index].quantity = newQuantity;
-          saveCart(cart);
-          renderCart();
-        }
       }
     });
 
