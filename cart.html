@@ -43,14 +43,13 @@
       padding: 1rem;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      gap: 1rem;
     }
 
     .cart-item img {
       width: 80px;
       height: auto;
       border-radius: 6px;
-      flex-shrink: 0;
+      margin-right: 1rem;
     }
 
     .item-details {
@@ -78,16 +77,6 @@
       padding: 0.2rem 0.5rem;
       font-size: 1rem;
       cursor: pointer;
-      background-color: #c0392b;
-      border: none;
-      color: white;
-      border-radius: 3px;
-      user-select: none;
-      transition: background-color 0.2s ease;
-    }
-
-    .quantity-controls button:hover {
-      background-color: #a93226;
     }
 
     .remove-button {
@@ -97,68 +86,30 @@
       cursor: pointer;
       font-size: 0.9rem;
       margin-left: 1rem;
-      user-select: none;
-      transition: color 0.2s ease;
-    }
-
-    .remove-button:hover {
-      color: darkred;
     }
 
     .cart-summary {
-      text-align: right;
-      font-size: 1.2rem;
-      margin-top: 2rem;
-    }
-
-    .checkout-button,
-    .clear-button,
-    .apply-discount-button {
-      margin-top: 1rem;
-      background: #c0392b;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
+      text-align: left;
       font-size: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      user-select: none;
-      margin-right: 1rem;
-      transition: background-color 0.2s ease;
-    }
-
-    .checkout-button:hover,
-    .clear-button:hover,
-    .apply-discount-button:hover {
-      background: #a93226;
-    }
-
-    .discount-section {
       margin-top: 2rem;
-      text-align: right;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
-    .discount-section input[type="text"] {
-      padding: 0.5rem;
-      font-size: 1rem;
-      width: 200px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      margin-right: 0.5rem;
+    .cart-summary p {
+      margin-bottom: 0.5rem;
     }
 
-    .discount-message {
-      margin-top: 0.5rem;
-      font-style: italic;
-      color: green;
+    .ebay-link {
+      display: block;
+      margin-top: 0.25rem;
+      color: #c0392b;
     }
 
-    .empty-cart {
-      text-align: center;
-      font-style: italic;
-      margin-top: 2rem;
-      font-size: 1.2rem;
-      color: #555;
+    .ebay-link:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -173,142 +124,94 @@
   </div>
 
   <div class="container cart-summary">
-    <p><strong>Subtotal:</strong> $<span id="cart-subtotal">0.00</span></p>
-    <p><strong>Discount:</strong> -$<span id="cart-discount">0.00</span></p>
     <p><strong>Total:</strong> $<span id="cart-total">0.00</span></p>
-
-    <div class="discount-section">
-      <input type="text" id="discount-code" placeholder="Enter discount code" />
-      <button class="apply-discount-button" onclick="applyDiscount()">Apply Discount</button>
-      <div id="discount-message" class="discount-message"></div>
-    </div>
-
-    <button class="clear-button" onclick="clearCart()">Clear Cart</button>
-    <button class="checkout-button" onclick="goToCheckout()">Proceed to Checkout</button>
+    <p style="margin-top: 1.5rem;"><strong>Note:</strong> Due to ongoing maintenance on our website, payment cannot be accepted directly through <strong>clokka.co.uk</strong>. However, all products are available on our eBay store:</p>
+    <p>
+      🔗 <a class="ebay-link" href="https://www.ebay.co.uk/mys/overview?MyEbay&gbh=1&CurrentPage=MyeBayAllSelling&ssPageName=STRK:ME:LNLK:MESX&source=GBH" target="_blank">
+        Visit CLOKKA on eBay
+      </a>
+    </p>
+    <div id="ebay-links"></div>
   </div>
 
   <script>
-    let cart = [];
-    let discountPercent = 0;
-    const discountCodes = {
-      'CLOKKA10': 10,
-      'SAVE20': 20,
-      'FREESHIP': 5
-    };
-
-    function loadCart() {
-      cart = JSON.parse(localStorage.getItem('cart')) || [];
-      discountPercent = parseFloat(localStorage.getItem('discountPercent')) || 0;
-      document.getElementById('discount-code').value = '';
-      document.getElementById('discount-message').textContent = discountPercent ? `Discount applied: ${discountPercent}%` : '';
-      renderCart();
+    function getEbayLink(name) {
+      const lower = name.toLowerCase();
+      if (lower.includes("olevs")) {
+        return {
+          url: "https://www.ebay.co.uk/itm/388448139060",
+          label: "OLEVS 9947 Men's Quartz Watch"
+        };
+      } else if (lower.includes("poedagar")) {
+        return {
+          url: "https://www.ebay.co.uk/itm/388460737783",
+          label: "Poedagar Men's Business Watch"
+        };
+      }
+      return null;
     }
 
-    function renderCart() {
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const container = document.getElementById('cart-container');
+      const totalEl = document.getElementById('cart-total');
+      const ebayLinks = document.getElementById('ebay-links');
       container.innerHTML = '';
+      ebayLinks.innerHTML = '';
 
-      if (cart.length === 0) {
-        container.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
-        updateTotals();
-        return;
-      }
+      let total = 0;
+      const linked = new Set();
 
       cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+
         const div = document.createElement('div');
         div.className = 'cart-item';
         div.innerHTML = `
-          <img src="${item.image || 'https://via.placeholder.com/80'}" alt="${item.name}" />
+          <img src="https://via.placeholder.com/80" alt="${item.name}" />
           <div class="item-details">
             <span class="item-title">${item.name}</span>
             <span class="item-price">$${item.price.toFixed(2)}</span>
             <div class="quantity-controls">
               <button onclick="changeQuantity(${index}, -1)">−</button>
-              <span id="quantity-${index}">${item.quantity}</span>
+              <span>${item.quantity}</span>
               <button onclick="changeQuantity(${index}, 1)">+</button>
               <button class="remove-button" onclick="removeItem(${index})">Remove</button>
             </div>
           </div>
         `;
         container.appendChild(div);
+
+        const ebay = getEbayLink(item.name);
+        if (ebay && !linked.has(ebay.url)) {
+          const link = document.createElement('a');
+          link.href = ebay.url;
+          link.target = "_blank";
+          link.className = "ebay-link";
+          link.textContent = `Buy "${ebay.label}" on eBay`;
+          ebayLinks.appendChild(link);
+          linked.add(ebay.url);
+        }
       });
 
-      updateTotals();
-    }
-
-    function updateTotals() {
-      let subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-      let discountAmount = subtotal * (discountPercent / 100);
-      let total = subtotal - discountAmount;
-
-      document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2);
-      document.getElementById('cart-discount').textContent = discountAmount.toFixed(2);
-      document.getElementById('cart-total').textContent = total.toFixed(2);
+      totalEl.textContent = total.toFixed(2);
     }
 
     function changeQuantity(index, delta) {
-      if (index < 0 || index >= cart.length) return;
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
       cart[index].quantity += delta;
       if (cart[index].quantity <= 0) {
         cart.splice(index, 1);
       }
-      saveCart();
-      renderCart();
+      localStorage.setItem('cart', JSON.stringify(cart));
+      loadCart();
     }
 
     function removeItem(index) {
-      if (index < 0 || index >= cart.length) return;
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
       cart.splice(index, 1);
-      saveCart();
-      renderCart();
-    }
-
-    function clearCart() {
-      if (confirm("Are you sure you want to clear your entire cart?")) {
-        cart = [];
-        discountPercent = 0;
-        saveCart();
-        localStorage.removeItem('discountPercent');
-        renderCart();
-        document.getElementById('discount-message').textContent = '';
-      }
-    }
-
-    function saveCart() {
       localStorage.setItem('cart', JSON.stringify(cart));
-      localStorage.setItem('discountPercent', discountPercent);
-    }
-
-    function applyDiscount() {
-      const codeInput = document.getElementById('discount-code');
-      const message = document.getElementById('discount-message');
-      const code = codeInput.value.trim().toUpperCase();
-
-      if (!code) {
-        message.textContent = "Please enter a discount code.";
-        message.style.color = 'red';
-        return;
-      }
-
-      if (discountCodes[code]) {
-        discountPercent = discountCodes[code];
-        saveCart();
-        message.textContent = `Discount code applied! ${discountPercent}% off your order.`;
-        message.style.color = 'green';
-        renderCart();
-      } else {
-        message.textContent = "Invalid discount code.";
-        message.style.color = 'red';
-      }
-    }
-
-    function goToCheckout() {
-      if (cart.length === 0) {
-        alert("Your cart is empty!");
-        return;
-      }
-      // Redirect to your checkout page
-      window.location.href = 'checkout.html';
+      loadCart();
     }
 
     window.addEventListener('DOMContentLoaded', loadCart);
