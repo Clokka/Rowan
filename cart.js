@@ -28,8 +28,6 @@ function loadCart() {
   });
 
   totalEl.textContent = total.toFixed(2);
-
-  // Show eBay fallback message
   document.getElementById('ebay-message').style.display = cart.length > 0 ? 'block' : 'none';
 }
 
