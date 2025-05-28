@@ -111,6 +111,14 @@
     .ebay-link:hover {
       text-decoration: underline;
     }
+
+    .coupon-code {
+      margin-top: 1rem;
+      background: #eafaf1;
+      padding: 1rem;
+      border-left: 5px solid #27ae60;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
@@ -132,23 +140,31 @@
       </a>
     </p>
     <div id="ebay-links"></div>
+
+    <div class="coupon-code">
+      💸 Use coupon code <strong>CLOKKA10</strong> on eBay for 10% off selected items!
+    </div>
   </div>
 
   <script>
-    function getEbayLink(name) {
+    function getEbayDetails(name) {
       const lower = name.toLowerCase();
       if (lower.includes("olevs")) {
         return {
           url: "https://www.ebay.co.uk/itm/388448139060",
-          label: "OLEVS 9947 Men's Quartz Watch"
+          label: "OLEVS 9947 Men's Quartz Watch",
+          image: "https://i.ebayimg.com/images/g/Xj4AAOSw9sZlVXaa/s-l1600.jpg"
         };
       } else if (lower.includes("poedagar")) {
         return {
           url: "https://www.ebay.co.uk/itm/388460737783",
-          label: "Poedagar Men's Business Watch"
+          label: "Poedagar Men's Business Watch",
+          image: "https://i.ebayimg.com/images/g/VLAAAOSwLwNlVXWm/s-l1600.jpg"
         };
       }
-      return null;
+      return {
+        image: "https://via.placeholder.com/80"
+      };
     }
 
     function loadCart() {
@@ -163,12 +179,13 @@
       const linked = new Set();
 
       cart.forEach((item, index) => {
+        const ebay = getEbayDetails(item.name);
         total += item.price * item.quantity;
 
         const div = document.createElement('div');
         div.className = 'cart-item';
         div.innerHTML = `
-          <img src="https://via.placeholder.com/80" alt="${item.name}" />
+          <img src="${ebay.image}" alt="${item.name}" />
           <div class="item-details">
             <span class="item-title">${item.name}</span>
             <span class="item-price">$${item.price.toFixed(2)}</span>
@@ -182,8 +199,7 @@
         `;
         container.appendChild(div);
 
-        const ebay = getEbayLink(item.name);
-        if (ebay && !linked.has(ebay.url)) {
+        if (ebay.url && !linked.has(ebay.url)) {
           const link = document.createElement('a');
           link.href = ebay.url;
           link.target = "_blank";
