@@ -1,1 +1,186 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Cart - CLOKKA</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      height: 40px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .container {
+      padding: 2rem;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .cart-item img {
+      width: 80px;
+      height: auto;
+      border-radius: 6px;
+      margin-right: 1rem;
+    }
+
+    .item-details {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item-title {
+      font-weight: bold;
+    }
+
+    .item-price {
+      margin: 0.25rem 0;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .quantity-controls button {
+      padding: 0.2rem 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .remove-button {
+      background: none;
+      border: none;
+      color: red;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-left: 1rem;
+    }
+
+    .cart-summary {
+      text-align: right;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .checkout-button {
+      margin-top: 1rem;
+      background: #c0392b;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .checkout-button:hover {
+      background: #a93226;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://i.imgur.com/qJWRH51.png" alt="CLOKKA Logo" class="logo" />
+    <h1>Your Cart</h1>
+  </header>
+
+  <div class="container" id="cart-container">
+    <!-- Cart items will be injected here -->
+  </div>
+
+  <div class="container cart-summary">
+    <p><strong>Total:</strong> $<span id="cart-total">0.00</span></p>
+    <button class="checkout-button" onclick="goToCheckout()">Proceed to Checkout</button>
+  </div>
+
+  <script>
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const container = document.getElementById('cart-container');
+      const totalEl = document.getElementById('cart-total');
+      container.innerHTML = '';
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <img src="https://via.placeholder.com/80" alt="${item.name}" />
+          <div class="item-details">
+            <span class="item-title">${item.name}</span>
+            <span class="item-price">$${item.price.toFixed(2)}</span>
+            <div class="quantity-controls">
+              <button onclick="changeQuantity(${index}, -1)">−</button>
+              <span>${item.quantity}</span>
+              <button onclick="changeQuantity(${index}, 1)">+</button>
+              <button class="remove-button" onclick="removeItem(${index})">Remove</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      totalEl.textContent = total.toFixed(2);
+    }
+
+    function changeQuantity(index, delta) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart[index].quantity += delta;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      loadCart();
+    }
+
+    function removeItem(index) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      loadCart();
+    }
+
+    function goToCheckout() {
+      window.location.href = 'checkout.html';
+    }
+
+    window.addEventListener('DOMContentLoaded', loadCart);
+  </script>
+</body>
+</html>
