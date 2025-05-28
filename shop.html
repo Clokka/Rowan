@@ -159,6 +159,27 @@
       <p>$89.00</p>
       <button class="add-to-basket">Preorder</button>
     </div>
+
+    <!-- eBay Linked Products -->
+    <div class="product">
+      <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="OLEVS Gold Skeleton Watch" />
+      <h3>OLEVS Men's Luxury Skeleton Watch</h3>
+      <p>$129.00</p>
+      <button class="add-to-basket"
+        onclick="window.open('https://www.ebay.co.uk/itm/405204109976?var=675304344337', '_blank')">
+        Preorder on eBay
+      </button>
+    </div>
+
+    <div class="product">
+      <img src="https://i.ebayimg.com/images/g/mAYAAOSwUvxlE1Yi/s-l1600.jpg" alt="OLEVS Chronograph Diver Watch" />
+      <h3>OLEVS Chronograph Diver Watch</h3>
+      <p>$89.00</p>
+      <button class="add-to-basket"
+        onclick="window.open('https://www.ebay.co.uk/itm/386998792035', '_blank')">
+        Preorder on eBay
+      </button>
+    </div>
   </section>
 
   <script>
@@ -170,12 +191,12 @@
 
       const sorted = products.sort((a, b) => {
         const sortType = sortSelect.value;
-        const priceA = parseFloat(a.dataset.price);
-        const priceB = parseFloat(b.dataset.price);
-        const dateA = new Date(a.dataset.date);
-        const dateB = new Date(b.dataset.date);
-        const salesA = parseInt(a.dataset.sales);
-        const salesB = parseInt(b.dataset.sales);
+        const priceA = parseFloat(a.dataset.price || 0);
+        const priceB = parseFloat(b.dataset.price || 0);
+        const dateA = new Date(a.dataset.date || "2000-01-01");
+        const dateB = new Date(b.dataset.date || "2000-01-01");
+        const salesA = parseInt(a.dataset.sales || 0);
+        const salesB = parseInt(b.dataset.sales || 0);
 
         switch (sortType) {
           case "price-low":
@@ -195,42 +216,29 @@
       sorted.forEach(product => grid.appendChild(product));
     });
 
-    // Function to update cart count badge
     function updateCartCount() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
       const badge = document.getElementById('cart-count');
-      if (totalCount > 0) {
-        badge.textContent = totalCount;
-        badge.style.display = 'flex';
-      } else {
-        badge.style.display = 'none';
-      }
+      badge.style.display = totalCount > 0 ? 'flex' : 'none';
+      badge.textContent = totalCount;
     }
 
-    // Call once on page load
     updateCartCount();
 
-    // Add to cart event listener
     document.addEventListener('click', function (e) {
-      if (e.target.classList.contains('add-to-basket')) {
+      if (e.target.classList.contains('add-to-basket') && !e.target.textContent.includes('eBay')) {
         const product = e.target.closest('.product');
         const name = product.querySelector('h3').textContent;
         const priceText = product.querySelector('p').textContent;
         const price = parseFloat(priceText.replace('$', ''));
 
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
         const existing = cart.find(item => item.name === name);
-        if (existing) {
-          existing.quantity += 1;
-        } else {
-          cart.push({ name, price, quantity: 1 });
-        }
+        existing ? existing.quantity += 1 : cart.push({ name, price, quantity: 1 });
 
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartCount();
-
         alert(`Preordered "${name}" successfully!`);
       }
     });
