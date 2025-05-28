@@ -41,7 +41,7 @@ header h1 {
 }
 
 .cart-icon:hover svg.icon {
-  stroke: #2563eb; /* A subtle highlight color */
+  stroke: #2563eb;
 }
 
 /* ===== Cart Notification Badge ===== */
@@ -55,7 +55,7 @@ header h1 {
   padding: 2px 6px;
   border-radius: 50%;
   font-weight: bold;
-  display: none; /* Hidden when empty */
+  display: none;
 }
 
 section.text-center {
@@ -74,4 +74,77 @@ footer {
   padding: 1.5rem;
   font-size: 0.875rem;
   color: #6b7280;
+}
+
+/* ===== Cart Item Styles ===== */
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 1rem auto;
+  max-width: 700px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item img {
+  height: 80px;
+  width: auto;
+  border-radius: 8px;
+}
+
+.cart-item-details {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.cart-item-details h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+}
+
+.cart-item-details p {
+  margin: 0;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart-item input[type="number"] {
+  width: 50px;
+  padding: 0.25rem;
+  background: #f3f4f6;
+  color: #1f2937;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.remove-btn {
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.remove-btn:hover {
+  background-color: #a93226;
+}
+
+/* Cart Total */
+#cart-total {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 2rem;
 }
