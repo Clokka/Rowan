@@ -27,12 +27,33 @@
     }
 
     .basket-icon {
-      font-size: 1.5rem;
+      position: relative;
       cursor: pointer;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .basket-icon:hover {
-      opacity: 0.8;
+      text-decoration: underline;
+    }
+
+    .cart-count-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: red;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
     }
 
     .sort-container {
@@ -96,8 +117,10 @@
     <div class="header-left">
       <h1>CLOKKA Shop</h1>
     </div>
-    <div class="basket-icon" onclick="window.location.href='checkout.html'" title="Go to Basket">
-      <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart" style="width:24px; height:auto; vertical-align:middle; cursor:pointer;" />
+    <div class="basket-icon" onclick="window.location.href='checkout.html'" title="Go to Basket" aria-label="Cart with item count">
+      <!-- White cart icon SVG from flaticon -->
+      <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="Cart" style="width:24px; height:auto; vertical-align:middle;" />
+      <div id="cart-count" class="cart-count-badge" style="display:none">0</div>
     </div>
   </header>
 
@@ -161,6 +184,23 @@
       sorted.forEach(product => grid.appendChild(product));
     });
 
+    // Function to update cart count badge
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const badge = document.getElementById('cart-count');
+      if (totalCount > 0) {
+        badge.textContent = totalCount;
+        badge.style.display = 'flex';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+
+    // Call once on page load
+    updateCartCount();
+
+    // Add to cart event listener
     document.addEventListener('click', function (e) {
       if (e.target.classList.contains('add-to-basket')) {
         const product = e.target.closest('.product');
@@ -178,7 +218,8 @@
         }
 
         localStorage.setItem('cart', JSON.stringify(cart));
-        console.log("Cart:", cart); // Optional: For debugging
+        updateCartCount();
+
         alert(`Preordered "${name}" successfully!`);
       }
     });
