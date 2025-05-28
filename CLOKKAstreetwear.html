@@ -32,8 +32,8 @@
       100% { transform: translateX(-100%); }
     }
     header {
-      background-color: #111;
-      color: white;
+      background-color: #fff; /* White background */
+      color: #111;
       padding: 0.5rem 2rem;
       display: flex;
       align-items: center;
@@ -52,12 +52,12 @@
       margin: 0;
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
-      color: #c0392b;
+      color: #111; /* Changed from red to dark text */
     }
     .header-text p {
       margin: 0;
       font-size: 0.9rem;
-      color: #ccc;
+      color: #555;
     }
     .hero-video {
       position: relative;
@@ -112,7 +112,7 @@
       display: block;
       height: 3px;
       width: 100%;
-      background: white;
+      background: #111; /* Dark bars for white background */
       border-radius: 2px;
     }
     .menu-dropdown {
@@ -153,7 +153,7 @@
 </head>
 <body>
   <div class="top-banner">
-    <span>Drop Alert: New Streetwear Just Landed — Limited Quantities Available! &nbsp;&nbsp;&nbsp;&nbsp; Drop Alert: New Streetwear Just Landed — Limited Quantities Available!</span>
+    <span>Fresh Drops Weekly — Sign Up & Save 20%! &nbsp;&nbsp;&nbsp;&nbsp; Fresh Drops Weekly — Sign Up & Save 20%!</span>
   </div>
 
   <header>
@@ -161,7 +161,7 @@
       <img src="https://i.imgur.com/qJWRH51.png" alt="CLOKKA Logo" class="logo" />
       <div class="header-text">
         <h1>CLOKKA</h1>
-        <p>Streetwear Collection</p>
+        <p>Streetwear Edition</p>
       </div>
     </div>
     <div class="menu-container">
@@ -173,20 +173,20 @@
       <div id="menu-dropdown" class="menu-dropdown hidden">
         <a href="/signin.html">Sign In</a>
         <a href="/contact.html">Contact Us</a>
-        <a href="/shop.html">CLOKKA Watches</a>
+        <a href="/shop.html">Shop Watches</a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Video Section -->
+  <!-- Hero Section (replace video with an image or another streetwear video if needed) -->
   <section class="hero-video">
     <video autoplay muted loop playsinline>
-      <source src="ClokkaStreetwear.mp4" type="video/mp4" />
+      <source src="streetwear-hero.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
     <div class="hero-content">
-      <h1>Level Up Your Fit</h1>
-      <a href="shop.html">Shop Streetwear</a>
+      <h1>Drop into Streetwear</h1>
+      <a href="/shop.html">Shop Now</a>
     </div>
   </section>
 
@@ -194,7 +194,6 @@
     <p>&copy; 2025 CLOKKA. All rights reserved.</p>
   </footer>
 
-  <!-- Menu Script -->
   <script>
     const menuBtn = document.getElementById('menu-btn');
     const menuDropdown = document.getElementById('menu-dropdown');
