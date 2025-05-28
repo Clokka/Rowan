@@ -24,10 +24,7 @@
     "prepare": "ts-scripts install",
     "prepublishOnly": "npm run build",
     "specs": "ts-scripts specs",
-    "test": "ts-scripts test",
-    "start": "node server.js"
-  },
-  "dependencies": {
+    "test": "ts-scripts test"
   },
   "devDependencies": {
     "@borderless/ts-scripts": "^0.15.0",
