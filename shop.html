@@ -169,16 +169,6 @@
       </button>
     </div>
 
-    <div class="product" data-price="89" data-date="2024-05-01" data-sales="50">
-      <div class="new-badge">New</div>
-      <img src="https://i.ebayimg.com/images/g/mAYAAOSwUvxlE1Yi/s-l1600.jpg" alt="OLEVS Chronograph Diver Watch" />
-      <h3>OLEVS Chronograph Diver Watch</h3>
-      <p>$89.00</p>
-      <button class="add-to-basket" onclick="window.open('https://www.ebay.co.uk/itm/386998792035', '_blank')">
-        Preorder on eBay
-      </button>
-    </div>
-
     <div class="product" data-price="129" data-date="2024-05-28" data-sales="5">
       <div class="new-badge">New</div>
       <img src="https://i.ebayimg.com/images/g/KCsAAOSwNyBmQDrF/s-l1600.webp" alt="Black Skeleton Watch" />
@@ -224,7 +214,6 @@
       sorted.forEach(product => grid.appendChild(product));
     });
 
-    // Function to update cart count badge
     function updateCartCount() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -237,7 +226,6 @@
       }
     }
 
-    // Call once on page load
     updateCartCount();
   </script>
 
