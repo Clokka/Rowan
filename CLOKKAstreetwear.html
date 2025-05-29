@@ -32,7 +32,7 @@
       100% { transform: translateX(-100%); }
     }
     header {
-      background-color: #fff; /* White background */
+      background-color: #fff;
       color: #111;
       padding: 0.5rem 2rem;
       display: flex;
@@ -52,7 +52,7 @@
       margin: 0;
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
-      color: #111; /* Changed from red to dark text */
+      color: #111;
     }
     .header-text p {
       margin: 0;
@@ -65,7 +65,7 @@
       height: 100vh;
       overflow: hidden;
     }
-    .hero-video video {
+    .hero-video img {
       position: absolute;
       top: 0;
       left: 0;
@@ -93,6 +93,7 @@
       text-decoration: none;
       border-radius: 8px;
       font-weight: bold;
+      cursor: pointer;
     }
     .menu-container {
       position: relative;
@@ -112,7 +113,7 @@
       display: block;
       height: 3px;
       width: 100%;
-      background: #111; /* Dark bars for white background */
+      background: #111;
       border-radius: 2px;
     }
     .menu-dropdown {
@@ -178,15 +179,12 @@
     </div>
   </header>
 
-  <!-- Hero Section (replace video with an image or another streetwear video if needed) -->
+  <!-- Hero Section with Image and Coming Soon button -->
   <section class="hero-video">
-    <video autoplay muted loop playsinline>
-      <source src="streetwear-hero.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+    <img src="https://media.istockphoto.com/id/1496292310/photo/happy-asian-chinese-young-woman-crossing-road-carrying-skateboard-in-old-town.jpg?s=612x612&w=0&k=20&c=GLdZqhRHlUzQGcuafdy7OTuYOOqQFim6P0FSXrdZE4U=" alt="Streetwear Hero">
     <div class="hero-content">
       <h1>Drop into Streetwear</h1>
-      <a href="/shop.html">Shop Now</a>
+      <a href="javascript:void(0);" onclick="alert('Streetwear section coming soon!')">Coming Soon</a>
     </div>
   </section>
 
