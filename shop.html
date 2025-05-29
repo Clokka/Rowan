@@ -86,6 +86,7 @@
     }
 
     .product {
+      position: relative;
       background: #fff;
       padding: 1rem;
       border-radius: 8px;
@@ -120,6 +121,18 @@
     .add-to-basket:hover {
       background-color: #a93226;
     }
+
+    .new-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #27ae60;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: bold;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -147,36 +160,31 @@
 
   <section class="product-grid" id="product-grid">
     <div class="product" data-price="129" data-date="2024-03-15" data-sales="25">
+      <div class="new-badge">New</div>
       <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
       <h3>OLEVS Men's Gold Skeleton Watch</h3>
       <p>$129.00</p>
-      <button class="add-to-basket">Preorder</button>
-    </div>
-
-    <div class="product" data-price="89" data-date="2024-05-01" data-sales="50">
-      <img src="https://s.alicdn.com/@sc04/kf/H9e83709f82754182ac3d2c3a45cac6deI.jpg_720x720q50.jpg" alt="POEDAGAR Watch" />
-      <h3>POEDAGAR 827 Business Watch</h3>
-      <p>$89.00</p>
-      <button class="add-to-basket">Preorder</button>
-    </div>
-
-    <!-- eBay Preorder Listings -->
-    <div class="product">
-      <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="OLEVS Gold Skeleton Watch" />
-      <h3>OLEVS Men's Luxury Skeleton Watch</h3>
-      <p>$129.00</p>
-      <button class="add-to-basket"
-        onclick="window.open('https://www.ebay.co.uk/itm/405204109976?var=675304344337', '_blank')">
+      <button class="add-to-basket" onclick="window.open('https://www.ebay.co.uk/itm/388448045062', '_blank')">
         Preorder on eBay
       </button>
     </div>
 
-    <div class="product">
-      <img src="https://s.alicdn.com/@sc04/kf/H9e83709f82754182ac3d2c3a45cac6deI.jpg_720x720q50.jpg" alt="POEDAGAR Business Watch" />
-      <h3>POEDAGAR 827 Business Watch</h3>
+    <div class="product" data-price="89" data-date="2024-05-01" data-sales="50">
+      <div class="new-badge">New</div>
+      <img src="https://i.ebayimg.com/images/g/mAYAAOSwUvxlE1Yi/s-l1600.jpg" alt="OLEVS Chronograph Diver Watch" />
+      <h3>OLEVS Chronograph Diver Watch</h3>
       <p>$89.00</p>
-      <button class="add-to-basket"
-        onclick="window.open('https://www.ebay.co.uk/itm/386998792035', '_blank')">
+      <button class="add-to-basket" onclick="window.open('https://www.ebay.co.uk/itm/386998792035', '_blank')">
+        Preorder on eBay
+      </button>
+    </div>
+
+    <div class="product" data-price="129" data-date="2024-05-28" data-sales="5">
+      <div class="new-badge">New</div>
+      <img src="https://i.ebayimg.com/images/g/KCsAAOSwNyBmQDrF/s-l1600.webp" alt="Black Skeleton Watch" />
+      <h3>OLEVS Men's Black Skeleton Watch</h3>
+      <p>$129.00</p>
+      <button class="add-to-basket" onclick="window.open('https://www.ebay.co.uk/itm/388448139060', '_blank')">
         Preorder on eBay
       </button>
     </div>
@@ -216,6 +224,7 @@
       sorted.forEach(product => grid.appendChild(product));
     });
 
+    // Function to update cart count badge
     function updateCartCount() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -228,30 +237,9 @@
       }
     }
 
+    // Call once on page load
     updateCartCount();
-
-    document.addEventListener('click', function (e) {
-      if (e.target.classList.contains('add-to-basket') && !e.target.hasAttribute('onclick')) {
-        const product = e.target.closest('.product');
-        const name = product.querySelector('h3').textContent;
-        const priceText = product.querySelector('p').textContent;
-        const price = parseFloat(priceText.replace('$', ''));
-
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-        const existing = cart.find(item => item.name === name);
-        if (existing) {
-          existing.quantity += 1;
-        } else {
-          cart.push({ name, price, quantity: 1 });
-        }
-
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartCount();
-
-        alert(`Preordered "${name}" successfully!`);
-      }
-    });
   </script>
+
 </body>
 </html>
