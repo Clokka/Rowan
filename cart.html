@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Your Cart - CLOKKA</title>
   <style>
@@ -79,6 +78,15 @@
       cursor: pointer;
     }
 
+    .quantity-controls input[type="number"] {
+      width: 50px;
+      text-align: center;
+      font-size: 1rem;
+      padding: 0.2rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
     .remove-button {
       background: none;
       border: none;
@@ -100,18 +108,32 @@
       color: green;
     }
 
-    .ebay-links {
-      margin-top: 2rem;
-      background: #fff4e6;
-      padding: 1rem;
-      border: 1px solid #ffcc80;
-      border-radius: 8px;
+    .cart-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-bottom: 1rem;
     }
 
-    .ebay-links img {
-      max-width: 100px;
-      display: block;
-      margin-bottom: 0.5rem;
+    .clear-cart-btn, .checkout-btn {
+      background: #c0392b;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .clear-cart-btn:hover, .checkout-btn:hover {
+      background: #a93226;
+    }
+
+    .empty-message {
+      text-align: center;
+      color: #888;
+      font-size: 1.2rem;
+      margin-top: 2rem;
     }
   </style>
 </head>
@@ -120,6 +142,11 @@
     <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo" />
     <h1>Your Cart</h1>
   </header>
+
+  <div class="container cart-actions">
+    <button class="clear-cart-btn" onclick="clearCart()">Remove All Items</button>
+    <button class="checkout-btn" onclick="window.location.href='checkout.html'">Checkout</button>
+  </div>
 
   <div class="container" id="cart-container">
     <!-- Cart items will appear here -->
@@ -130,24 +157,22 @@
     <div class="coupon">Use coupon code <strong>CLOKKA10</strong> for 10% off on eBay!</div>
   </div>
 
-  <div class="container ebay-links" id="ebay-message" style="display: none;">
-    <p><strong>Note:</strong> Due to maintenance, payment cannot be accepted directly through clokka.co.uk. However, the products are available on our <a href="https://www.ebay.co.uk/mys/overview?MyEbay" target="_blank">eBay store</a>.</p>
-    <ul>
-      <li>
-        <a href="https://www.ebay.co.uk/itm/388448139060" target="_blank">
-          <img src="https://i.ebayimg.com/images/g/qeoAAOSw99tlEzzc/s-l1600.jpg" alt="OLEVS Watch" />
-          OLEVS 9947 Men's Quartz Watch Blue Dial Day Date Gold Silver Stainless Steel
-        </a>
-      </li>
-      <li>
-        <a href="https://www.ebay.co.uk/itm/388460737783" target="_blank">
-          <img src="https://i.ebayimg.com/images/g/mAYAAOSwUvxlE1Yi/s-l1600.jpg" alt="Poedagar Watch" />
-          Poedagar Men's Business Wristwatch Waterproof Luxury Date Stainless Steel Watch
-        </a>
-      </li>
-    </ul>
+  <div id="empty-message" class="empty-message" style="display:none">
+    Your cart is empty.
   </div>
 
+  <div id="ebay-message" style="display:none"></div>
+
   <script src="cart.js"></script>
+  <script>
+    // Add setQuantity and clearCart functions in your cart.js for this to work
+    // This block ensures empty-message is shown if cart is empty
+    function showEmptyMessageIfNeeded() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      document.getElementById('empty-message').style.display = cart.length === 0 ? 'block' : 'none';
+    }
+    window.addEventListener('DOMContentLoaded', showEmptyMessageIfNeeded);
+    // Also call this inside loadCart() after rendering cart items
+  </script>
 </body>
 </html>
