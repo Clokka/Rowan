@@ -6,6 +6,12 @@ function loadCart() {
 
   let total = 0;
 
+  if (cart.length === 0) {
+    document.getElementById('empty-message').style.display = 'block';
+  } else {
+    document.getElementById('empty-message').style.display = 'none';
+  }
+
   cart.forEach((item, index) => {
     total += item.price * item.quantity;
 
@@ -18,7 +24,7 @@ function loadCart() {
         <span class="item-price">$${item.price.toFixed(2)}</span>
         <div class="quantity-controls">
           <button onclick="changeQuantity(${index}, -1)">−</button>
-          <span>${item.quantity}</span>
+          <input type="number" min="1" value="${item.quantity}" onchange="setQuantity(${index}, this.value)" style="width:50px; text-align:center;">
           <button onclick="changeQuantity(${index}, 1)">+</button>
           <button class="remove-button" onclick="removeItem(${index})">Remove</button>
         </div>
@@ -41,10 +47,24 @@ function changeQuantity(index, delta) {
   loadCart();
 }
 
+function setQuantity(index, value) {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  let qty = parseInt(value, 10);
+  if (isNaN(qty) || qty < 1) qty = 1;
+  cart[index].quantity = qty;
+  localStorage.setItem('cart', JSON.stringify(cart));
+  loadCart();
+}
+
 function removeItem(index) {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   cart.splice(index, 1);
   localStorage.setItem('cart', JSON.stringify(cart));
+  loadCart();
+}
+
+function clearCart() {
+  localStorage.removeItem('cart');
   loadCart();
 }
 
