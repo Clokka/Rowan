@@ -1,7 +1,4 @@
-```
-📁 /cart/Cart.js
-```
-```javascript
+
 // cart/Cart.js
 import { cartItems, removeItem, updateQuantity } from '../shared/utils.js';
 
@@ -44,7 +41,7 @@ export function renderCart(containerId = 'app') {
   });
 
   document.getElementById('checkout').addEventListener('click', () => {
-    window.location.href = 'checkout/index.html';
+    window.location.href = '../checkout/index.html';
   });
 }
 
