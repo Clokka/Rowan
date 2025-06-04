@@ -134,28 +134,33 @@
       border-radius: 4px;
     }
 
-    .review-section {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      color: #444;
+    .review {
+      font-size: 0.85rem;
+      color: #555;
     }
-    .review-section .stars {
-      color: gold;
+
+    .review-form {
+      padding: 1rem 2rem;
     }
-    .review-section textarea {
+
+    .review-form textarea {
       width: 100%;
+      height: 80px;
       margin-top: 0.5rem;
-      padding: 0.5rem;
-      font-size: 0.9rem;
+      margin-bottom: 1rem;
     }
-    .review-section button {
-      margin-top: 0.5rem;
-      padding: 0.4rem 1rem;
-      background: #3498db;
+
+    .review-form button {
+      padding: 0.5rem 1rem;
+      background: #2980b9;
       color: white;
       border: none;
-      border-radius: 4px;
+      border-radius: 5px;
       cursor: pointer;
+    }
+
+    .review-form button:hover {
+      background: #21618c;
     }
   </style>
 </head>
@@ -183,78 +188,62 @@
   </div>
 
   <section class="product-grid" id="product-grid">
-    <!-- Existing Products -->
-    <!-- Sample with Reviews and Review Box -->
+    <!-- Product 1 -->
     <div class="product" data-price="42.79" data-date="2024-03-15" data-sales="25">
       <div class="new-badge">New</div>
       <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
       <h3>OLEVS Men's Gold Skeleton Watch</h3>
       <p>£42.79</p>
-      <button class="add-to-basket" onclick="window.open('https://www.ebay.co.uk/itm/388448045062', '_blank')">Preorder on eBay</button>
-      <div class="review-section">
-        <div class="stars">★★★★★</div>
-        <p>Excellent watch. Would buy again!</p>
-        <textarea placeholder="Add your review..."></textarea>
-        <button>Submit Review</button>
-      </div>
+      <p class="review">★★★★★ (5/5)</p>
+      <button class="add-to-basket">Add to Basket</button>
     </div>
 
+    <!-- Product 2 -->
     <div class="product" data-price="40.71" data-date="2024-05-28" data-sales="5">
       <div class="new-badge">New</div>
       <img src="https://i.ebayimg.com/images/g/KCsAAOSwNyBmQDrF/s-l1600.webp" alt="Black Skeleton Watch" />
       <h3>OLEVS Men's Black Skeleton Watch</h3>
       <p>£40.71</p>
-      <button class="add-to-basket" onclick="window.open('https://www.ebay.co.uk/itm/388448139060', '_blank')">Preorder on eBay</button>
-      <div class="review-section">
-        <div class="stars">★★★★★</div>
-        <p>Stylish and reliable. 5 stars!</p>
-        <textarea placeholder="Add your review..."></textarea>
-        <button>Submit Review</button>
-      </div>
+      <p class="review">★★★★★ (5/5)</p>
+      <button class="add-to-basket">Add to Basket</button>
     </div>
 
-    <!-- New Products -->
-    <div class="product" data-price="38.99" data-date="2025-06-01" data-sales="0">
+    <!-- Product 3 -->
+    <div class="product" data-price="39.99" data-date="2025-06-01" data-sales="8">
       <div class="new-badge">New</div>
       <img src="https://s.alicdn.com/@sc04/kf/Hab34bc998b76446bae9e228c54de4b34E.jpg_720x720q50.jpg" alt="Poedagar Luxury Business Watch" />
       <h3>Poedagar Luxury Business Watch for Men</h3>
-      <p>£38.99</p>
+      <p>£39.99</p>
+      <p class="review">★★★★★ (5/5)</p>
       <button class="add-to-basket">Add to Basket</button>
-      <div class="review-section">
-        <div class="stars">★★★★★</div>
-        <p>Classy and elegant. Highly recommended!</p>
-        <textarea placeholder="Add your review..."></textarea>
-        <button>Submit Review</button>
-      </div>
     </div>
 
-    <div class="product" data-price="41.50" data-date="2025-06-01" data-sales="0">
+    <!-- Product 4 -->
+    <div class="product" data-price="44.49" data-date="2025-06-01" data-sales="12">
       <div class="new-badge">New</div>
-      <img src="https://s.alicdn.com/@sc04/kf/Haad50f39c7064db0b004e047d635fb75Q.png_720x720q50.jpg" alt="Poedagar Stainless Steel Watch" />
+      <img src="https://s.alicdn.com/@sc04/kf/Haad50f39c7064db0b004e047d635fb75Q.png_720x720q50.jpg" alt="Hombre Stainless Steel Watch" />
       <h3>Poedagar High Quality Hombre Stainless Steel Men's Wrist Watch</h3>
-      <p>£41.50</p>
+      <p>£44.49</p>
+      <p class="review">★★★★★ (5/5)</p>
       <button class="add-to-basket">Add to Basket</button>
-      <div class="review-section">
-        <div class="stars">★★★★★</div>
-        <p>Feels premium and durable.</p>
-        <textarea placeholder="Add your review..."></textarea>
-        <button>Submit Review</button>
-      </div>
     </div>
 
-    <div class="product" data-price="36.75" data-date="2025-06-01" data-sales="0">
+    <!-- Product 5 -->
+    <div class="product" data-price="38.50" data-date="2025-06-01" data-sales="10">
       <div class="new-badge">New</div>
-      <img src="https://s.alicdn.com/@sc04/kf/H1aa1ff4178184120bba2f3cd452a5373U.png_720x720q50.jpg" alt="Poedagar Sports Leather Watch" />
+      <img src="https://s.alicdn.com/@sc04/kf/H1aa1ff4178184120bba2f3cd452a5373U.png_720x720q50.jpg" alt="Chronograph Sports Watch" />
       <h3>Poedagar Luxury Men Wrist Watch Sports Leather Mens Chronograph</h3>
-      <p>£36.75</p>
+      <p>£38.50</p>
+      <p class="review">★★★★★ (5/5)</p>
       <button class="add-to-basket">Add to Basket</button>
-      <div class="review-section">
-        <div class="stars">★★★★★</div>
-        <p>Perfect for casual and formal wear.</p>
-        <textarea placeholder="Add your review..."></textarea>
-        <button>Submit Review</button>
-      </div>
     </div>
+  </section>
+
+  <section class="review-form">
+    <h3>Leave a Review</h3>
+    <textarea placeholder="Write your review here..."></textarea>
+    <br />
+    <button>Submit Review</button>
   </section>
 
   <script>
@@ -274,11 +263,16 @@
         const salesB = parseInt(b.dataset.sales);
 
         switch (sortType) {
-          case "price-low": return priceA - priceB;
-          case "price-high": return priceB - priceA;
-          case "newest": return dateB - dateA;
-          case "bestselling": return salesB - salesA;
-          default: return 0;
+          case "price-low":
+            return priceA - priceB;
+          case "price-high":
+            return priceB - priceA;
+          case "newest":
+            return dateB - dateA;
+          case "bestselling":
+            return salesB - salesA;
+          default:
+            return 0;
         }
       });
 
@@ -300,6 +294,5 @@
 
     updateCartCount();
   </script>
-
 </body>
 </html>
