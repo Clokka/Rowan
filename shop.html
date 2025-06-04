@@ -162,6 +162,13 @@
     .review-form button:hover {
       background: #21618c;
     }
+
+    /* Link styles inside product */
+    .product a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -216,8 +223,10 @@
     <!-- Product 3 -->
     <div class="product" data-price="39.99" data-date="2025-06-01" data-sales="8">
       <div class="new-badge">New</div>
-      <img src="https://s.alicdn.com/@sc04/kf/Hab34bc998b76446bae9e228c54de4b34E.jpg_720x720q50.jpg" alt="Poedagar Luxury Business Watch" />
-      <h3>Poedagar Luxury Business Watch for Men</h3>
+      <a href="poedagar-details.html">
+        <img src="https://s.alicdn.com/@sc04/kf/Hab34bc998b76446bae9e228c54de4b34E.jpg_720x720q50.jpg" alt="Poedagar Luxury Business Watch" />
+        <h3>Poedagar Luxury Business Watch for Men</h3>
+      </a>
       <p>£39.99</p>
       <p class="review">★★★★★ (5/5)</p>
       <button class="add-to-basket">Add to Basket</button>
@@ -246,58 +255,68 @@
 
   <section class="review-form">
     <h3>Leave a Review</h3>
-    <textarea placeholder="Write your review here..."></textarea>
-    <br />
+    <textarea placeholder="Write your review here..."></textarea><br />
     <button>Submit Review</button>
   </section>
 
   <script>
-    const sortSelect = document.getElementById("sort-select");
-    const grid = document.getElementById("product-grid");
+    // Cart count update example (you can enhance this with your real cart logic)
+    const cartCountEl = document.getElementById('cart-count');
+    let cartCount = 0;
 
-    sortSelect.addEventListener("change", () => {
-      const products = Array.from(grid.children);
+    function updateCartCount(count) {
+      cartCount = count;
+      if (cartCount > 0) {
+        cartCountEl.style.display = 'flex';
+        cartCountEl.textContent = cartCount;
+      } else {
+        cartCountEl.style.display = 'none';
+      }
+    }
 
-      const sorted = products.sort((a, b) => {
-        const sortType = sortSelect.value;
-        const priceA = parseFloat(a.dataset.price);
-        const priceB = parseFloat(b.dataset.price);
-        const dateA = new Date(a.dataset.date);
-        const dateB = new Date(b.dataset.date);
-        const salesA = parseInt(a.dataset.sales);
-        const salesB = parseInt(b.dataset.sales);
+    // Example: initialize with zero
+    updateCartCount(0);
 
-        switch (sortType) {
-          case "price-low":
-            return priceA - priceB;
-          case "price-high":
-            return priceB - priceA;
-          case "newest":
-            return dateB - dateA;
-          case "bestselling":
-            return salesB - salesA;
+    // Sorting functionality
+    const sortSelect = document.getElementById('sort-select');
+    const productGrid = document.getElementById('product-grid');
+
+    function sortProducts(criteria) {
+      const products = Array.from(productGrid.children);
+
+      products.sort((a, b) => {
+        switch (criteria) {
+          case 'newest':
+            return new Date(b.dataset.date) - new Date(a.dataset.date);
+          case 'price-low':
+            return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+          case 'price-high':
+            return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+          case 'bestselling':
+            return parseInt(b.dataset.sales) - parseInt(a.dataset.sales);
           default:
             return 0;
         }
       });
 
-      grid.innerHTML = "";
-      sorted.forEach(product => grid.appendChild(product));
-    });
-
-    function updateCartCount() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-      const badge = document.getElementById('cart-count');
-      if (totalCount > 0) {
-        badge.textContent = totalCount;
-        badge.style.display = 'flex';
-      } else {
-        badge.style.display = 'none';
-      }
+      products.forEach(prod => productGrid.appendChild(prod));
     }
 
-    updateCartCount();
+    sortSelect.addEventListener('change', () => {
+      sortProducts(sortSelect.value);
+    });
+
+    // Initialize sorting to default
+    sortProducts(sortSelect.value);
+
+    // Add to Basket button logic placeholder
+    document.querySelectorAll('.add-to-basket').forEach(button => {
+      button.addEventListener('click', () => {
+        cartCount++;
+        updateCartCount(cartCount);
+        alert('Added to basket!');
+      });
+    });
   </script>
 </body>
 </html>
