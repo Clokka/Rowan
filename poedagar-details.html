@@ -43,20 +43,14 @@
       border-radius: 50%;
       cursor: pointer;
       user-select: none;
-      transition: background 0.3s ease;
     }
 
     .arrow:hover {
       background: rgba(0,0,0,0.6);
     }
 
-    .arrow-left {
-      left: 10px;
-    }
-
-    .arrow-right {
-      right: 10px;
-    }
+    .arrow-left { left: 10px; }
+    .arrow-right { right: 10px; }
 
     .video-container {
       margin-top: 1rem;
@@ -69,13 +63,13 @@
       align-items: center;
       justify-content: center;
       font-size: 1.2rem;
-      user-select: none;
     }
 
     .buttons-row {
       margin-top: 1.5rem;
       display: flex;
       gap: 1rem;
+      flex-wrap: wrap;
     }
 
     .tab-button {
@@ -108,6 +102,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 1rem;
     }
 
     table th,
@@ -115,160 +110,189 @@
       padding: 0.5rem;
       border: 1px solid #ddd;
       text-align: left;
-      vertical-align: top;
     }
 
     table th {
       background: #f4f4f4;
       width: 200px;
     }
+
+    .review-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .review-tabs button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #999;
+      background: #eee;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .review-tabs button.active {
+      background: #c0392b;
+      color: white;
+      border-color: #c0392b;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Poedagar Luxury Business Watch for Men</h1>
+<h1>Poedagar Luxury Business Watch for Men</h1>
 
-  <div class="gallery-container">
-    <button class="arrow arrow-left" aria-label="Previous image">&#8592;</button>
-    <img src="https://s.alicdn.com/@sc04/kf/H716143dee71e47dab9c150008de2d2d4T.jpg_720x720q50.jpg" alt="Poedagar Luxury Business Watch" class="main-image" id="main-image" />
-    <button class="arrow arrow-right" aria-label="Next image">&#8594;</button>
-
-    <div class="video-container" id="video-container" style="display:none;">
-      <p>Product Video Placeholder</p>
-    </div>
+<div class="gallery-container">
+  <button class="arrow arrow-left">&#8592;</button>
+  <img src="https://s.alicdn.com/@sc04/kf/H716143dee71e47dab9c150008de2d2d4T.jpg_720x720q50.jpg" alt="Poedagar Luxury Business Watch" class="main-image" id="main-image" />
+  <button class="arrow arrow-right">&#8594;</button>
+  <div class="video-container" id="video-container" style="display:none;">
+    <p>Product Video Placeholder</p>
   </div>
+</div>
 
-  <div class="buttons-row" role="tablist" aria-label="Product Information Tabs">
-    <button class="tab-button active" data-tab="attributes" role="tab" aria-selected="true" aria-controls="tab-attributes" id="tab-btn-attributes">Attributes</button>
-    <button class="tab-button" data-tab="performance" role="tab" aria-selected="false" aria-controls="tab-performance" id="tab-btn-performance">Performance</button>
-    <button class="tab-button" data-tab="reviews" role="tab" aria-selected="false" aria-controls="tab-reviews" id="tab-btn-reviews">Reviews</button>
-    <button class="tab-button" data-tab="supplier" role="tab" aria-selected="false" aria-controls="tab-supplier" id="tab-btn-supplier">Supplier</button>
-    <button class="tab-button" data-tab="description" role="tab" aria-selected="false" aria-controls="tab-description" id="tab-btn-description">Description</button>
-  </div>
+<div class="buttons-row">
+  <button class="tab-button active" data-tab="attributes">Attributes</button>
+  <button class="tab-button" data-tab="performance">Performance</button>
+  <button class="tab-button" data-tab="reviews">Reviews</button>
+  <button class="tab-button" data-tab="supplier">Supplier</button>
+  <button class="tab-button" data-tab="description">Description</button>
+</div>
 
-  <div class="tab-content" id="tab-content" role="tabpanel" aria-labelledby="tab-btn-attributes"></div>
+<div class="tab-content" id="tab-content"></div>
 
-  <script>
-    const images = [
-      "https://s.alicdn.com/@sc04/kf/H716143dee71e47dab9c150008de2d2d4T.jpg_720x720q50.jpg",
-      "https://s.alicdn.com/@sc04/kf/H5f691570360543c4973cd6df2f25af012.jpg_720x720q50.jpg",
-      "video"
-    ];
+<script>
+  const images = [
+    "https://s.alicdn.com/@sc04/kf/H716143dee71e47dab9c150008de2d2d4T.jpg_720x720q50.jpg",
+    "https://s.alicdn.com/@sc04/kf/H5f691570360543c4973cd6df2f25af012.jpg_720x720q50.jpg",
+    "video"
+  ];
 
-    let currentIndex = 0;
+  let currentIndex = 0;
+  const mainImage = document.getElementById('main-image');
+  const videoContainer = document.getElementById('video-container');
+  const leftArrow = document.querySelector('.arrow-left');
+  const rightArrow = document.querySelector('.arrow-right');
 
-    const mainImage = document.getElementById('main-image');
-    const videoContainer = document.getElementById('video-container');
-    const leftArrow = document.querySelector('.arrow-left');
-    const rightArrow = document.querySelector('.arrow-right');
-
-    function updateGallery() {
-      if (images[currentIndex] === "video") {
-        mainImage.style.display = "none";
-        videoContainer.style.display = "flex";
-      } else {
-        videoContainer.style.display = "none";
-        mainImage.style.display = "block";
-        mainImage.src = images[currentIndex];
-        mainImage.alt = "Poedagar Luxury Business Watch image " + (currentIndex + 1);
-      }
+  function updateGallery() {
+    if (images[currentIndex] === "video") {
+      mainImage.style.display = "none";
+      videoContainer.style.display = "flex";
+    } else {
+      videoContainer.style.display = "none";
+      mainImage.style.display = "block";
+      mainImage.src = images[currentIndex];
+      mainImage.alt = "Poedagar Luxury Business Watch image " + (currentIndex + 1);
     }
+  }
 
-    leftArrow.addEventListener('click', () => {
-      currentIndex--;
-      if (currentIndex < 0) currentIndex = images.length - 1;
-      updateGallery();
-    });
-
-    rightArrow.addEventListener('click', () => {
-      currentIndex++;
-      if (currentIndex >= images.length) currentIndex = 0;
-      updateGallery();
-    });
-
+  leftArrow.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
     updateGallery();
+  });
 
-    // Tabs logic
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContent = document.getElementById('tab-content');
+  rightArrow.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateGallery();
+  });
 
-    const attributesHTML = `
-      <table>
-        <tbody>
-          <tr><th>Type</th><td>CHARM, Fashion, Luxury, Business</td></tr>
-          <tr><th>Case Shape</th><td>Square</td></tr>
-          <tr><th>Dial Display</th><td>Pointer</td></tr>
-          <tr><th>Feature</th><td>Complete Calendar, Waterproof, Luminous</td></tr>
-          <tr><th>Dial Window Material Type</th><td>Hardlex</td></tr>
-          <tr><th>Dial Diameter</th><td>40mm</td></tr>
-          <tr><th>Model Number</th><td>628</td></tr>
-          <tr><th>Band Material Type</th><td>STAINLESS STEEL</td></tr>
-          <tr><th>Case Material</th><td>Alloy</td></tr>
-          <tr><th>Band Length</th><td>24cm</td></tr>
-          <tr><th>Clasp Type</th><td>Push Button Hidden Clasp</td></tr>
-          <tr><th>Water Resistance Depth</th><td>3BAR</td></tr>
-          <tr><th>Place of Origin</th><td>Guangdong, China</td></tr>
-          <tr><th>User</th><td>Men</td></tr>
-          <tr><th>Band Width</th><td>20mm</td></tr>
-          <tr><th>Case Thickness</th><td>9MM</td></tr>
-          <tr><th>Brand Name</th><td>Poedagar</td></tr>
-          <tr><th>Age</th><td>2022</td></tr>
-          <tr><th>Battery Life</th><td>2 years</td></tr>
-          <tr><th>Movement Brand</th><td>CHENLONG</td></tr>
-          <tr><th>Packaging and delivery</th><td></td></tr>
-          <tr><th>Selling Units</th><td>Single item</td></tr>
-          <tr><th>Single package size</th><td>18X9X4 cm</td></tr>
-          <tr><th>Single gross weight</th><td>0.200 KG</td></tr>
-          <tr><th>Packaging examples</th><td></td></tr>
-        </tbody>
-      </table>
-    `;
+  updateGallery();
 
-    const performanceHTML = `<p>Performance information coming soon.</p>`;
-    const reviewsHTML = `<p>Reviews will be displayed here.</p>`;
-    const supplierHTML = `<p>Supplier details will be added here.</p>`;
-    const descriptionHTML = `
-      <p>The Poedagar Luxury Business Watch for Men is designed for elegance and precision. Crafted with stainless steel and equipped with features like a complete calendar, waterproof capability, and luminous pointers, this watch is perfect for business and luxury settings.</p>
-      <p>Its square alloy case and 40mm dial diameter offer a modern, stylish appearance, while the push button hidden clasp ensures secure and comfortable wear.</p>
-    `;
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabContent = document.getElementById('tab-content');
 
-    function setActiveTab(tab) {
-      tabButtons.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.tab === tab);
-        btn.setAttribute('aria-selected', btn.dataset.tab === tab);
-      });
+  const attributesHTML = `
+    <h2>Product Details</h2>
+    <table>
+      <tr><th>Dial Window Material Type</th><td>Hardlex</td></tr>
+      <tr><th>Dial Diameter</th><td>40mm</td></tr>
+      <tr><th>Case Shape</th><td>Square</td></tr>
+      <tr><th>Band Width</th><td>20mm</td></tr>
+      <tr><th>Band Length</th><td>24cm</td></tr>
+      <tr><th>Clasp Type</th><td>Push Button Hidden Clasp</td></tr>
+      <tr><th>Water Resistance Depth</th><td>3BAR</td></tr>
+      <tr><th>Case Thickness</th><td>9mm</td></tr>
+      <tr><th>Brand Name</th><td>Poedagar</td></tr>
+      <tr><th>Place of Origin</th><td>China</td></tr>
+      <tr><th>Model Number</th><td>628</td></tr>
+      <tr><th>Type</th><td>Fashion, Luxury, Business</td></tr>
+      <tr><th>Feature</th><td>Waterproof, Luminous, Calendar</td></tr>
+      <tr><th>Age</th><td>2022</td></tr>
+      <tr><th>Band Material Type</th><td>Stainless steel</td></tr>
+      <tr><th>Case Material</th><td>ALLOY</td></tr>
+      <tr><th>Dial Display</th><td>Pointer</td></tr>
+      <tr><th>Battery Life</th><td>2 years</td></tr>
+      <tr><th>User</th><td>Men</td></tr>
+    </table>
+  `;
 
-      tabContent.setAttribute('aria-labelledby', 'tab-btn-' + tab);
+  const performanceHTML = `
+    <div class="review-tabs">
+      <button id="btn-product" class="active">Product Reviews (1)</button>
+      <button id="btn-store">Store Reviews (0)</button>
+    </div>
+    <div id="review-content">
+      <p><strong>Great quality!</strong> - I'm impressed with the build and look. Worth the price.</p>
+    </div>
+  `;
 
-      switch (tab) {
-        case 'attributes':
-          tabContent.innerHTML = attributesHTML;
-          break;
-        case 'performance':
-          tabContent.innerHTML = performanceHTML;
-          break;
-        case 'reviews':
-          tabContent.innerHTML = reviewsHTML;
-          break;
-        case 'supplier':
-          tabContent.innerHTML = supplierHTML;
-          break;
-        case 'description':
-          tabContent.innerHTML = descriptionHTML;
-          break;
-        default:
-          tabContent.innerHTML = '';
-      }
-    }
+  const reviewsHTML = `<p>Reviews will be displayed here.</p>`;
+  const supplierHTML = `<p>Supplier details will be added here.</p>`;
+  const descriptionHTML = `
+    <p>The Poedagar Luxury Business Watch for Men is designed for elegance and precision. Crafted with stainless steel and equipped with features like a complete calendar, waterproof capability, and luminous pointers, this watch is perfect for business and luxury settings.</p>
+    <p>Its square alloy case and 40mm dial diameter offer a modern, stylish appearance, while the push button hidden clasp ensures secure and comfortable wear.</p>
+  `;
 
+  function setActiveTab(tab) {
     tabButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        setActiveTab(btn.dataset.tab);
-      });
+      btn.classList.toggle('active', btn.dataset.tab === tab);
     });
 
-    setActiveTab('attributes');
-  </script>
+    switch (tab) {
+      case 'attributes':
+        tabContent.innerHTML = attributesHTML;
+        break;
+      case 'performance':
+        tabContent.innerHTML = performanceHTML;
+        setupReviewTabs();
+        break;
+      case 'reviews':
+        tabContent.innerHTML = reviewsHTML;
+        break;
+      case 'supplier':
+        tabContent.innerHTML = supplierHTML;
+        break;
+      case 'description':
+        tabContent.innerHTML = descriptionHTML;
+        break;
+    }
+  }
+
+  function setupReviewTabs() {
+    const btnProduct = document.getElementById('btn-product');
+    const btnStore = document.getElementById('btn-store');
+    const reviewContent = document.getElementById('review-content');
+
+    btnProduct.addEventListener('click', () => {
+      btnProduct.classList.add('active');
+      btnStore.classList.remove('active');
+      reviewContent.innerHTML = `<p><strong>Great quality!</strong> - I'm impressed with the build and look. Worth the price.</p>`;
+    });
+
+    btnStore.addEventListener('click', () => {
+      btnStore.classList.add('active');
+      btnProduct.classList.remove('active');
+      reviewContent.innerHTML = `<p>The store has not yet been reviewed.</p>`;
+    });
+  }
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => setActiveTab(btn.dataset.tab));
+  });
+
+  // Set default tab
+  setActiveTab('attributes');
+</script>
 
 </body>
 </html>
