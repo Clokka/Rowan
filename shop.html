@@ -163,12 +163,10 @@
       background: #21618c;
     }
 
-    /* Link styles inside product */
     .product a {
       text-decoration: none;
       color: inherit;
-      display: inline-block;
-      cursor: pointer;
+      display: block;
     }
   </style>
 </head>
@@ -180,8 +178,7 @@
       <h1>CLOKKA Shop</h1>
     </div>
     <div class="basket-icon" onclick="window.location.href='checkout.html'" title="Go to Basket" aria-label="Cart with item count">
-      <!-- White SVG cart icon -->
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="24" height="24" style="vertical-align: middle;">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="24" height="24">
         <circle cx="9" cy="21" r="1"></circle>
         <circle cx="20" cy="21" r="1"></circle>
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
@@ -226,8 +223,8 @@
       <div class="new-badge">New</div>
       <a href="poedagar-details.html">
         <img src="https://s.alicdn.com/@sc04/kf/Hab34bc998b76446bae9e228c54de4b34E.jpg_720x720q50.jpg" alt="Poedagar Luxury Business Watch" />
+        <h3>Poedagar Luxury Business Watch for Men</h3>
       </a>
-      <h3>Poedagar Luxury Business Watch for Men</h3>
       <p>£39.99</p>
       <p class="review">★★★★★ (5/5)</p>
       <button class="add-to-basket">Add to Basket</button>
@@ -236,7 +233,9 @@
     <!-- Product 4 -->
     <div class="product" data-price="44.49" data-date="2025-06-01" data-sales="12">
       <div class="new-badge">New</div>
-      <img src="https://s.alicdn.com/@sc04/kf/Haad50f39c7064db0b004e047d635fb75Q.png_720x720q50.jpg" alt="Hombre Stainless Steel Watch" />
+      <a href="poedagarwatch2.html">
+        <img src="https://s.alicdn.com/@sc04/kf/Haad50f39c7064db0b004e047d635fb75Q.png_720x720q50.jpg" alt="Hombre Stainless Steel Watch" />
+      </a>
       <h3>Poedagar High Quality Hombre Stainless Steel Men's Wrist Watch</h3>
       <p>£44.49</p>
       <p class="review">★★★★★ (5/5)</p>
@@ -261,7 +260,6 @@
   </section>
 
   <script>
-    // Cart count update example (you can enhance this with your real cart logic)
     const cartCountEl = document.getElementById('cart-count');
     let cartCount = 0;
 
@@ -275,10 +273,8 @@
       }
     }
 
-    // Example: initialize with zero
     updateCartCount(0);
 
-    // Sorting functionality
     const sortSelect = document.getElementById('sort-select');
     const productGrid = document.getElementById('product-grid');
 
@@ -307,10 +303,8 @@
       sortProducts(sortSelect.value);
     });
 
-    // Initialize sorting to default
     sortProducts(sortSelect.value);
 
-    // Add to Basket button logic placeholder
     document.querySelectorAll('.add-to-basket').forEach(button => {
       button.addEventListener('click', () => {
         cartCount++;
