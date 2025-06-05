@@ -1,316 +1,466 @@
-<!-- shop.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shop - CLOKKA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Poedagar Luxury Business Watch for Men</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      color: #333;
+      background-color: #fff;
+      color: #222;
     }
-
-    header {
-      background: #111;
-      color: white;
-      padding: 1rem 2rem;
+    .top-banner {
+      background-color: #ffcc00;
+      color: #111;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      height: 2rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
     }
-
+    .top-banner span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 20s linear infinite;
+    }
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    header {
+      background-color: #111;
+      color: white;
+      padding: 0.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
     .header-left {
       display: flex;
       align-items: center;
       gap: 1rem;
     }
-
-    .header-left img {
-      max-width: 80px;
+    .logo {
+      max-width: 100px;
       height: auto;
     }
-
-    .header-left h1 {
+    .header-text h1 {
       margin: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
       color: #c0392b;
     }
+    .header-text p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
 
-    .basket-icon {
+    /* Gallery styles */
+    .gallery-container {
+      max-width: 500px;
+      margin: 2rem auto;
       position: relative;
-      cursor: pointer;
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
-
-    .basket-icon:hover {
-      text-decoration: underline;
+    .main-image {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      display: block;
     }
-
-    .cart-count-badge {
+    .arrow {
       position: absolute;
-      top: -6px;
-      right: -6px;
-      background: red;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.3);
       color: white;
-      font-size: 0.75rem;
-      font-weight: bold;
+      border: none;
+      font-size: 2rem;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      width: 18px;
-      height: 18px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s ease;
+      z-index: 10;
+    }
+    .arrow:hover {
+      background: rgba(0,0,0,0.6);
+    }
+    .arrow-left {
+      left: 10px;
+    }
+    .arrow-right {
+      right: 10px;
+    }
+    .video-container {
+      margin-top: 1rem;
+      max-width: 500px;
+      height: 280px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
       display: flex;
       align-items: center;
       justify-content: center;
-      pointer-events: none;
+      user-select: none;
     }
 
-    .sort-container {
-      padding: 1rem 2rem;
+    /* Buttons Row */
+    .buttons-row {
+      max-width: 700px;
+      margin: 2rem auto 1rem;
       display: flex;
-      justify-content: flex-end;
+      gap: 1rem;
+      justify-content: center;
     }
-
-    select {
-      padding: 0.5rem;
-      font-size: 1rem;
+    .tab-button {
+      padding: 0.6rem 1.2rem;
+      border: 1px solid #c0392b;
+      background: white;
+      color: #c0392b;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+      user-select: none;
     }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
-    }
-
-    .product {
-      position: relative;
-      background: #fff;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    .product img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 6px;
-    }
-
-    .product h3 {
-      margin: 0.75rem 0 0.25rem;
-    }
-
-    .product p {
-      margin: 0.25rem 0;
-    }
-
-    .add-to-basket {
-      margin-top: 0.75rem;
-      padding: 0.5rem 1rem;
+    .tab-button.active,
+    .tab-button:hover {
       background-color: #c0392b;
       color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
     }
 
-    .add-to-basket:hover {
-      background-color: #a93226;
-    }
-
-    .new-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background-color: #27ae60;
-      color: white;
-      font-size: 0.7rem;
-      font-weight: bold;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-    }
-
-    .review {
-      font-size: 0.85rem;
-      color: #555;
-    }
-
-    .review-form {
-      padding: 1rem 2rem;
-    }
-
-    .review-form textarea {
-      width: 100%;
-      height: 80px;
-      margin-top: 0.5rem;
+    /* Performance Tab Subbuttons */
+    .performance-subbuttons {
+      display: flex;
+      gap: 1rem;
       margin-bottom: 1rem;
+      justify-content: center;
     }
-
-    .review-form button {
+    .performance-subbutton {
       padding: 0.5rem 1rem;
-      background: #2980b9;
-      color: white;
-      border: none;
+      border: 1px solid #c0392b;
+      background: white;
+      color: #c0392b;
       border-radius: 5px;
       cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+      user-select: none;
+    }
+    .performance-subbutton.active,
+    .performance-subbutton:hover {
+      background-color: #c0392b;
+      color: white;
     }
 
-    .review-form button:hover {
-      background: #21618c;
+    .tab-content {
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      min-height: 150px;
+      font-size: 0.9rem;
+      color: #222;
     }
 
-    .product a {
-      text-decoration: none;
-      color: inherit;
-      display: block;
+    table {
+      width: 100%;
+      border-collapse: collapse;
     }
+    table th,
+    table td {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      text-align: left;
+      vertical-align: top;
+    }
+    table th {
+      background: #f4f4f4;
+      width: 200px;
+    }
+
+    footer {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
   </style>
 </head>
 <body>
+  <div class="top-banner">
+    <span>Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up! &nbsp;&nbsp;&nbsp;&nbsp; Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up!</span>
+  </div>
 
   <header>
     <div class="header-left">
-      <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Red Logo" />
-      <h1>CLOKKA Shop</h1>
+      <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo" />
+      <div class="header-text">
+        <h1>CLOKKA</h1>
+        <p>Style Meets Precision</p>
+      </div>
     </div>
-    <div class="basket-icon" onclick="window.location.href='checkout.html'" title="Go to Basket" aria-label="Cart with item count">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="24" height="24">
-        <circle cx="9" cy="21" r="1"></circle>
-        <circle cx="20" cy="21" r="1"></circle>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-      </svg>
-      <div id="cart-count" class="cart-count-badge" style="display:none">0</div>
+    <div class="menu-container">
+      <button id="menu-btn" aria-label="Menu" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div id="menu-dropdown" class="menu-dropdown hidden">
+        <a href="/signin.html">Sign In</a>
+        <a href="/contact.html">Contact Us</a>
+        <a href="/CLOKKAstreetwear.html">CLOKKA Streetwear</a>
+      </div>
     </div>
   </header>
 
-  <div class="sort-container">
-    <label for="sort-select">Sort by: </label>
-    <select id="sort-select">
-      <option value="newest">Newest Arrivals</option>
-      <option value="price-low">Price: Low to High</option>
-      <option value="price-high">Price: High to Low</option>
-      <option value="bestselling">Best Selling</option>
-    </select>
-  </div>
+  <main>
+    <h1 style="text-align:center; margin-top:2rem;">Poedagar Luxury Business Watch for Men</h1>
 
-  <section class="product-grid" id="product-grid">
-    <div class="product" data-price="42.79" data-date="2024-03-15" data-sales="25">
-      <div class="new-badge">New</div>
-      <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
-      <h3>OLEVS Men's Gold Skeleton Watch</h3>
-      <p>£42.79</p>
-      <p class="review">★★★★★ (5/5)</p>
-      <button class="add-to-basket">Add to Basket</button>
+    <div class="gallery-container">
+      <button class="arrow arrow-left" aria-label="Previous image">&#8592;</button>
+      <img src="" alt="Poedagar Luxury Business Watch" class="main-image" id="main-image" />
+      <button class="arrow arrow-right" aria-label="Next image">&#8594;</button>
+
+      <div class="video-container" id="video-container" style="display:none;">
+        <video autoplay muted loop playsinline width="100%" height="280" style="border-radius:8px; object-fit: cover;">
+          <source src="20230815_71c9229759c237dc_423781379896_mp4_264_hd_unlimit_taobao.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
     </div>
 
-    <div class="product" data-price="40.71" data-date="2024-05-28" data-sales="5">
-      <div class="new-badge">New</div>
-      <a href="Olevsblack.html">
-        <img src="https://i.ebayimg.com/images/g/KCsAAOSwNyBmQDrF/s-l1600.webp" alt="Black Skeleton Watch" />
-        <h3>OLEVS Men's Black Skeleton Watch</h3>
-      </a>
-      <p>£40.71</p>
-      <p class="review">★★★★★ (5/5)</p>
-      <button class="add-to-basket">Add to Basket</button>
+    <div class="buttons-row" role="tablist" aria-label="Product Information Tabs">
+      <button class="tab-button active" data-tab="attributes" role="tab" aria-selected="true" aria-controls="tab-attributes" id="tab-btn-attributes">Attributes</button>
+      <button class="tab-button" data-tab="performance" role="tab" aria-selected="false" aria-controls="tab-performance" id="tab-btn-performance">Performance</button>
+      <button class="tab-button" data-tab="supplier" role="tab" aria-selected="false" aria-controls="tab-supplier" id="tab-btn-supplier">Supplier</button>
+      <button class="tab-button" data-tab="description" role="tab" aria-selected="false" aria-controls="tab-description" id="tab-btn-description">Description</button>
     </div>
 
-    <div class="product" data-price="39.99" data-date="2025-06-01" data-sales="8">
-      <div class="new-badge">New</div>
-      <a href="poedagar-details.html">
-        <img src="https://s.alicdn.com/@sc04/kf/Hab34bc998b76446bae9e228c54de4b34E.jpg_720x720q50.jpg" alt="Poedagar Luxury Business Watch" />
-        <h3>Poedagar Luxury Business Watch for Men</h3>
-      </a>
-      <p>£39.99</p>
-      <p class="review">★★★★★ (5/5)</p>
-      <button class="add-to-basket">Add to Basket</button>
+    <div class="tab-content" id="tab-content" role="tabpanel" aria-labelledby="tab-btn-attributes">
+      <!-- Content will be dynamically inserted here -->
     </div>
+  </main>
 
-    <div class="product" data-price="44.49" data-date="2025-06-01" data-sales="12">
-      <div class="new-badge">New</div>
-      <a href="poedagarwatch2.html">
-        <img src="https://s.alicdn.com/@sc04/kf/Haad50f39c7064db0b004e047d635fb75Q.png_720x720q50.jpg" alt="Hombre Stainless Steel Watch" />
-        <h3>Poedagar High Quality Hombre Stainless Steel Men's Wrist Watch</h3>
-      </a>
-      <p>£44.49</p>
-      <p class="review">★★★★★ (5/5)</p>
-      <button class="add-to-basket">Add to Basket</button>
-    </div>
-
-    <div class="product" data-price="38.50" data-date="2025-06-01" data-sales="10">
-      <div class="new-badge">New</div>
-      <a href="poedagarwatch3.html">
-        <img src="https://s.alicdn.com/@sc04/kf/H1aa1ff4178184120bba2f3cd452a5373U.png_720x720q50.jpg" alt="Chronograph Sports Watch" />
-        <h3>Poedagar Luxury Men Wrist Watch Sports Leather Mens Chronograph</h3>
-      </a>
-      <p>£38.50</p>
-      <p class="review">★★★★★ (5/5)</p>
-      <button class="add-to-basket">Add to Basket</button>
-    </div>
-  </section>
-
-  <section class="review-form">
-    <h3>Leave a Review</h3>
-    <textarea placeholder="Write your review here..."></textarea><br />
-    <button>Submit Review</button>
-  </section>
+  <footer>
+    <p>&copy; 2025 CLOKKA. All rights reserved.</p>
+  </footer>
 
   <script>
-    const cartCountEl = document.getElementById('cart-count');
-    let cartCount = 0;
+    // Menu toggling
+    const menuBtn = document.getElementById('menu-btn');
+    const menuDropdown = document.getElementById('menu-dropdown');
+    menuBtn.addEventListener('click', () => {
+      menuDropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', (e) => {
+      if (!menuBtn.contains(e.target) && !menuDropdown.contains(e.target)) {
+        menuDropdown.classList.add('hidden');
+      }
+    });
 
-    function updateCartCount(count) {
-      cartCount = count;
-      if (cartCount > 0) {
-        cartCountEl.style.display = 'flex';
-        cartCountEl.textContent = cartCount;
+    // Image gallery data
+    const images = [
+      "https://s.alicdn.com/@sc04/kf/Hab34bc998b76446bae9e228c54de4b34E.jpg_720x720q50.jpg",
+      "https://s.alicdn.com/@sc04/kf/H716143dee71e47dab9c150008de2d2d4T.jpg_720x720q50.jpg",
+      "https://s.alicdn.com/@sc04/kf/H5f691570360543c4973cd6df2f25af012.jpg_720x720q50.jpg",
+      "video"
+    ];
+
+    let currentIndex = 0;
+    const mainImage = document.getElementById('main-image');
+    const videoContainer = document.getElementById('video-container');
+    const leftArrow = document.querySelector('.arrow-left');
+    const rightArrow = document.querySelector('.arrow-right');
+
+    function updateGallery() {
+      if (images[currentIndex] === "video") {
+        mainImage.style.display = "none";
+        videoContainer.style.display = "flex";
       } else {
-        cartCountEl.style.display = 'none';
+        videoContainer.style.display = "none";
+        mainImage.style.display = "block";
+        mainImage.src = images[currentIndex];
+        mainImage.alt = "Poedagar Luxury Business Watch image " + (currentIndex + 1);
       }
     }
 
-    updateCartCount(0);
+    leftArrow.addEventListener('click', () => {
+      currentIndex--;
+      if (currentIndex < 0) currentIndex = images.length - 1;
+      updateGallery();
+    });
 
-    const sortSelect = document.getElementById('sort-select');
-    const productGrid = document.getElementById('product-grid');
+    rightArrow.addEventListener('click', () => {
+      currentIndex++;
+      if (currentIndex >= images.length) currentIndex = 0;
+      updateGallery();
+    });
 
-    function sortProducts(criteria) {
-      const products = Array.from(productGrid.children);
-      products.sort((a, b) => {
-        switch (criteria) {
-          case 'newest':
-            return new Date(b.dataset.date) - new Date(a.dataset.date);
-          case 'price-low':
-            return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
-          case 'price-high':
-            return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
-          case 'bestselling':
-            return parseInt(b.dataset.sales) - parseInt(a.dataset.sales);
-          default:
-            return 0;
-        }
-      });
-      products.forEach(prod => productGrid.appendChild(prod));
+    updateGallery();
+
+    // Tab Buttons and Content
+    const tabs = document.querySelectorAll('.tab-button');
+    const tabContent = document.getElementById('tab-content');
+
+    const productAttributes = {
+      "Dial Window Material Type": "Hardlex",
+      "Dial Diameter": "40mm",
+      "Case Shape": "Square",
+      "Band Width": "20mm",
+      "Band Length": "24cm",
+      "Clasp Type": "Push Button Hidden Clasp",
+      "Water Resistance Depth": "3BAR",
+      "Case Thickness": "9mm",
+      "Brand Name": "Poedagar",
+      "Place of Origin": "China",
+      "Model Number": "628",
+      "Type": "Fashion,Luxury,Business",
+      "Feature": "Waterproof,Luminous,Calendar",
+      "Age": "2022",
+      "Band Material Type": "Stainless steel",
+      "Case Material": "ALLOY",
+      "Dial Display": "Pointer",
+      "Battery Life": "2 years",
+      "Weight": "55g"
+    };
+
+    const performanceData = {
+      waterproofDepth: "3ATM (30m water resistant - not suitable for swimming or diving)",
+      caseThickness: "9mm",
+      movementType: "Quartz movement, accurate timing",
+      batteryLife: "2 years",
+      luminescence: "Luminous hands for night reading",
+      calendar: "Date display calendar",
+      materialQuality: "ALLOY case and stainless steel band ensure durability",
+      claspType: "Push Button Hidden Clasp for secure fit"
+    };
+
+    const supplierInfo = {
+      name: "Shenzhen Poedagar Watch Co., Ltd.",
+      location: "Guangdong, China",
+      website: "https://www.poedagar.com",
+      contact: "contact@poedagar.com",
+      phone: "+86 755 1234 5678"
+    };
+
+    const descriptionText = `
+      The Poedagar Luxury Business Watch for Men combines classic elegance with modern design.
+      Featuring a square dial with Hardlex window material, it is designed for the stylish professional.
+      With waterproof capabilities, luminous hands, and a durable stainless steel band, this watch is perfect for daily wear.
+      Experience precision timekeeping with quartz movement and enjoy the convenience of a date display calendar.
+    `;
+
+    // Performance sub-tabs content for extra detail
+    const performanceTabs = [
+      { id: "waterproof", label: "Waterproof Depth", content: "Water resistant up to 3ATM (30 meters). Not suitable for swimming or diving." },
+      { id: "movement", label: "Movement Type", content: "Quartz movement offers precise and reliable timekeeping." },
+      { id: "battery", label: "Battery Life", content: "Battery lasts approximately 2 years under normal usage." },
+      { id: "material", label: "Material Quality", content: "High quality ALLOY case and stainless steel band provide durability and a luxurious feel." }
+    ];
+
+    // Render tab content
+    function renderAttributes() {
+      let html = `<table>`;
+      for (const [key, value] of Object.entries(productAttributes)) {
+        html += `<tr><th>${key}</th><td>${value}</td></tr>`;
+      }
+      html += `</table>`;
+      tabContent.innerHTML = html;
+      tabContent.setAttribute('aria-labelledby', 'tab-btn-attributes');
     }
 
-    sortSelect.addEventListener('change', () => {
-      sortProducts(sortSelect.value);
-    });
+    function renderPerformance() {
+      // Show sub-buttons for performance tabs
+      let subButtonsHtml = '<div class="performance-subbuttons">';
+      performanceTabs.forEach((tab, idx) => {
+        subButtonsHtml += `<button class="performance-subbutton${idx === 0 ? ' active' : ''}" data-subtab="${tab.id}" role="tab" aria-selected="${idx === 0}" aria-controls="performance-tab-${tab.id}">${tab.label}</button>`;
+      });
+      subButtonsHtml += '</div>';
+      
+      // Show first subtab content
+      let firstContent = `<div id="performance-tab-${performanceTabs[0].id}" role="tabpanel">${performanceTabs[0].content}</div>`;
 
-    sortProducts(sortSelect.value);
+      tabContent.innerHTML = subButtonsHtml + firstContent;
+      tabContent.setAttribute('aria-labelledby', 'tab-btn-performance');
 
-    document.querySelectorAll('.add-to-basket').forEach(button => {
-      button.addEventListener('click', () => {
-        cartCount++;
-        updateCartCount(cartCount);
-        alert('Added to basket!');
+      // Subtab buttons event listeners
+      const subButtons = tabContent.querySelectorAll('.performance-subbutton');
+      subButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          subButtons.forEach(btn => {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+          });
+          button.classList.add('active');
+          button.setAttribute('aria-selected', 'true');
+
+          const subTabId = button.getAttribute('data-subtab');
+          const subTabContent = performanceTabs.find(t => t.id === subTabId).content;
+
+          // Remove existing panels
+          const existingPanels = tabContent.querySelectorAll('[role="tabpanel"]');
+          existingPanels.forEach(panel => panel.remove());
+
+          // Add new panel
+          const newPanel = document.createElement('div');
+          newPanel.id = `performance-tab-${subTabId}`;
+          newPanel.setAttribute('role', 'tabpanel');
+          newPanel.textContent = subTabContent;
+          tabContent.appendChild(newPanel);
+        });
+      });
+    }
+
+    function renderSupplier() {
+      tabContent.innerHTML = `
+        <p><strong>Supplier Name:</strong> ${supplierInfo.name}</p>
+        <p><strong>Location:</strong> ${supplierInfo.location}</p>
+        <p><strong>Website:</strong> <a href="${supplierInfo.website}" target="_blank" rel="noopener noreferrer">${supplierInfo.website}</a></p>
+        <p><strong>Contact Email:</strong> <a href="mailto:${supplierInfo.contact}">${supplierInfo.contact}</a></p>
+        <p><strong>Phone:</strong> ${supplierInfo.phone}</p>
+      `;
+      tabContent.setAttribute('aria-labelledby', 'tab-btn-supplier');
+    }
+
+    function renderDescription() {
+      tabContent.textContent = descriptionText.trim();
+      tabContent.setAttribute('aria-labelledby', 'tab-btn-description');
+    }
+
+    function clearActiveTabs() {
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.setAttribute('aria-selected', 'false');
+      });
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        clearActiveTabs();
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        const tabName = tab.getAttribute('data-tab');
+        if (tabName === 'attributes') renderAttributes();
+        else if (tabName === 'performance') renderPerformance();
+        else if (tabName === 'supplier') renderSupplier();
+        else if (tabName === 'description') renderDescription();
       });
     });
+
+    // Initialize with attributes tab
+    renderAttributes();
   </script>
 </body>
 </html>
-
