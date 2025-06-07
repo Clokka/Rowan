@@ -86,6 +86,11 @@
       padding: 2rem;
     }
 
+    /* New row fixed to exactly 5 columns */
+    .product-grid.one-row {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
     .product {
       position: relative;
       background: #fff;
@@ -253,6 +258,54 @@
     </div>
   </section>
 
+  <!-- NEW PRODUCT ROW (fixed 5 cards) -->
+  <section class="product-grid one-row" aria-label="Featured New Products">
+    <div class="product" data-price="41.25" data-date="2025-06-05" data-sales="3">
+      <div class="new-badge">New</div>
+      <img src="https://s.alicdn.com/@sc04/kf/Hab34bc998b76446bae9e228c54de4b34E.jpg_720x720q50.jpg" alt="Gold Leather Watch" />
+      <h3>Elegant Gold Leather Watch</h3>
+      <p>£41.25</p>
+      <p class="review">★★★★★ (5/5)</p>
+      <button class="add-to-basket">Add to Basket</button>
+    </div>
+
+    <div class="product" data-price="36.99" data-date="2025-06-05" data-sales="2">
+      <div class="new-badge">New</div>
+      <img src="https://i.ebayimg.com/images/g/KCsAAOSwNyBmQDrF/s-l1600.webp" alt="Vintage Quartz Watch" />
+      <h3>Vintage Quartz Men's Watch</h3>
+      <p>£36.99</p>
+      <p class="review">★★★★★ (5/5)</p>
+      <button class="add-to-basket">Add to Basket</button>
+    </div>
+
+    <div class="product" data-price="49.00" data-date="2025-06-05" data-sales="1">
+      <div class="new-badge">New</div>
+      <img src="https://s.alicdn.com/@sc04/kf/H58e88d959c26412d8d33a497b5ef690a5.jpg_720x720q50.jpg" alt="Minimalist Stainless Steel Watch" />
+      <h3>Minimalist Stainless Steel Watch</h3>
+      <p>£49.00</p>
+      <p class="review">★★★★★ (5/5)</p>
+      <button class="add-to-basket">Add to Basket</button>
+    </div>
+
+    <div class="product" data-price="45.99" data-date="2025-06-05" data-sales="6">
+      <div class="new-badge">New</div>
+      <img src="https://sc04.alicdn.com/kf/H99adb201af734367ace353340a4330bdD.jpg" alt="Skeleton Mechanical Watch" />
+      <h3>Skeleton Mechanical Watch</h3>
+      <p>£45.99</p>
+      <p class="review">★★★★★ (5/5)</p>
+      <button class="add-to-basket">Add to Basket</button>
+    </div>
+
+    <div class="product" data-price="34.50" data-date="2025-06-05" data-sales="4">
+      <div class="new-badge">New</div>
+      <img src="https://s.alicdn.com/@sc04/kf/H93a61542253d4d11860913c934420f7fy.jpg_720x720q50.jpg" alt="Sport Chronograph Watch" />
+      <h3>Sport Chronograph Leather Watch</h3>
+      <p>£34.50</p>
+      <p class="review">★★★★★ (5/5)</p>
+      <button class="add-to-basket">Add to Basket</button>
+    </div>
+  </section>
+
   <section class="review-form">
     <h3>Leave a Review</h3>
     <textarea placeholder="Write your review here..."></textarea><br />
@@ -304,12 +357,11 @@
     sortProducts(sortSelect.value);
 
     document.querySelectorAll('.add-to-basket').forEach(button => {
-      button.addEventListener('click', () => {
-        cartCount++;
-        updateCartCount(cartCount);
-        alert('Added to basket!');
-      });
-    });
-  </script>
-</body>
-</html>
+      button.addEventListener ('click', () => {
+cartCount++;
+updateCartCount(cartCount);
+});
+});
+</script>
+
+</body> </html> ```
