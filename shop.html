@@ -2,227 +2,136 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>OLEVS Black Watch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Poedagar Chronograph Leather Watch - Details</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
       background: #f4f4f4;
       color: #333;
+      margin: 0;
+      padding: 0;
     }
 
-    header {
-      background: #111;
-      color: white;
-      padding: 1rem 2rem;
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem;
+      background: white;
+    }
+
+    h1 {
       text-align: center;
+      color: #c0392b;
     }
 
-    .carousel-container {
-      max-width: 600px;
-      margin: 2rem auto;
-      position: relative;
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
     }
 
-    .carousel-slide {
-      display: none;
-      width: 100%;
-    }
-
-    .carousel-slide img {
-      width: 100%;
-      border-radius: 10px;
-    }
-
-    .active {
-      display: block;
-    }
-
-    .prev, .next {
-      cursor: pointer;
-      position: absolute;
-      top: 50%;
-      width: auto;
-      padding: 1rem;
-      margin-top: -22px;
-      color: white;
-      font-weight: bold;
-      font-size: 1.5rem;
-      background-color: rgba(0, 0, 0, 0.5);
-      user-select: none;
-      border-radius: 3px;
-    }
-
-    .next {
-      right: 0;
-      border-radius: 3px 0 0 3px;
-    }
-
-    .color-buttons {
-      text-align: center;
-      margin: 1rem 0;
-    }
-
-    .color-buttons button {
-      margin: 0.5rem;
-      padding: 0.5rem 1rem;
-      border: none;
-      background-color: #c0392b;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .color-buttons button:hover {
-      background-color: #a93226;
+    .gallery img {
+      width: 300px;
+      height: auto;
+      border-radius: 8px;
     }
 
     video {
       display: block;
       margin: 2rem auto;
-      max-width: 90%;
-      border-radius: 10px;
-    }
-
-    .section-buttons {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-
-    .section-buttons button {
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      background: #2980b9;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .section-buttons button:hover {
-      background: #21618c;
-    }
-
-    .attributes {
-      max-width: 800px;
-      margin: 2rem auto;
-      background: white;
-      padding: 1.5rem;
+      max-width: 100%;
       border-radius: 8px;
     }
 
-    .attributes h3 {
-      margin-top: 0;
-    }
-
-    .attributes table {
+    table {
       width: 100%;
       border-collapse: collapse;
+      margin-top: 2rem;
     }
 
-    .attributes td {
-      padding: 0.5rem;
-      border-bottom: 1px solid #ccc;
+    table, th, td {
+      border: 1px solid #ccc;
     }
 
-    .attributes td:first-child {
-      font-weight: bold;
-      width: 40%;
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: #eee;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #111;
+      color: white;
+      margin-top: 3rem;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Poedagar Luxury Men Wrist Watch Sports Leather Mens Chronograph</h1>
 
-  <header>
-    <h1>OLEVS Black Watch</h1>
-  </header>
+    <div class="gallery">
+      <img src="https://s.alicdn.com/@sc04/kf/H1aa1ff4178184120bba2f3cd452a5373U.png_720x720q50.jpg" alt="Watch 1" />
+      <img src="https://s.alicdn.com/@sc04/kf/H5393a78b09b541ffa9327cc1cb09ec6f3.png_720x720q50.jpg" alt="Watch 2" />
+      <img src="https://s.alicdn.com/@sc04/kf/H684aed1347374543aab77048b32ce112C.png_720x720q50.jpg" alt="Watch 3" />
+      <img src="https://s.alicdn.com/@sc04/kf/H88623df3280a45729863ca3ada893524k.png_720x720q50.jpg" alt="Watch 4" />
+    </div>
 
-  <div class="carousel-container">
-    <div class="carousel-slide active"><img src="https://s.alicdn.com/@sc04/kf/H7dd7c3b9c96f422796507374ef81b328H.jpg_720x720q50.jpg" alt="Gold and Blue"/></div>
-    <div class="carousel-slide"><img src="https://s.alicdn.com/@sc04/kf/H42555454047f495fa5e7fc1c1e51161bY.jpg_720x720q50.jpg" alt="Gold and Silver"/></div>
-    <div class="carousel-slide"><img src="https://s.alicdn.com/@sc04/kf/Hd6437236bc6a4d6d88fd383f6b6b1e279.jpg_720x720q50.jpg" alt="Black and Gold"/></div>
-    <div class="carousel-slide"><img src="https://s.alicdn.com/@sc04/kf/He3ef46c2c0204d33b2ff501f5e2acc46u.jpg_720x720q50.jpg" alt="Just Gold"/></div>
-    
-    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
-    <a class="next" onclick="changeSlide(1)">&#10095;</a>
-  </div>
+    <video controls>
+      <source src="/mnt/data/20230804_5c6c2b9dc949f138_422304507065_mp4_264_hd_unlimit_taobao.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
 
-  <div class="color-buttons">
-    <button onclick="showSlide(0)">Gold and Blue</button>
-    <button onclick="showSlide(1)">Gold and Silver</button>
-    <button onclick="showSlide(2)">Black and Gold</button>
-    <button onclick="showSlide(3)">Just Gold</button>
-  </div>
-
-  <video controls>
-    <source src="Clokka123.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-
-  <div class="section-buttons">
-    <button>Attributes</button>
-    <button>Performance</button>
-    <button>Reviews</button>
-    <button>Supplier</button>
-    <button>Description</button>
-  </div>
-
-  <div class="attributes">
-    <h3>Key Attributes</h3>
     <table>
-      <tr><td>Dial Window Material Type</td><td>Glass</td></tr>
-      <tr><td>Band Material Type</td><td>Stainless Steel</td></tr>
-      <tr><td>Case Material</td><td>Alloy</td></tr>
-      <tr><td>Case Shape</td><td>ROUND</td></tr>
-      <tr><td>Band Length</td><td>21cm</td></tr>
-      <tr><td>Clasp Type</td><td>Hook Buckle</td></tr>
-      <tr><td>Water Resistance Depth</td><td>3BAR</td></tr>
-      <tr><td>Place of Origin</td><td>Guangdong, China</td></tr>
-      <tr><td>Feature</td><td>Complete Calendar, water resistant, Luminous</td></tr>
-      <tr><td>User</td><td>Men</td></tr>
-      <tr><td>Dial Diameter</td><td>42mm</td></tr>
-      <tr><td>Band Width</td><td>20mm</td></tr>
-      <tr><td>Case Thickness</td><td>12MM</td></tr>
-      <tr><td>Brand Name</td><td>OLEVS</td></tr>
-      <tr><td>Model Number</td><td>9947</td></tr>
-      <tr><td>Type</td><td>Fashion, sport, Business</td></tr>
-      <tr><td>Material</td><td>Alloy</td></tr>
-      <tr><td>Age</td><td>2023</td></tr>
-      <tr><td>Dial Display</td><td>Pointer</td></tr>
-      <tr><td>Movement Brand</td><td>Japan</td></tr>
-      <tr><td>Movement Type</td><td>Quartz</td></tr>
-      <tr><td>Gender</td><td>Men</td></tr>
-      <tr><td>Color</td><td>5 colors for choose</td></tr>
-      <tr><td>Weight</td><td>123g</td></tr>
-      <tr><td>Case Material</td><td>Alloy metal</td></tr>
-      <tr><td>Band Material</td><td>Steel strap</td></tr>
-      <tr><td>Packaging Details</td><td>opp bag packing</td></tr>
-      <tr><td>Selling units</td><td>Single item</td></tr>
-      <tr><td>Package Size</td><td>1X3X5 cm</td></tr>
-      <tr><td>Gross Weight</td><td>0.160 kg</td></tr>
+      <thead>
+        <tr>
+          <th colspan="2">Key Attributes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th colspan="2">Industry-specific attributes</th></tr>
+        <tr><td>Dial Window Material Type</td><td>Hardlex</td></tr>
+        <tr><td>Band Material Type</td><td>Leather</td></tr>
+        <tr><td>Case Material</td><td>Alloy</td></tr>
+
+        <tr><th colspan="2">Other attributes</th></tr>
+        <tr><td>Case Shape</td><td>ROUND</td></tr>
+        <tr><td>Band Length</td><td>21cm</td></tr>
+        <tr><td>Clasp Type</td><td>Buckle</td></tr>
+        <tr><td>Water Resistance Depth</td><td>3BAR</td></tr>
+        <tr><td>Place of Origin</td><td>Guangdong, China</td></tr>
+        <tr><td>Feature</td><td>chronograph, Day/Date, water resistant, Waterproof, Luminous</td></tr>
+        <tr><td>User</td><td>Men</td></tr>
+        <tr><td>Dial Diameter</td><td>42mm</td></tr>
+        <tr><td>Band Width</td><td>22mm</td></tr>
+        <tr><td>Case Thickness</td><td>11mm</td></tr>
+        <tr><td>Brand Name</td><td>Poedagar</td></tr>
+        <tr><td>Model Number</td><td>928</td></tr>
+        <tr><td>Type</td><td>CHARM, Coin, Fashion, Luxury, sport, Business</td></tr>
+        <tr><td>Material</td><td>Stainless Steel</td></tr>
+        <tr><td>Age</td><td>Latest</td></tr>
+        <tr><td>Dial Display</td><td>Pointer</td></tr>
+        <tr><td>Battery Life</td><td>2 years</td></tr>
+        <tr><td>Movement Brand</td><td>CHENLONG</td></tr>
+
+        <tr><th colspan="2">Packaging and Delivery</th></tr>
+        <tr><td>Selling Units</td><td>Single item</td></tr>
+        <tr><td>Single package size</td><td>18X9X4 cm</td></tr>
+        <tr><td>Single gross weight</td><td>0.120 kg</td></tr>
+      </tbody>
     </table>
   </div>
 
-  <script>
-    let currentIndex = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-
-    function showSlide(index) {
-      slides.forEach(slide => slide.classList.remove('active'));
-      slides[index].classList.add('active');
-      currentIndex = index;
-    }
-
-    function changeSlide(direction) {
-      currentIndex += direction;
-      if (currentIndex < 0) currentIndex = slides.length - 1;
-      if (currentIndex >= slides.length) currentIndex = 0;
-      showSlide(currentIndex);
-    }
-  </script>
+  <footer>
+    &copy; 2025 CLOKKA. All rights reserved.
+  </footer>
 </body>
 </html>
