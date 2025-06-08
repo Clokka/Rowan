@@ -1,119 +1,104 @@
+<!-- cart.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Your Cart - CLOKKA</title>
-  <link rel="stylesheet" href="../style.css" />
-  <link rel="stylesheet" href="cart.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f9f9f9;
-      color: #333;
-    }
-    header {
-      background: #111;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .cart-container {
       padding: 2rem;
+      background: #f4f4f4;
     }
+
+    h1 {
+      text-align: center;
+      color: #c0392b;
+    }
+
     .cart-item {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #fff;
-      margin-bottom: 1rem;
+      background: white;
       padding: 1rem;
+      margin-bottom: 1rem;
       border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+
     .cart-item img {
-      width: 80px;
+      width: 100px;
       height: auto;
       border-radius: 6px;
-      margin-right: 1rem;
     }
-    .cart-summary {
-      margin-top: 2rem;
+
+    .details {
+      margin-left: 1rem;
+      flex-grow: 1;
+    }
+
+    .details h3 {
+      margin: 0;
       font-size: 1.2rem;
-      text-align: right;
     }
-    .checkout-btn {
-      margin-top: 1rem;
-      padding: 0.75rem 1.5rem;
-      background: #c0392b;
+
+    .details p {
+      margin: 0.5rem 0;
+    }
+
+    .details button {
+      padding: 0.4rem 0.8rem;
+      background: #e74c3c;
       color: white;
       border: none;
-      border-radius: 5px;
-      font-size: 1rem;
+      border-radius: 4px;
       cursor: pointer;
     }
-    .checkout-btn:hover {
-      background: #a93226;
+
+    .details button:hover {
+      background: #c0392b;
+    }
+
+    .cart-total {
+      text-align: right;
+      font-size: 1.3rem;
+      margin-top: 1rem;
+    }
+
+    .cart-actions {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .cart-actions button {
+      padding: 0.6rem 1.2rem;
+      background: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 0 0.5rem;
+    }
+
+    .cart-actions button:hover {
+      background: #21618c;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Your Shopping Cart</h1>
-    <a href="shop.html" style="color:white; text-decoration:none">← Continue Shopping</a>
-  </header>
 
-  <div class="cart-container" id="cart-items"></div>
-  <div class="cart-summary" id="cart-summary"></div>
-  <div style="text-align:right; padding: 0 2rem 2rem">
-    <a href="https://buy.stripe.com/test_aFa28r5TMafZb8y2IRcMM00">
-      <button class="checkout-btn">Continue to Checkout</button>
-    </a>
+  <h1>Your Shopping Cart</h1>
+  <div id="cart-items"></div>
+
+  <div class="cart-actions">
+    <button onclick="clearCart(); renderCart('cart-items')">Clear Cart</button>
+    <button onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
   </div>
 
+  <script src="cart.js"></script>
   <script>
-    const cartItemsContainer = document.getElementById('cart-items');
-    const cartSummary = document.getElementById('cart-summary');
-
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    function renderCart() {
-      cartItemsContainer.innerHTML = '';
-      let total = 0;
-
-      if (cart.length === 0) {
-        cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
-        cartSummary.innerHTML = '';
-        return;
-      }
-
-      cart.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'cart-item';
-        div.innerHTML = `
-          <img src="${item.img}" alt="${item.name}" />
-          <div style="flex:1">
-            <strong>${item.name}</strong><br />£${item.price.toFixed(2)}
-          </div>
-          <button onclick="removeItem('${item.name}')">Remove</button>
-        `;
-        cartItemsContainer.appendChild(div);
-        total += item.price;
-      });
-
-      cartSummary.innerHTML = `<strong>Total: £${total.toFixed(2)}</strong>`;
-    }
-
-    function removeItem(name) {
-      cart = cart.filter(item => item.name !== name);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      renderCart();
-    }
-
-    renderCart();
+    renderCart('cart-items');
   </script>
+
 </body>
 </html>
