@@ -28,7 +28,7 @@ function updateCartCount() {
 function addToCart(product) {
   const cart = loadCart();
 
-  // Check if product already in cart
+  // Use a unique key for the product (preferably a real ID if available)
   const existing = cart.find(item => item.id === product.id);
   if (existing) {
     existing.quantity += 1;
@@ -43,15 +43,20 @@ function addToCart(product) {
 // Setup buttons to add to cart
 document.querySelectorAll('.add-to-basket').forEach(button => {
   button.addEventListener('click', () => {
-    // Get the product container (closest parent with class 'product')
     const productEl = button.closest('.product');
 
-    // Extract product details from DOM
-    const id = productEl.querySelector('h3').textContent.trim(); // Use name as ID for simplicity
-    const name = id;
-    const priceText = productEl.querySelector('p').textContent.trim();
-    const price = parseFloat(priceText.replace('£', ''));
-    const img = productEl.querySelector('img').src;
+    if (!productEl) return;
+
+    const titleEl = productEl.querySelector('h3');
+    const priceEl = productEl.querySelector('p');
+    const imgEl = productEl.querySelector('img');
+
+    if (!titleEl || !priceEl || !imgEl) return;
+
+    const name = titleEl.textContent.trim();
+    const price = parseFloat(priceEl.textContent.replace('£', '').trim());
+    const img = imgEl.src;
+    const id = name.toLowerCase().replace(/\s+/g, '-'); // Fallback ID based on name
 
     const product = { id, name, price, img };
 
