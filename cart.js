@@ -12,9 +12,31 @@ function saveCart(cart) {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// Render the cart items
+// Add item to cart with quantity merge logic
+function addToCart(product) {
+  const cart = loadCart();
+
+  // Check if the product is already in the cart
+  const existingItemIndex = cart.findIndex(item => item.id === product.id);
+
+  if (existingItemIndex > -1) {
+    // If already in cart, increase quantity
+    cart[existingItemIndex].quantity += 1;
+  } else {
+    // If new item, set quantity to 1 and add it
+    product.quantity = 1;
+    product.img = product.image || product.img || ''; // fallback for image key
+    cart.push(product);
+  }
+
+  saveCart(cart);
+}
+
+// Render the cart items on the page
 function renderCart() {
   const cart = loadCart();
+  if (!cartContainer || !totalPriceEl) return;
+
   cartContainer.innerHTML = '';
 
   if (cart.length === 0) {
@@ -80,5 +102,15 @@ function setupEventListeners() {
   });
 }
 
-// Initialize cart display on page load
-renderCart();
+// Render cart if cartContainer exists (i.e., on cart.html)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('cart-container')) {
+      renderCart();
+    }
+  });
+} else {
+  if (document.getElementById('cart-container')) {
+    renderCart();
+  }
+}
