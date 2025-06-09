@@ -1,0 +1,6 @@
+    Flask
+    Flask-CORS
+    stripe
+    python-dotenv
+    waitress
+    gunicorn

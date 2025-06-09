@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment Canceled</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff4f0; /* Light orange/red background */
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 40px 50px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+    .icon {
+      font-size: 50px;
+      color: #dc3545; /* Red cancel color */
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #dc3545; /* Red cancel color */
+      font-size: 2em;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    p {
+      font-size: 1.1em;
+      color: #555;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    a.button {
+      display: inline-block;
+      background-color: #ffc107; /* Amber/Warning color for button */
+      color: #333;
+      padding: 12px 25px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    a.button:hover {
+      background-color: #e0a800; /* Darker amber on hover */
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">✕</div> <h1>Payment Canceled</h1>
+    <p>Your order was not processed. You have not been charged.</p>
+    <a href="checkout.html" class="button">Back to Cart</a>
+  </div>
+</body>
+</html>

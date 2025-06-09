@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart - CLOKKA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .cart {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      padding: 0.5rem 0;
+    }
+
+    .item-info, .item-controls {
+      display: flex;
+      align-items: center;
+    }
+
+    .checkout-btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      background: #c0392b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+    }
+    .continue-shopping-btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      background: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+    }
+
+    .checkout-remove {
+      margin-left: 10px;
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 3px 7px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    
+  </style>
+</head>
+<body>
+  <h1>Your Cart</h1>
+  <div class="cart" id="cart">
+    <!-- Cart items will be injected here -->
+  </div>
+
+  <script type="module">
+    import { getCartItems, calculateTotal, removeItem, updateQuantity } from './shared/utils.js';
+
+    const cartDiv = document.getElementById('cart');
+
+    function renderCheckoutCart() {
+      const cartItems = getCartItems();
+      if (!cartDiv) return;
+
+      if (cartItems.length === 0) {
+        cartDiv.innerHTML = '<p>Your cart is empty. <a href="./shop.html">Continue shopping?</a></p>';
+      } else {
+        let cartHTML = '';
+        cartItems.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          cartHTML += `
+            <div class="cart-item" data-id="${item.id}">
+              <div class="item-info">
+                <img src="${item.image || './images/placeholder.png'}" alt="${item.name}" style="width: 50px; height: auto; margin-right: 10px;">
+                <span>${item.name} × 
+                  <input type="number" class="checkout-qty" value="${item.quantity}" min="1" style="width: 40px;">
+                </span>
+              </div>
+              <div class="item-controls">
+                <span>$${itemTotal.toFixed(2)}</span>
+                <button class="checkout-remove">Remove</button>
+              </div>
+            </div>
+          `;
+        });
+        cartDiv.innerHTML = cartHTML;
+
+        const total = calculateTotal();
+        const totalDiv = document.createElement('div');
+        totalDiv.classList.add('cart-item', 'cart-summary'); // Added cart-summary for styling
+        totalDiv.innerHTML = `<strong>Total</strong><strong>$${total}</strong>`;
+        cartDiv.appendChild(totalDiv);
+        
+        // START: Add the "Continue Shopping" button
+        const continueShoppingBtn = document.createElement('button');
+        continueShoppingBtn.classList.add('continue-shopping-btn'); // Added an ID for potential specific styling
+        continueShoppingBtn.innerText = 'Continue Shopping';
+        continueShoppingBtn.onclick = () => {
+          window.location.href = 'shop.html'; // Link to the shop page
+        };
+        cartDiv.appendChild(continueShoppingBtn);
+        // END: Add the "Continue Shopping" button
+
+        const checkoutBtn = document.createElement('button');
+        checkoutBtn.classList.add('checkout-btn');
+        checkoutBtn.innerText = 'Proceed to Checkout';
+
+        checkoutBtn.onclick = async () => {
+          const cartItems = getCartItems(); // From shared/utils.js
+          if (!cartItems || cartItems.length === 0) {
+            alert('Your cart is empty.');
+            return;
+          }
+
+          const cartItemsForStripe = cartItems.map(item => ({
+            id: item.id, // Send product ID
+            quantity: item.quantity,
+            // Optional: name and image can still be sent for Stripe's display, 
+            // but backend will prioritize its own data if it has it.
+            name: item.name,
+            image: item.image 
+          }));
+
+          try {
+            // If you are running locally, use http://127.0.0.1:5000/create-checkout-session
+            // If you are deploying online for production, use https://clokka.co.uk/create-checkout-session
+            const response = await fetch('http://127.0.0.1:5000/create-checkout-session', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ items: cartItemsForStripe }),
+            });
+
+            if (!response.ok) {
+              const errorData = await response.json();
+              console.error('Server error:', errorData);
+              alert(`Error: ${errorData.error || 'Could not initiate checkout. Check server logs.'}`);
+              return;
+            }
+
+            const session = await response.json();
+            // session.url is the Stripe-hosted checkout page URL
+            window.location.href = session.url;
+
+          } catch (error) {
+            console.error('Error creating checkout session:', error);
+            alert('There was an issue connecting to the payment gateway. Please ensure your backend server is running and try again.');
+          }
+        };
+
+        cartDiv.appendChild(checkoutBtn); // Ensure this is within your renderCheckoutCart function or similar
+        
+        // Add event listeners for new controls
+        cartDiv.querySelectorAll('.checkout-qty').forEach(input => {
+          input.addEventListener('change', (e) => {
+            const itemId = e.target.closest('.cart-item').dataset.id;
+            const newQuantity = parseInt(e.target.value, 10);
+            if (newQuantity > 0) {
+              updateQuantity(itemId, newQuantity);
+            } else {
+              removeItem(itemId);
+            }
+            renderCheckoutCart(); // Re-render checkout cart
+          });
+        });
+
+        cartDiv.querySelectorAll('.checkout-remove').forEach(button => {
+          button.addEventListener('click', (e) => {
+            const itemId = e.target.closest('.cart-item').dataset.id;
+            removeItem(itemId);
+            renderCheckoutCart(); // Re-render checkout cart
+          });
+        });
+      }
+    }
+    
+    renderCheckoutCart();
+
+    // Listen for cart updates from utils.js to refresh the checkout page if needed
+    document.addEventListener('cartUpdated', () => {
+        renderCheckoutCart();
+    });
+
+  </script>
+</body>
+</html>
