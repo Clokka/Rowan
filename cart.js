@@ -12,23 +12,17 @@ function saveCart(cart) {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// Add item to cart with quantity merge logic
+// Updated Add item to cart function as requested
 function addToCart(product) {
   const cart = loadCart();
-
-  // Check if the product is already in the cart
-  const existingItemIndex = cart.findIndex(item => item.id === product.id);
-
-  if (existingItemIndex > -1) {
-    // If already in cart, increase quantity
-    cart[existingItemIndex].quantity += 1;
+  const existing = cart.find(item => item.id === product.id);
+  if (existing) {
+    existing.quantity += 1;
   } else {
-    // If new item, set quantity to 1 and add it
     product.quantity = 1;
-    product.img = product.image || product.img || ''; // fallback for image key
+    product.img = product.image || product.img || ''; // Use product.image if present, fallback to img or empty string
     cart.push(product);
   }
-
   saveCart(cart);
 }
 
@@ -102,15 +96,15 @@ function setupEventListeners() {
   });
 }
 
-// Render cart if cartContainer exists (i.e., on cart.html)
+// Render cart on DOM ready if cartContainer exists
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('cart-container')) {
+    if (cartContainer) {
       renderCart();
     }
   });
 } else {
-  if (document.getElementById('cart-container')) {
+  if (cartContainer) {
     renderCart();
   }
 }
