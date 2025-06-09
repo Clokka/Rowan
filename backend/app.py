@@ -98,4 +98,4 @@ def create_checkout_session():
 # Running the Flask app in debug mode for local development
 # You can change the port number as you want.
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=False)
