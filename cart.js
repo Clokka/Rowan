@@ -1,5 +1,5 @@
 const cartContainer = document.getElementById('cart-container');
-const totalPriceEl = document.getElementById('total-price');
+const totalPriceEl = document.getElementById('cart-total');
 
 // Load cart from localStorage or empty array
 function loadCart() {
@@ -12,7 +12,7 @@ function saveCart(cart) {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// Updated Add item to cart function as requested
+// Add item to cart or increase quantity
 function addToCart(product) {
   const cart = loadCart();
   const existing = cart.find(item => item.id === product.id);
@@ -20,7 +20,7 @@ function addToCart(product) {
     existing.quantity += 1;
   } else {
     product.quantity = 1;
-    product.img = product.image || product.img || ''; // Use product.image if present, fallback to img or empty string
+    product.img = product.image || product.img || '';
     cart.push(product);
   }
   saveCart(cart);
@@ -28,32 +28,36 @@ function addToCart(product) {
 
 // Render the cart items on the page
 function renderCart() {
-  const cart = loadCart();
   if (!cartContainer || !totalPriceEl) return;
+
+  const cart = loadCart();
 
   cartContainer.innerHTML = '';
 
   if (cart.length === 0) {
-    cartContainer.innerHTML = '<p>Your cart is empty.</p>';
-    totalPriceEl.textContent = '£0.00';
+    cartContainer.innerHTML = `<p class="empty-message">Your basket is empty.</p>`;
+    totalPriceEl.textContent = 'Total: £0.00';
     return;
   }
 
   cart.forEach((item, index) => {
     const itemEl = document.createElement('div');
     itemEl.classList.add('cart-item');
+
     itemEl.innerHTML = `
-      <img src="${item.img}" alt="${item.name}" class="cart-item-img" />
-      <div class="cart-item-details">
-        <h4>${item.name}</h4>
+      <img src="${item.img}" alt="${item.name}" />
+      <div class="cart-details">
+        <h3>${item.name}</h3>
         <p>Price: £${item.price.toFixed(2)}</p>
-        <label>
-          Quantity: 
+        <p>Quantity: 
           <input type="number" min="1" value="${item.quantity}" data-index="${index}" class="quantity-input" />
-        </label>
+        </p>
+      </div>
+      <div class="cart-actions">
         <button data-index="${index}" class="remove-btn">Remove</button>
       </div>
     `;
+
     cartContainer.appendChild(itemEl);
   });
 
@@ -65,10 +69,10 @@ function renderCart() {
 function updateTotalPrice() {
   const cart = loadCart();
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  totalPriceEl.textContent = `£${total.toFixed(2)}`;
+  totalPriceEl.textContent = `Total: £${total.toFixed(2)}`;
 }
 
-// Set up event listeners for quantity changes and remove buttons
+// Setup event listeners for quantity inputs and remove buttons
 function setupEventListeners() {
   // Quantity inputs
   document.querySelectorAll('.quantity-input').forEach(input => {
@@ -96,15 +100,9 @@ function setupEventListeners() {
   });
 }
 
-// Render cart on DOM ready if cartContainer exists
+// Render cart on DOM ready
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    if (cartContainer) {
-      renderCart();
-    }
-  });
+  document.addEventListener('DOMContentLoaded', renderCart);
 } else {
-  if (cartContainer) {
-    renderCart();
-  }
+  renderCart();
 }
