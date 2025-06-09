@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shop - Clokka</title>
+  <title>Basket – Clokka</title>
 
-  <!-- Google Identity Services -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="cart.js" defer></script>
 
   <style>
@@ -21,156 +19,104 @@
     }
 
     h2 {
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    #g_id_signin {
-      margin-bottom: 1rem;
-    }
-
-    #user-info {
-      background: #fff;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      display: none;
-      max-width: 300px;
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    #user-info img {
-      border-radius: 50%;
-      width: 100px;
-      height: 100px;
-      margin-top: 1rem;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    .cart-list {
+      display: flex;
+      flex-direction: column;
       gap: 1.5rem;
       width: 100%;
-      max-width: 1000px;
-      margin-top: 2rem;
+      max-width: 800px;
     }
 
-    .product {
+    .cart-item {
       background: white;
       padding: 1rem;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .product img {
-      width: 100%;
+    .cart-item img {
+      width: 80px;
       height: auto;
       border-radius: 8px;
     }
 
-    .product h3 {
-      margin: 0.8rem 0 0.5rem;
+    .cart-details {
+      flex: 1;
+      margin-left: 1rem;
     }
 
-    .product p {
-      margin: 0.5rem 0;
-      font-weight: bold;
+    .cart-details h3 {
+      margin: 0 0 0.3rem;
     }
 
-    .product button {
-      padding: 0.5rem 1rem;
+    .cart-details p {
+      margin: 0.2rem 0;
+    }
+
+    .cart-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cart-actions button {
+      padding: 0.3rem 0.6rem;
+      border: none;
       background: #27ae60;
       color: white;
-      border: none;
       border-radius: 5px;
       cursor: pointer;
     }
 
-    .product button:hover {
+    .cart-actions button:hover {
       background: #1e8449;
+    }
+
+    #cart-total {
+      margin-top: 2rem;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    .back-button {
+      margin-top: 2rem;
+      padding: 0.6rem 1.2rem;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .back-button:hover {
+      background: #2c80b4;
+    }
+
+    .empty-message {
+      font-size: 1.2rem;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
 
-  <h2>Welcome to Clokka</h2>
-  <div id="g_id_signin"></div>
+  <h2>Your Basket</h2>
 
-  <div id="user-info">
-    <p><strong>Name:</strong> <span id="user-name"></span></p>
-    <p><strong>Email:</strong> <span id="user-email"></span></p>
-    <img id="user-pic" src="" alt="User Picture" />
-  </div>
+  <section id="cart-container" class="cart-list">
+    <!-- JS will render cart items here -->
+  </section>
 
-  <div class="product-grid">
-    <div class="product" data-price="29.99">
-      <img src="images/watch1.jpg" alt="Classic Watch">
-      <h3>Classic Watch</h3>
-      <p>£29.99</p>
-      <button class="add-to-basket">Add to Basket</button>
-    </div>
+  <div id="cart-total">Total: £0.00</div>
 
-    <div class="product" data-price="49.99">
-      <img src="images/watch2.jpg" alt="Modern Watch">
-      <h3>Modern Watch</h3>
-      <p>£49.99</p>
-      <button class="add-to-basket">Add to Basket</button>
-    </div>
-
-    <!-- Add more products as needed -->
-  </div>
-
-  <script>
-    // Google Sign-In
-    window.onload = function () {
-      google.accounts.id.initialize({
-        client_id: '861110207927-45sban532nrcomev624v6bv5ps19als5.apps.googleusercontent.com',
-        callback: handleCredentialResponse,
-      });
-
-      google.accounts.id.renderButton(
-        document.getElementById('g_id_signin'),
-        { theme: 'outline', size: 'large', width: 300 }
-      );
-
-      google.accounts.id.prompt();
-
-      // Setup "Add to Basket" buttons
-      document.querySelectorAll('.add-to-basket').forEach(button => {
-        button.addEventListener('click', (e) => {
-          const productEl = e.target.closest('.product');
-          const product = {
-            id: productEl.querySelector('h3').textContent,
-            name: productEl.querySelector('h3').textContent,
-            price: parseFloat(productEl.dataset.price),
-            image: productEl.querySelector('img').src,
-          };
-          addToCart(product);
-          window.location.href = 'cart.html';
-        });
-      });
-    };
-
-    function handleCredentialResponse(response) {
-      const user = parseJwt(response.credential);
-      document.getElementById('user-name').textContent = user.name;
-      document.getElementById('user-email').textContent = user.email;
-      document.getElementById('user-pic').src = user.picture;
-      document.getElementById('user-info').style.display = 'block';
-    }
-
-    function parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(
-        atob(base64).split('').map(c =>
-          '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-        ).join('')
-      );
-      return JSON.parse(jsonPayload);
-    }
-  </script>
+  <button class="back-button" onclick="window.location.href='index.html'">
+    ← Continue Shopping
+  </button>
 
 </body>
 </html>
