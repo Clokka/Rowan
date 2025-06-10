@@ -1,4 +1,3 @@
-<!-- shop.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,6 +173,27 @@
       color: inherit;
       display: block;
     }
+
+    /* Fire Series styling */
+    .fire-series {
+      grid-column: 1 / -1;
+      background: #ffe8e5;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .fire-series h2 {
+      margin: 0 0 0.5rem;
+      color: #c0392b;
+    }
+
+    .fire-series p {
+      margin: 0;
+      font-size: 1rem;
+      color: #555;
+    }
   </style>
 </head>
 <body>
@@ -232,6 +252,12 @@
               data-image="https://i.ebayimg.com/images/g/KCsAAOSwNyBmQDrF/s-l1600.webp">
         Add to Cart
       </button>
+    </div>
+
+    <!-- Fire Series Description -->
+    <div class="fire-series">
+      <h2>Fire Series</h2>
+      <p>This is the finest collection of watches that come at an affordable price.</p>
     </div>
 
     <div class="product" data-price="39.99" data-date="2025-06-01" data-sales="8">
@@ -299,149 +325,3 @@
               data-name="Elegant Gold Leather Watch"
               data-price="41.25"
               data-image="https://s.alicdn.com/@sc04/kf/Hab34bc998b76446bae9e228c54de4b34E.jpg_720x720q50.jpg">
-        Add to Cart
-      </button>
-    </div>
-
-    <div class="product" data-price="36.99" data-date="2025-06-05" data-sales="2">
-      <div class="new-badge">New</div>
-      <img src="https://i.ebayimg.com/images/g/KCsAAOSwNyBmQDrF/s-l1600.webp" alt="Vintage Quartz Watch" />
-      <h3>Vintage Quartz Men's Watch</h3>
-      <p>£36.99</p>
-      <p class="review">★★★★★ (5/5)</p>
-      <button class="add-to-basket"
-              data-id="7"
-              data-name="Vintage Quartz Men's Watch"
-              data-price="36.99"
-              data-image="https://i.ebayimg.com/images/g/KCsAAOSwNyBmQDrF/s-l1600.webp">
-        Add to Cart
-      </button>
-    </div>
-
-    <div class="product" data-price="49.00" data-date="2025-06-05" data-sales="1">
-      <div class="new-badge">New</div>
-      <img src="https://s.alicdn.com/@sc04/kf/H58e88d959c26412d8d33a497b5ef690a5.jpg_720x720q50.jpg" alt="Minimalist Stainless Steel Watch" />
-      <h3>Minimalist Stainless Steel Watch</h3>
-      <p>£49.00</p>
-      <p class="review">★★★★★ (5/5)</p>
-      <button class="add-to-basket"
-              data-id="8"
-              data-name="Minimalist Stainless Steel Watch"
-              data-price="49.00"
-              data-image="https://s.alicdn.com/@sc04/kf/H58e88d959c26412d8d33a497b5ef690a5.jpg_720x720q50.jpg">
-        Add to Cart
-      </button>
-    </div>
-
-    <div class="product" data-price="45.99" data-date="2025-06-05" data-sales="6">
-      <div class="new-badge">New</div>
-      <img src="https://sc04.alicdn.com/kf/H99adb201af734367ace353340a4330bdD.jpg" alt="Skeleton Mechanical Watch" />
-      <h3>Skeleton Mechanical Watch</h3>
-      <p>£45.99</p>
-      <p class="review">★★★★★ (5/5)</p>
-      <button class="add-to-basket"
-              data-id="9"
-              data-name="Skeleton Mechanical Watch"
-              data-price="45.99"
-              data-image="https://sc04.alicdn.com/kf/H99adb201af734367ace353340a4330bdD.jpg">
-        Add to Cart
-      </button>
-    </div>
-
-    <div class="product" data-price="34.50" data-date="2025-06-05" data-sales="4">
-      <div class="new-badge">New</div>
-      <img src="https://s.alicdn.com/@sc04/kf/H93a61542253d4d11860913c934420f7fy.jpg_720x720q50.jpg" alt="Sport Chronograph Watch" />
-      <h3>Sport Chronograph Leather Watch</h3>
-      <p>£34.50</p>
-      <p class="review">★★★★★ (5/5)</p>
-      <button class="add-to-basket"
-              data-id="10"
-              data-name="Sport Chronograph Leather Watch"
-              data-price="34.50"
-              data-image="https://s.alicdn.com/@sc04/kf/H93a61542253d4d11860913c934420f7fy.jpg_720x720q50.jpg">
-        Add to Cart
-      </button>
-    </div>
-  </section>
-
-  <section class="review-form">
-    <h3>Leave a Review</h3>
-    <textarea placeholder="Write your review here..."></textarea><br />
-    <button>Submit Review</button>
-  </section>
-
-  <script type="module">
-    import { addItemToCart } from './shared/utils.js';
-
-    const sortSelect = document.getElementById("sort-select");
-    const grid = document.getElementById("product-grid");
-
-    sortSelect.addEventListener("change", () => {
-      const products = Array.from(grid.children);
-
-      const sorted = products.sort((a, b) => {
-        const sortType = sortSelect.value;
-        const priceA = parseFloat(a.dataset.price);
-        const priceB = parseFloat(b.dataset.price);
-        const dateA = new Date(a.dataset.date);
-        const dateB = new Date(b.dataset.date);
-        const salesA = parseInt(a.dataset.sales);
-        const salesB = parseInt(b.dataset.sales);
-
-        switch (sortType) {
-          case "price-low":
-            return priceA - priceB;
-          case "price-high":
-            return priceB - priceA;
-          case "newest":
-            return dateB - dateA;
-          case "bestselling":
-            return salesB - salesA;
-          default:
-            return 0;
-        }
-      });
-
-      grid.innerHTML = "";
-      sorted.forEach(product => grid.appendChild(product));
-    });
-
-    function updateCartCount() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const totalCount = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
-      const badge = document.getElementById('cart-count');
-      if (badge) {
-        if (totalCount > 0) {
-          badge.textContent = totalCount;
-          badge.style.display = 'flex';
-        } else {
-          badge.style.display = 'none';
-        }
-      }
-    }
-
-    document.querySelectorAll('.add-to-basket').forEach(button => {
-      button.addEventListener('click', () => {
-        const id = button.dataset.id;
-        const name = button.dataset.name;
-        const price = parseFloat(button.dataset.price);
-        const image = button.dataset.image;
-
-        if (id && name && !isNaN(price) && image) {
-          addItemToCart({ id, name, price, image });
-          updateCartCount();
-        } else {
-          console.error('Product data is missing or invalid for item ID:', id);
-          alert('Could not add item to cart. Product data is incomplete.');
-        }
-      });
-    });
-
-    document.addEventListener('cartUpdated', () => {
-        updateCartCount();
-    });
-
-    updateCartCount();
-  </script>
-
-</body> </html> ```
