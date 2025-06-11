@@ -104,7 +104,7 @@
                 </span>
               </div>
               <div class="item-controls">
-                <span>$${itemTotal.toFixed(2)}</span>
+                <span>£${itemTotal.toFixed(2)}</span>
                 <button class="checkout-remove">Remove</button>
               </div>
             </div>
@@ -115,7 +115,7 @@
         const total = calculateTotal();
         const totalDiv = document.createElement('div');
         totalDiv.classList.add('cart-item', 'cart-summary');
-        totalDiv.innerHTML = `<strong>Total</strong><strong>$${total}</strong>`;
+        totalDiv.innerHTML = `<strong>Total</strong><strong>£${total}</strong>`;
         cartDiv.appendChild(totalDiv);
         
         const continueShoppingBtn = document.createElement('button');
