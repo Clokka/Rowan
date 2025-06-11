@@ -88,6 +88,9 @@ def create_checkout_session():
             mode='payment',
             success_url=DOMAIN + '/success.html', # Creating a success.html or a Flask route
             cancel_url=DOMAIN + '/cancel.html',   # Creating a cancel.html or a Flask route
+            shipping_address_collection={
+                'allowed_countries': ['GB'],
+            },
         )
         return jsonify({'url': checkout_session.url})
 

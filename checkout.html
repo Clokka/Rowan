@@ -114,19 +114,17 @@
 
         const total = calculateTotal();
         const totalDiv = document.createElement('div');
-        totalDiv.classList.add('cart-item', 'cart-summary'); // Added cart-summary for styling
+        totalDiv.classList.add('cart-item', 'cart-summary');
         totalDiv.innerHTML = `<strong>Total</strong><strong>$${total}</strong>`;
         cartDiv.appendChild(totalDiv);
         
-        // START: Add the "Continue Shopping" button
         const continueShoppingBtn = document.createElement('button');
-        continueShoppingBtn.classList.add('continue-shopping-btn'); // Added an ID for potential specific styling
+        continueShoppingBtn.classList.add('continue-shopping-btn');
         continueShoppingBtn.innerText = 'Continue Shopping';
         continueShoppingBtn.onclick = () => {
-          window.location.href = 'shop.html'; // Link to the shop page
+          window.location.href = 'shop.html';
         };
         cartDiv.appendChild(continueShoppingBtn);
-        // END: Add the "Continue Shopping" button
 
         const checkoutBtn = document.createElement('button');
         checkoutBtn.classList.add('checkout-btn');
@@ -140,10 +138,8 @@
           }
 
           const cartItemsForStripe = cartItems.map(item => ({
-            id: item.id, // Send product ID
+            id: item.id, // Sending product ID
             quantity: item.quantity,
-            // Optional: name and image can still be sent for Stripe's display, 
-            // but backend will prioritize its own data if it has it.
             name: item.name,
             image: item.image 
           }));
