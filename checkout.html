@@ -5,80 +5,174 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Cart - CLOKKA</title>
   <style>
+    :root {
+      --primary-color: #c0392b;
+      --secondary-color: #6c757d;
+      --red-color: #dc3545;
+      --light-gray: #f8f9fa;
+      --border-color: #dee2e6;
+      --text-color: #212529;
+      --background-color: #ffffff;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      background: #f9f9f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      padding: 1.5rem;
+      background: var(--light-gray);
+      color: var(--text-color);
     }
 
     h1 {
       text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      font-size: 1.8rem;
     }
 
     .cart {
       max-width: 600px;
       margin: auto;
-      background: white;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: var(--background-color);
+      padding: 1.5rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
     }
 
     .cart-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #ccc;
-      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 0;
+    }
+    
+    .cart-item:last-of-type {
+      border-bottom: none;
     }
 
-    .item-info, .item-controls {
+    .item-info {
       display: flex;
       align-items: center;
+      gap: 12px;
     }
 
-    .checkout-btn {
-      display: block;
-      width: 100%;
-      padding: 1rem;
-      background: #c0392b;
-      color: white;
-      border: none;
+    .item-info img {
+      width: 50px;
+      height: 50px;
       border-radius: 8px;
-      font-size: 1.2rem;
-      margin-top: 1.5rem;
-      cursor: pointer;
+      object-fit: cover;
     }
-    .continue-shopping-btn {
-      display: block;
-      width: 100%;
-      padding: 1rem;
-      background: #6c757d;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.2rem;
-      margin-top: 1.5rem;
-      cursor: pointer;
+    
+    .item-details {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .item-name {
+        font-weight: 600;
+    }
+
+    .checkout-qty {
+      width: 45px;
+      padding: 4px 6px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .item-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .item-price {
+        font-weight: 500;
+        white-space: nowrap;
     }
 
     .checkout-remove {
-      margin-left: 10px;
-      background: #ff6b6b;
-      color: white;
+      background: transparent;
+      color: var(--red-color);
       border: none;
-      padding: 3px 7px;
+      padding: 4px;
       cursor: pointer;
-      border-radius: 3px;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    .checkout-remove:hover {
+        background-color: #f1f1f1;
+        color: var(--red-color);
     }
     
+    .cart-summary {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 2px solid var(--border-color);
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .action-button {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 0.75rem;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .action-button:hover {
+        transform: translateY(-2px);
+    }
+    
+    .checkout-btn {
+      background: var(--primary-color);
+      color: white;
+    }
+    
+    .checkout-btn:hover {
+        background-color: #6b1e15;
+    }
+
+    .continue-shopping-btn {
+      background: transparent;
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+    }
+    
+    .continue-shopping-btn:hover {
+        background-color: #ffe6e6;
+    }
+
+    .logo {
+      width: 100px;
+      height: 50px;
+      margin-bottom: 1rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
   </style>
 </head>
 <body>
+  <div class="container">
+    <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Red Logo" class="logo">
+  </div>
   <h1>Your Cart</h1>
   <div class="cart" id="cart">
-    <!-- Cart items will be injected here -->
-  </div>
+    </div>
 
   <script type="module">
     import { getCartItems, calculateTotal, removeItem, updateQuantity } from './shared/utils.js';
@@ -98,14 +192,15 @@
           cartHTML += `
             <div class="cart-item" data-id="${item.id}">
               <div class="item-info">
-                <img src="${item.image || './images/placeholder.png'}" alt="${item.name}" style="width: 50px; height: auto; margin-right: 10px;">
-                <span>${item.name} × 
-                  <input type="number" class="checkout-qty" value="${item.quantity}" min="1" style="width: 40px;">
-                </span>
+                <img src="${item.image || './images/placeholder.png'}" alt="${item.name}">
+                <div class="item-details">
+                    <span class="item-name">${item.name}</span>
+                    <input type="number" class="checkout-qty" value="${item.quantity}" min="1">
+                </div>
               </div>
               <div class="item-controls">
-                <span>£${itemTotal.toFixed(2)}</span>
-                <button class="checkout-remove">Remove</button>
+                <span class="item-price">£${itemTotal.toFixed(2)}</span>
+                <button class="checkout-remove" title="Remove item">X</button>
               </div>
             </div>
           `;
@@ -115,30 +210,22 @@
         const total = calculateTotal();
         const totalDiv = document.createElement('div');
         totalDiv.classList.add('cart-item', 'cart-summary');
-        totalDiv.innerHTML = `<strong>Total</strong><strong>£${total}</strong>`;
+        totalDiv.innerHTML = `<span>Total</span><span>£${total}</span>`;
         cartDiv.appendChild(totalDiv);
         
-        const continueShoppingBtn = document.createElement('button');
-        continueShoppingBtn.classList.add('continue-shopping-btn');
-        continueShoppingBtn.innerText = 'Continue Shopping';
-        continueShoppingBtn.onclick = () => {
-          window.location.href = 'shop.html';
-        };
-        cartDiv.appendChild(continueShoppingBtn);
-
         const checkoutBtn = document.createElement('button');
-        checkoutBtn.classList.add('checkout-btn');
+        checkoutBtn.classList.add('action-button', 'checkout-btn');
         checkoutBtn.innerText = 'Proceed to Checkout';
 
         checkoutBtn.onclick = async () => {
-          const cartItems = getCartItems(); // From shared/utils.js
+          const cartItems = getCartItems();
           if (!cartItems || cartItems.length === 0) {
             alert('Your cart is empty.');
             return;
           }
 
           const cartItemsForStripe = cartItems.map(item => ({
-            id: item.id, // Sending product ID
+            id: item.id,
             quantity: item.quantity,
             name: item.name,
             image: item.image 
@@ -158,23 +245,30 @@
             if (!response.ok) {
               const errorData = await response.json();
               console.error('Server error:', errorData);
-              alert(`Error: ${errorData.error || 'Could not initiate checkout. Check server logs.'}`);
+              alert(`Error: ${errorData.error || 'Could not initiate checkout.'}`);
               return;
             }
 
             const session = await response.json();
-            // session.url is the Stripe-hosted checkout page URL
             window.location.href = session.url;
 
           } catch (error) {
             console.error('Error creating checkout session:', error);
-            alert('There was an issue connecting to the payment gateway. Please ensure your backend server is running and try again.');
+            alert('There was an issue connecting to the payment gateway.');
           }
         };
-
-        cartDiv.appendChild(checkoutBtn); // Ensure this is within your renderCheckoutCart function or similar
         
-        // Add event listeners for new controls
+        const continueShoppingBtn = document.createElement('button');
+        continueShoppingBtn.classList.add('action-button', 'continue-shopping-btn');
+        continueShoppingBtn.innerText = 'Continue Shopping';
+        continueShoppingBtn.onclick = () => {
+          window.location.href = 'shop.html';
+        };
+        
+        cartDiv.appendChild(checkoutBtn);
+        cartDiv.appendChild(continueShoppingBtn);
+        
+        // Add event listeners
         cartDiv.querySelectorAll('.checkout-qty').forEach(input => {
           input.addEventListener('change', (e) => {
             const itemId = e.target.closest('.cart-item').dataset.id;
@@ -184,7 +278,7 @@
             } else {
               removeItem(itemId);
             }
-            renderCheckoutCart(); // Re-render checkout cart
+            renderCheckoutCart();
           });
         });
 
@@ -192,7 +286,7 @@
           button.addEventListener('click', (e) => {
             const itemId = e.target.closest('.cart-item').dataset.id;
             removeItem(itemId);
-            renderCheckoutCart(); // Re-render checkout cart
+            renderCheckoutCart();
           });
         });
       }
