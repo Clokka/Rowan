@@ -46,9 +46,20 @@
       font-size: 0.8em;
       border-radius: 4px;
     }
+    .out-of-stock {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #555;
+      color: #fff;
+      padding: 0.25em 0.5em;
+      font-size: 0.8em;
+      border-radius: 4px;
+    }
     .product img {
       max-width: 100%;
       height: auto;
+      cursor: pointer;
     }
     .review {
       font-size: 0.9em;
@@ -61,11 +72,8 @@
       color: #fff;
       border: none;
       border-radius: 4px;
-      cursor: pointer;
-    }
-    .add-to-basket:disabled {
-      background: #ccc;
       cursor: not-allowed;
+      background: #ccc;
     }
     .review-form {
       margin: 2em;
@@ -94,7 +102,17 @@
   </div>
 
   <section class="product-grid" id="product-grid">
-    <!-- Product cards go here, see previous message for full example -->
+    <!-- Product card with linked image -->
+    <div class="product" data-price="99.99" data-date="2025-06-01" data-sales="120">
+      <div class="new-badge">New</div>
+      <div class="out-of-stock">Out of Stock</div>
+      <a href="olevsgold.html">
+        <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Olevs Gold Watch">
+      </a>
+      <h3>Olevs Gold Watch</h3>
+      <p class="review">★★★★★ (45 reviews)</p>
+      <button class="add-to-basket" disabled data-name="Olevs Gold Watch">Add to Basket</button>
+    </div>
   </section>
 
   <section class="review-form">
@@ -104,6 +122,7 @@
   </section>
 
   <script type="module">
+    // Add-to-basket events won't trigger since buttons are disabled, but keeping this for future use
     document.querySelectorAll('.add-to-basket').forEach(btn => {
       btn.addEventListener('click', () => {
         alert(`${btn.dataset.name} added to basket.`);
