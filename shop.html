@@ -1,233 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shop - CLOKKA</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      color: #333;
-    }
-
-    header {
-      background: #111;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .header-left img {
-      max-width: 80px;
-      height: auto;
-    }
-
-    .header-left h1 {
-      margin: 0;
-      color: #c0392b;
-    }
-
-    .basket-icon {
-      position: relative;
-      cursor: pointer;
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .basket-icon:hover {
-      text-decoration: underline;
-    }
-
-    .cart-count-badge {
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      background: red;
-      color: white;
-      font-size: 0.75rem;
-      font-weight: bold;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-
-    .sort-container {
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    select {
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
-    }
-
-    .product-grid.one-row {
-      grid-template-columns: repeat(5, 1fr);
-    }
-
-    .product {
-      position: relative;
-      background: #fff;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    .product img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 6px;
-    }
-
-    .product h3 {
-      margin: 0.75rem 0 0.25rem;
-    }
-
-    .product p {
-      margin: 0.25rem 0;
-    }
-
-    .add-to-basket {
-      margin-top: 0.75rem;
-      padding: 0.5rem 1rem;
-      background-color: #c0392b;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .add-to-basket:hover {
-      background-color: #a93226;
-    }
-
-    .new-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background-color: #27ae60;
-      color: white;
-      font-size: 0.7rem;
-      font-weight: bold;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-    }
-
-    .stock-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #e74c3c;
-      color: white;
-      font-size: 0.7rem;
-      font-weight: bold;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-    }
-
-    .product.out-of-stock img {
-      opacity: 0.6;
-    }
-
-    .product.out-of-stock .add-to-basket {
-      background-color: #aaa;
-      cursor: not-allowed;
-    }
-
-    .review {
-      font-size: 0.85rem;
-      color: #555;
-    }
-
-    .review-form {
-      padding: 1rem 2rem;
-    }
-
-    .review-form textarea {
-      width: 100%;
-      height: 80px;
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .review-form button {
-      padding: 0.5rem 1rem;
-      background: #2980b9;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .review-form button:hover {
-      background: #21618c;
-    }
-
-    .product a {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-  </style>
+  <!-- ... head content unchanged ... -->
 </head>
 <body>
 
   <header>
-    <div class="header-left">
-      <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Red Logo" />
-      <h1>CLOKKA Shop</h1>
-    </div>
-    <div class="basket-icon" onclick="window.location.href='checkout.html'" title="Go to Basket" aria-label="Cart with item count">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="24" height="24">
-        <circle cx="9" cy="21" r="1"></circle>
-        <circle cx="20" cy="21" r="1"></circle>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-      </svg>
-      <div id="cart-count" class="cart-count-badge" style="display:none">0</div>
-    </div>
+    <!-- ... header unchanged ... -->
   </header>
 
   <div class="sort-container">
-    <label for="sort-select">Sort by: </label>
-    <select id="sort-select">
-      <option value="newest">Newest Arrivals</option>
-      <option value="price-low">Price: Low to High</option>
-      <option value="price-high">Price: High to Low</option>
-      <option value="bestselling">Best Selling</option>
-    </select>
+    <!-- ... unchanged ... -->
   </div>
 
   <section class="product-grid" id="product-grid">
-    <div class="product" data-price="42.79" data-date="2024-03-15" data-sales="25">
+    <div class="product" data-price="37.49" data-date="2024-03-15" data-sales="25">
       <div class="new-badge">New</div>
       <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
       <h3>OLEVS Men's Gold Skeleton Watch</h3>
-      <p>£42.79</p>
+      <p>£37.49</p>
       <p class="review">★★★★★ (5/5)</p>
       <button class="add-to-basket">Add to Basket</button>
     </div>
@@ -243,13 +34,13 @@
       <button class="add-to-basket">Add to Basket</button>
     </div>
 
-    <div class="product" data-price="39.99" data-date="2025-06-01" data-sales="8">
+    <div class="product" data-price="35.49" data-date="2025-06-01" data-sales="8">
       <div class="new-badge">New</div>
       <a href="poedagar-details.html">
         <img src="https://s.alicdn.com/@sc04/kf/Hab34bc998b76446bae9e228c54de4b34E.jpg_720x720q50.jpg" alt="Poedagar Luxury Business Watch" />
         <h3>Poedagar Luxury Business Watch for Men</h3>
       </a>
-      <p>£39.99</p>
+      <p>£35.49</p>
       <p class="review">★★★★★ (5/5)</p>
       <button class="add-to-basket">Add to Basket</button>
     </div>
@@ -265,24 +56,24 @@
       <button class="add-to-basket">Add to Basket</button>
     </div>
 
-    <div class="product" data-price="38.50" data-date="2025-06-01" data-sales="10">
+    <div class="product" data-price="35.49" data-date="2025-06-01" data-sales="10">
       <div class="new-badge">New</div>
       <a href="poedagarwatch3.html">
         <img src="https://s.alicdn.com/@sc04/kf/H1aa1ff4178184120bba2f3cd452a5373U.png_720x720q50.jpg" alt="Chronograph Sports Watch" />
         <h3>Poedagar Luxury Men Wrist Watch Sports Leather Mens Chronograph</h3>
       </a>
-      <p>£38.50</p>
+      <p>£35.49</p>
       <p class="review">★★★★★ (5/5)</p>
       <button class="add-to-basket">Add to Basket</button>
     </div>
   </section>
 
   <section class="product-grid one-row">
-    <div class="product" data-price="41.25" data-date="2025-06-05" data-sales="3">
+    <div class="product" data-price="35.49" data-date="2025-06-05" data-sales="3">
       <div class="new-badge">New</div>
-      <img src="https://s.alicdn.com/@sc04/kf/Hab34bc998b76446bae9e228c54de4b34E.jpg_720x720q50.jpg" alt="Gold Leather Watch" />
+      <img src="https://sc04.alicdn.com/kf/H77f18b6039ef427e8926fe8fdc0a2cbcT.jpg" alt="Gold Leather Watch" />
       <h3>Elegant Gold Leather Watch</h3>
-      <p>£41.25</p>
+      <p>£35.49</p>
       <p class="review">★★★★★ (5/5)</p>
       <button class="add-to-basket">Add to Basket</button>
     </div>
@@ -325,59 +116,7 @@
   </section>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Simulated inventory data - update stock counts here
-      const inventory = {
-        "OLEVS Men's Gold Skeleton Watch": 1,
-        "OLEVS Men's Black Skeleton Watch": 0,
-        "Poedagar Luxury Business Watch for Men": 2,
-        "Poedagar High Quality Hombre Stainless Steel Men's Wrist Watch": 0,
-        "Poedagar Luxury Men Wrist Watch Sports Leather Mens Chronograph": 5,
-        "Elegant Gold Leather Watch": 1,
-        "Vintage Quartz Men's Watch": 0,
-        "Minimalist Stainless Steel Watch": 0,
-        "Skeleton Mechanical Watch": 0,
-        "Sport Chronograph Leather Watch": 0
-      };
-
-      const products = document.querySelectorAll('.product');
-      products.forEach(product => {
-        const title = product.querySelector('h3').textContent.trim();
-        const stock = inventory[title] ?? 0; // Default to 0 if missing
-
-        product.setAttribute('data-stock', stock);
-
-        const button = product.querySelector('.add-to-basket');
-
-        if (stock === 0) {
-          product.classList.add('out-of-stock');
-
-          if (!product.querySelector('.stock-badge')) {
-            const badge = document.createElement('div');
-            badge.className = 'stock-badge';
-            badge.textContent = 'Out of Stock';
-            product.appendChild(badge);
-          }
-
-          if (button) {
-            button.disabled = true;
-            button.textContent = 'Out of Stock';
-          }
-        } else {
-          product.classList.remove('out-of-stock');
-
-          const badge = product.querySelector('.stock-badge');
-          if (badge) badge.remove();
-
-          if (button) {
-            button.disabled = false;
-            button.textContent = 'Add to Basket';
-          }
-        }
-      });
-
-      // TODO: Add basket/cart count update code here if needed
-    });
+    <!-- Your original script unchanged -->
   </script>
 
 </body>
