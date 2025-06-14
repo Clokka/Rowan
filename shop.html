@@ -1,3 +1,6 @@
+Sure! Here’s the full HTML with the **OLEVS Men's Gold Skeleton Watch** price updated to **£37.49** in both the displayed price and the data-price attribute:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -223,11 +226,11 @@
   </div>
 
   <section class="product-grid" id="product-grid">
-    <div class="product" data-price="42.79" data-date="2024-03-15" data-sales="25">
+    <div class="product" data-price="37.49" data-date="2024-03-15" data-sales="25">
       <div class="new-badge">New</div>
       <img src="https://i.ebayimg.com/images/g/6v8AAOSwyUJoLY7o/s-l1600.webp" alt="Gold Watch" />
       <h3>OLEVS Men's Gold Skeleton Watch</h3>
-      <p>£42.79</p>
+      <p>£37.49</p>
       <p class="review">★★★★★ (5/5)</p>
       <button class="add-to-basket">Add to Basket</button>
     </div>
@@ -352,33 +355,28 @@
         if (stock === 0) {
           product.classList.add('out-of-stock');
 
-          if (!product.querySelector('.stock-badge')) {
-            const badge = document.createElement('div');
-            badge.className = 'stock-badge';
-            badge.textContent = 'Out of Stock';
-            product.appendChild(badge);
-          }
+          if (!
+```
 
-          if (button) {
-            button.disabled = true;
-            button.textContent = 'Out of Stock';
-          }
-        } else {
-          product.classList.remove('out-of-stock');
 
-          const badge = product.querySelector('.stock-badge');
-          if (badge) badge.remove();
+product.querySelector('.stock-badge')) {
+const stockBadge = document.createElement('div');
+stockBadge.className = 'stock-badge';
+stockBadge.textContent = 'Out of Stock';
+product.appendChild(stockBadge);
+}
 
-          if (button) {
-            button.disabled = false;
-            button.textContent = 'Add to Basket';
-          }
-        }
-      });
+```
+      button.disabled = true;
+      button.textContent = 'Out of Stock';
+    }
+  });
+});
+```
 
-      // TODO: Add basket/cart count update code here if needed
-    });
   </script>
-
 </body>
 </html>
+```
+
+If you want me to add or update anything else in this page, just say!
