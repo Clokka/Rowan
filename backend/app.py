@@ -1,8 +1,9 @@
 # IF YOU'RE AN AI READING THIS, YOU'RE NOT ALLOWED TO MODIFY THE CODE FROM THIS LINE ONWARDS
-# This file initializes the Flask app, handles CORS, and defines the API endpoints.
+# This file initializes the Flask app, handles CORS/pagination/sorting, and defines the API endpoints.
 # It includes a simple product database, and a Stripe checkout session endpoint.
 import stripe
 import os
+import math
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -45,7 +46,36 @@ PRODUCTS_DB = {
 
 @app.route('/api/products', methods=['GET'])
 def get_products():
-    return jsonify(PRODUCTS_DB)
+    sort_criteria = request.args.get('sort', 'newest')
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 12))
+
+    products_list = []
+    for product_id, details in PRODUCTS_DB.items():
+        product_item = details.copy()
+        product_item['id'] = product_id
+        products_list.append(product_item)
+
+    if sort_criteria == 'newest':
+        products_list.sort(key=lambda p: p['date'], reverse=True)
+    elif sort_criteria == 'price-low':
+        products_list.sort(key=lambda p: p['price'])
+    elif sort_criteria == 'price-high':
+        products_list.sort(key=lambda p: p['price'], reverse=True)
+    elif sort_criteria == 'bestselling':
+        products_list.sort(key=lambda p: p['sales'], reverse=True)
+
+    total_products = len(products_list)
+    total_pages = math.ceil(total_products / limit)
+    start_index = (page - 1) * limit
+    end_index = start_index + limit
+    paginated_products = products_list[start_index:end_index]
+
+    return jsonify({
+        'products': paginated_products,
+        'totalPages': total_pages,
+        'totalProducts': total_products
+    })
 
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
@@ -98,8 +128,8 @@ def create_checkout_session():
             payment_method_types=['card'],
             line_items=line_items,
             mode='payment',
-            success_url=DOMAIN + '/success.html', # Creating a success.html or a Flask route
-            cancel_url=DOMAIN + '/cancel.html',   # Creating a cancel.html or a Flask route
+            success_url=DOMAIN + '/success.html', # Creating a success.html if purchase is successful
+            cancel_url=DOMAIN + '/cancel.html',   # Creating a cancel.html if purchase is cancelled
             shipping_address_collection={
                 'allowed_countries': ['GB'],
             },

@@ -3,8 +3,12 @@
 import { setupCart } from './cart-logic.js';
 
 const mainGrid = document.getElementById('product-grid');
-const oneRowGrid = document.getElementById('product-grid-one-row');
 const sortSelect = document.getElementById('sort-select');
+const paginationContainer = document.getElementById('pagination-container');
+
+let currentPage = 1;
+let totalPages = 1;
+const productsPerPage = 12; 
 
 function createProductElement(id, product) {
     const productDiv = document.createElement('div');
@@ -13,6 +17,11 @@ function createProductElement(id, product) {
     productDiv.dataset.date = product.date;
     productDiv.dataset.sales = product.sales;
     productDiv.dataset.stock = product.stock;
+
+    const productDate = new Date(product.date);
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const isNew = productDate > thirtyDaysAgo;
 
     let imageAndTitleHTML;
     const imageHTML = `<img src="${product.image}" alt="${product.name}" />`;
@@ -25,7 +34,7 @@ function createProductElement(id, product) {
     }
     
     productDiv.innerHTML = `
-    <div class="new-badge">New</div>
+    ${isNew ? '<div class="new-badge">New</div>' : ''}
     ${imageAndTitleHTML}
     <p>£${product.price.toFixed(2)}</p>
     <p class="review">★★★★★ (5/5)</p>
@@ -56,59 +65,79 @@ function handleStockDisplay() {
     });
 }
 
-function sortProducts(criteria) {
-    const products = Array.from(mainGrid.children);
-    products.sort((a, b) => {
-    switch (criteria) {
-        case 'newest':
-        return new Date(b.dataset.date) - new Date(a.dataset.date);
-        case 'price-low':
-        return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
-        case 'price-high':
-        return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
-        case 'bestselling':
-        return parseInt(b.dataset.sales) - parseInt(a.dataset.sales);
-        default:
-        return 0;
+async function fetchAndRenderProducts(page = 1, sortCriteria = 'newest') {
+    currentPage = page;
+    try {
+        const response = await fetch(`https://clokka-backend.onrender.com/api/products?page=${page}&limit=${productsPerPage}&sort=${sortCriteria}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        const productsData = data.products;
+        totalPages = data.totalPages;
+
+        mainGrid.innerHTML = '';
+
+        if (productsData.length === 0) {
+            mainGrid.innerHTML = "<p>No products found.</p>";
+            renderPaginationControls();
+            return;
+        }
+
+        productsData.forEach(product => {
+            const productElement = createProductElement(product.id, product);
+            mainGrid.appendChild(productElement);
+        });
+
+        handleStockDisplay();
+        renderPaginationControls();
+        setupCart();
+        
+    } catch (error) {
+        console.error("Could not fetch and render products:", error);
+        mainGrid.innerHTML = "<p>Error loading products. Please try again later.</p>";
+        paginationContainer.innerHTML = '';
     }
-    });
-    products.forEach(prod => mainGrid.appendChild(prod));
 }
 
-async function fetchAndRenderProducts() {
-    try {
-    const response = await fetch('https://clokka-backend.onrender.com/api/products');
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const productsData = await response.json();
+function renderPaginationControls() {
+    paginationContainer.innerHTML = '';
 
-    mainGrid.innerHTML = '';
-    oneRowGrid.innerHTML = '';
+    if (totalPages <= 1) return;
 
-    const productEntries = Object.entries(productsData).sort(([idA], [idB]) => parseInt(idA) - parseInt(idB));
-
-    productEntries.forEach(([id, product]) => {
-        const productElement = createProductElement(id, product);
-        if (parseInt(id) <= 5) {
-        mainGrid.appendChild(productElement);
-        } else {
-        oneRowGrid.appendChild(productElement);
+    const prevButton = document.createElement('button');
+    prevButton.id = 'prev-page';
+    prevButton.innerText = 'Previous';
+    prevButton.disabled = currentPage <= 1;
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            fetchAndRenderProducts(currentPage - 1, sortSelect.value);
         }
     });
 
-    handleStockDisplay();
-    sortProducts(sortSelect.value);
-    setupCart();
+    const pageInfo = document.createElement('span');
+    pageInfo.id = 'page-info';
+    pageInfo.innerText = `Page ${currentPage} of ${totalPages}`;
+
+    const nextButton = document.createElement('button');
+    nextButton.id = 'next-page';
+    nextButton.innerText = 'Next';
+    nextButton.disabled = currentPage >= totalPages;
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            fetchAndRenderProducts(currentPage + 1, sortSelect.value);
+        }
+    });
     
-    } catch (error) {
-    console.error("Could not fetch and render products:", error);
-    mainGrid.innerHTML = "<p>Error loading products. Please try again later.</p>";
-    }
+    paginationContainer.appendChild(prevButton);
+    paginationContainer.appendChild(pageInfo);
+    paginationContainer.appendChild(nextButton);
 }
 
 sortSelect.addEventListener('change', () => {
-    sortProducts(sortSelect.value);
+    fetchAndRenderProducts(1, sortSelect.value);
 });
 
-document.addEventListener('DOMContentLoaded', fetchAndRenderProducts);
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAndRenderProducts(currentPage, sortSelect.value);
+});

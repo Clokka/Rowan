@@ -30,6 +30,7 @@
     .header-left img {
       max-width: 80px;
       height: auto;
+      cursor: pointer;
     }
 
     .header-left h1 {
@@ -85,10 +86,6 @@
       padding: 2rem;
     }
 
-    .product-grid.one-row {
-      grid-template-columns: repeat(5, 1fr);
-    }
-
     .product {
       position: relative;
       background: #fff;
@@ -96,6 +93,12 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
 
     .product img {
@@ -164,34 +167,70 @@
       color: #555;
     }
 
-    .review-form {
-      padding: 1rem 2rem;
-    }
-
-    .review-form textarea {
-      width: 100%;
-      height: 80px;
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .review-form button {
-      padding: 0.5rem 1rem;
-      background: #2980b9;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .review-form button:hover {
-      background: #21618c;
-    }
-
     .product a {
       text-decoration: none;
       color: inherit;
       display: block;
+    }
+
+    .pagination-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      gap: 1rem;
+    }
+
+    .pagination-container button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #ddd;
+      background-color: #fff;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .pagination-container button:disabled {
+      cursor: not-allowed;
+      background-color: #f1f1f1;
+    }
+    
+    .pagination-container span {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .header-left {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .sort-container {
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      header {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
@@ -199,7 +238,7 @@
 
   <header>
     <div class="header-left">
-      <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Red Logo" />
+      <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Red Logo" onclick="window.location.href='index.html'"/>
       <h1>CLOKKA Shop</h1>
     </div>
     <div class="basket-icon" onclick="window.location.href='checkout.html'" title="Go to Basket" aria-label="Cart with item count">
@@ -227,19 +266,12 @@
     <!-- IMPORTANT: If you want to add or remove a product, you must add it to the PRODUCTS_DB in app.py -->
   </section>
 
-  <section class="product-grid one-row" id="product-grid-one-row">
-    <!-- Products will be added here automatically -->
-    <!-- IMPORTANT: If you want to add or remove a product, you must add it to the PRODUCTS_DB in app.py -->
-  </section>
-
-  <section class="review-form">
-    <h3>Leave a Review</h3>
-    <textarea placeholder="Write your review here..."></textarea><br />
-    <button>Submit Review</button>
-  </section>
+  <div class="pagination-container" id="pagination-container">
+    <!-- Pagination controls will be added here automatically if there are more than 12 products -->
+  </div>
 
   <!-- IMPORTANT: Do not remove this script tag -->
-  <!-- Script of this file is in shop.js -->
+  <!-- Script of this file can be found in shop.js -->
   <script src="shop.js" type="module"></script>
 </body>
 </html>
