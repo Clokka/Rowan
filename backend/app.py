@@ -26,6 +26,13 @@ else:
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 DOMAIN = os.getenv('DOMAIN')
 
+# Discount codes for the checkout page
+# PROMO_API_ID is the API ID of the promotion code in Stripe
+# CLOKKA123 is the discount code that the user will be able to use in the checkout page
+DISCOUNT_CODES = {
+    "CLOKKA123": os.getenv('PROMO_API_ID')
+}
+
 # Simple Product Database, normally a SQL database would be better but this does the job for now
 # THIS IS WHERE YOU ADD OR REMOVE PRODUCTS, AS WELL AS EDITING THEIR DETAILS
 # 0 FOR STOCK MEANS OUT OF STOCK
@@ -82,6 +89,7 @@ def create_checkout_session():
     try:
         data = request.get_json()
         cart_items_from_client = data.get('items', [])
+        discount_code_from_client = data.get('discountCode')
 
         if not cart_items_from_client:
             return jsonify({'error': 'No items in cart'}), 400
@@ -124,16 +132,31 @@ def create_checkout_session():
                 'quantity': quantity,
             })
 
-        checkout_session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
-            line_items=line_items,
-            mode='payment',
-            success_url=DOMAIN + '/success.html', # Creating a success.html if purchase is successful
-            cancel_url=DOMAIN + '/cancel.html',   # Creating a cancel.html if purchase is cancelled
-            shipping_address_collection={
+        session_params = {
+            'payment_method_types': ['card'],
+            'line_items': line_items,
+            'mode': 'payment',
+            'success_url': DOMAIN + '/success.html',
+            'cancel_url': DOMAIN + '/cancel.html',
+            'shipping_address_collection': {
                 'allowed_countries': ['GB'],
             },
-        )
+        }
+
+        if discount_code_from_client:
+            stripe_id = DISCOUNT_CODES.get(discount_code_from_client)
+            if stripe_id:
+                if stripe_id.startswith('promo_'):
+                    session_params['discounts'] = [{'promotion_code': stripe_id}]
+                elif stripe_id.startswith('cp_'):
+                    session_params['discounts'] = [{'coupon': stripe_id}]
+                else:
+                    app.logger.error(f"Malformed Stripe ID in DISCOUNT_CODES: {stripe_id}")
+                    return jsonify({'error': 'Server configuration error for discount code.'}), 500
+            else:
+                return jsonify({'error': 'Invalid discount code.'}), 400
+
+        checkout_session = stripe.checkout.Session.create(**session_params)
         return jsonify({'url': checkout_session.url})
 
     except Exception as e:

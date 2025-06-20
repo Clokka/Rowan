@@ -164,6 +164,61 @@
       margin-right: auto;
     }
 
+    .discount-area {
+        display: flex;
+        gap: 8px;
+        margin-top: 1rem;
+    }
+
+    .discount-area input {
+        flex-grow: 1;
+        padding: 8px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+    }
+
+    .discount-area button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 6px;
+        background-color: var(--secondary-color);
+        color: white;
+        cursor: pointer;
+    }
+    
+    .discount-area button:hover {
+        background-color: #5a6268;
+    }
+
+    #discount-message {
+        margin-top: 8px;
+        font-size: 0.9em;
+        font-weight: 500;
+    }
+
+    .discount-line {
+        color: green;
+        font-size: 0.9em;
+    }
+
+    .total-line {
+        font-size: 1.1rem;
+        font-weight: 700;
+        padding-top: 0.5rem;
+    }
+
+    .cart-summary-block {
+        border-top: 2px solid var(--border-color);
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+
+    .summary-line {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.2rem 0;
+    }
+
   </style>
 </head>
 <body>
@@ -179,6 +234,55 @@
 
     const cartDiv = document.getElementById('cart');
 
+    const CLIENT_SIDE_DISCOUNTS = {
+        "CLOKKA123": { percent: 20 }
+    };
+    let appliedDiscount = null;
+
+    function updateTotalDisplay() {
+        const subtotal = parseFloat(calculateTotal());
+
+        const oldSummary = cartDiv.querySelector('.cart-summary-block');
+        if (oldSummary) cartDiv.removeChild(oldSummary);
+
+        const summaryContainer = document.createElement('div');
+        summaryContainer.classList.add('cart-summary-block');
+        
+        let finalTotal = subtotal;
+        let summaryHTML = '';
+
+        if (appliedDiscount && subtotal > 0) {
+            const discountAmount = subtotal * (appliedDiscount.percent / 100);
+            finalTotal = subtotal - discountAmount;
+            summaryHTML += `<div class="summary-line"><span>Subtotal</span><span>£${subtotal.toFixed(2)}</span></div>`;
+            summaryHTML += `<div class="summary-line discount-line"><span>Discount (${appliedDiscount.percent}%)</span><span>-£${discountAmount.toFixed(2)}</span></div>`;
+        }
+        
+        summaryHTML += `<div class="summary-line total-line"><span>Total</span><span>£${finalTotal.toFixed(2)}</span></div>`;
+        summaryContainer.innerHTML = summaryHTML;
+        
+        const actionsContainer = cartDiv.querySelector('.cart-actions');
+        cartDiv.insertBefore(summaryContainer, actionsContainer);
+    }
+
+    function applyDiscount() {
+        const input = document.getElementById('discount-input');
+        const messageDiv = document.getElementById('discount-message');
+        const code = input.value.trim();
+
+        if (CLIENT_SIDE_DISCOUNTS[code]) {
+            appliedDiscount = CLIENT_SIDE_DISCOUNTS[code];
+            appliedDiscount.code = code;
+            messageDiv.textContent = `Success! ${appliedDiscount.percent}% discount applied.`;
+            messageDiv.style.color = 'green';
+        } else {
+            appliedDiscount = null;
+            messageDiv.textContent = 'Invalid discount code.';
+            messageDiv.style.color = 'var(--red-color)';
+        }
+        updateTotalDisplay();
+    }
+    
     function renderCheckoutCart() {
       const cartItems = getCartItems();
       if (!cartDiv) return;
@@ -207,11 +311,20 @@
         });
         cartDiv.innerHTML = cartHTML;
 
-        const total = calculateTotal();
-        const totalDiv = document.createElement('div');
-        totalDiv.classList.add('cart-item', 'cart-summary');
-        totalDiv.innerHTML = `<span>Total</span><span>£${total}</span>`;
-        cartDiv.appendChild(totalDiv);
+        const discountSection = document.createElement('div');
+        discountSection.innerHTML = `
+            <div class="discount-area">
+                <input type="text" id="discount-input" placeholder="Discount code">
+                <button id="apply-discount-btn">Apply</button>
+            </div>
+            <div id="discount-message"></div>
+        `;
+        cartDiv.appendChild(discountSection);
+        
+        document.getElementById('apply-discount-btn').addEventListener('click', applyDiscount);
+
+        const actionsContainer = document.createElement('div');
+        actionsContainer.className = 'cart-actions';
         
         const checkoutBtn = document.createElement('button');
         checkoutBtn.classList.add('action-button', 'checkout-btn');
@@ -227,9 +340,15 @@
           const cartItemsForStripe = cartItems.map(item => ({
             id: item.id,
             quantity: item.quantity,
-            name: item.name,
-            image: item.image 
           }));
+
+          const requestBody = { 
+              items: cartItemsForStripe
+          };
+          
+          if (appliedDiscount) {
+              requestBody.discountCode = appliedDiscount.code;
+          }
 
           try {
             // If you are running locally, use http://127.0.0.1:5000/create-checkout-session
@@ -239,7 +358,7 @@
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ items: cartItemsForStripe }),
+              body: JSON.stringify(requestBody),
             });
 
             if (!response.ok) {
@@ -265,10 +384,12 @@
           window.location.href = 'shop.html';
         };
         
-        cartDiv.appendChild(checkoutBtn);
-        cartDiv.appendChild(continueShoppingBtn);
+        actionsContainer.appendChild(checkoutBtn);
+        actionsContainer.appendChild(continueShoppingBtn);
+        cartDiv.appendChild(actionsContainer);
+
+        updateTotalDisplay();
         
-        // Add event listeners
         cartDiv.querySelectorAll('.checkout-qty').forEach(input => {
           input.addEventListener('change', (e) => {
             const itemId = e.target.closest('.cart-item').dataset.id;
