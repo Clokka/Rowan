@@ -30,7 +30,8 @@ DOMAIN = os.getenv('DOMAIN')
 # PROMO_API_ID is the API ID of the promotion code in Stripe
 # CLOKKA123 is the discount code that the user will be able to use in the checkout page
 DISCOUNT_CODES = {
-    "CLOKKA123": os.getenv('PROMO_API_ID')
+    # All keys should be lowercase in this dictionary
+    "clokka123": os.getenv('PROMO_API_ID_CLOKKA123')
 }
 
 # Simple Product Database, normally a SQL database would be better but this does the job for now
@@ -50,6 +51,41 @@ PRODUCTS_DB = {
     "9": {"name": "Skeleton Mechanical Watch", "price": 37.49, "stock": 0, "image": "https://sc04.alicdn.com/kf/H99adb201af734367ace353340a4330bdD.jpg", "date": "2025-06-05", "sales": 6, "page_url": None},
     "10": {"name": "Sport Chronograph Leather Watch", "price": 25.00, "stock": 1, "image": "https://s.alicdn.com/@sc04/kf/H93a61542253d4d11860913c934420f7fy.jpg_720x720q50.jpg", "date": "2025-06-05", "sales": 4, "page_url": None},
 }
+
+@app.route('/api/discount-details', methods=['GET'])
+def get_discount_details():
+    code = request.args.get('code')
+    if not code:
+        return jsonify({'error': 'Discount code is required.'}), 400
+
+    # Converting input to lowercase to match the keys in the DISCOUNT_CODES dictionary
+    promo_id = DISCOUNT_CODES.get(code.lower())
+    if not promo_id:
+        return jsonify({'error': 'Invalid discount code.'}), 404
+
+    if not promo_id.startswith('promo_'):
+        app.logger.warning(f"Attempted to look up non-promo code: {promo_id}")
+        return jsonify({'error': 'Discount lookup not supported for this code type.'}), 400
+
+    try:
+        promo_code = stripe.PromotionCode.retrieve(promo_id, expand=['coupon'])
+        
+        if not promo_code.active or not promo_code.coupon:
+            return jsonify({'error': 'This discount code is not active.'}), 404
+
+        percent_off = promo_code.coupon.percent_off
+        
+        if not percent_off:
+            return jsonify({'error': 'This discount is for a fixed amount, not a percentage.'}), 400
+
+        return jsonify({'percent': percent_off})
+
+    except stripe.error.StripeError as e:
+        app.logger.error(f"Stripe API error fetching discount: {e}")
+        return jsonify({'error': 'Could not validate discount code with our payment provider.'}), 500
+    except Exception as e:
+        app.logger.error(f"Error fetching discount details: {e}")
+        return jsonify({'error': 'An internal server error occurred.'}), 500
 
 @app.route('/api/products', methods=['GET'])
 def get_products():
@@ -144,7 +180,7 @@ def create_checkout_session():
         }
 
         if discount_code_from_client:
-            stripe_id = DISCOUNT_CODES.get(discount_code_from_client)
+            stripe_id = DISCOUNT_CODES.get(discount_code_from_client.lower())
             if stripe_id:
                 if stripe_id.startswith('promo_'):
                     session_params['discounts'] = [{'promotion_code': stripe_id}]
