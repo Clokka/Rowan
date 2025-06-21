@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ADMIN_API_KEY) {
             fetchAndDisplayProducts();
         } else {
-            alert('API Key is required to manage products.');
+            alert('Admin Password is required to manage products.');
         }
     }
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fetchAndDisplayProducts();
         } catch (error) {
             console.error('Error:', error);
-            alert('Could not delete product. Is your API Key correct?');
+            alert('Could not delete product. Is your Admin Password correct?');
         }
     }
 
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetchAndDisplayProducts();
             } catch (error) {
                 console.error('Error:', error);
-                alert('Could not update product. Check console and API Key.');
+                alert('Could not update product. Check console and Admin Password.');
             }
         });
     }
