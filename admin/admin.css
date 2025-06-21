@@ -225,6 +225,11 @@ body {
     outline: none;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
 .back-link {
     display: inline-block;
     margin-top: 1.5rem;
