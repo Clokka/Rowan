@@ -33,6 +33,11 @@ client = MongoClient(mongo_uri)
 db = client.reicluster
 products_collection = db.products
 
+# Creating indexes to improve sort performance
+products_collection.create_index([("date", -1)])
+products_collection.create_index([("price", 1)])
+products_collection.create_index([("sales", -1)])
+
 # Security Decorator for Admin Routes
 def require_api_key(f):
     @wraps(f)
@@ -86,18 +91,38 @@ def get_products():
     sort_criteria = request.args.get('sort', 'newest')
     page = int(request.args.get('page', 1))
     limit = int(request.args.get('limit', 12))
-    sort_map = {'newest': [('date', -1)],'price-low': [('price', 1)],'price-high': [('price', -1)],'bestselling': [('sales', -1)]}
+
+    sort_map = {
+        'newest': [('date', -1)],
+        'price-low': [('price', 1)],
+        'price-high': [('price', -1)],
+        'bestselling': [('sales', -1)]
+    }
     sort_query = sort_map.get(sort_criteria, [('date', -1)])
-    total_products = products_collection.count_documents({})
-    total_pages = math.ceil(total_products / limit)
+
     start_index = (page - 1) * limit
-    products_cursor = products_collection.find().sort(sort_query).skip(start_index).limit(limit)
+    
+    # Fetching one more document than the limit to check for a next page
+    products_cursor = products_collection.find().sort(sort_query).skip(start_index).limit(limit + 1)
+    
     products_list = []
     for product in products_cursor:
         product['id'] = str(product['_id'])
         del product['_id']
         products_list.append(product)
-    return jsonify({'products': products_list,'totalPages': total_pages,'totalProducts': total_products})
+
+    # Determining if there's a next page
+    has_next_page = len(products_list) > limit
+    
+    # Trimming the extra product if it exists
+    if has_next_page:
+        products_list = products_list[:-1]
+
+    return jsonify({
+        'products': products_list,
+        'hasNextPage': has_next_page,
+        'currentPage': page
+    })
 
 # Admin API Endpoints
 @app.route('/api/admin/products', methods=['POST'])

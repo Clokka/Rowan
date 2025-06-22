@@ -7,7 +7,7 @@ const sortSelect = document.getElementById('sort-select');
 const paginationContainer = document.getElementById('pagination-container');
 
 let currentPage = 1;
-let totalPages = 1;
+let hasNextPage = false;
 const productsPerPage = 12; 
 
 function createProductElement(id, product) {
@@ -74,11 +74,12 @@ async function fetchAndRenderProducts(page = 1, sortCriteria = 'newest') {
         }
         const data = await response.json();
         const productsData = data.products;
-        totalPages = data.totalPages;
+        hasNextPage = data.hasNextPage;
+        currentPage = data.currentPage;
 
         mainGrid.innerHTML = '';
 
-        if (productsData.length === 0) {
+        if (productsData.length === 0 && currentPage === 1) {
             mainGrid.innerHTML = "<p>No products found.</p>";
             renderPaginationControls();
             return;
@@ -103,7 +104,7 @@ async function fetchAndRenderProducts(page = 1, sortCriteria = 'newest') {
 function renderPaginationControls() {
     paginationContainer.innerHTML = '';
 
-    if (totalPages <= 1) return;
+    if (currentPage === 1 && !hasNextPage) return;
 
     const prevButton = document.createElement('button');
     prevButton.id = 'prev-page';
@@ -117,14 +118,14 @@ function renderPaginationControls() {
 
     const pageInfo = document.createElement('span');
     pageInfo.id = 'page-info';
-    pageInfo.innerText = `Page ${currentPage} of ${totalPages}`;
+    pageInfo.innerText = `Page ${currentPage}`;
 
     const nextButton = document.createElement('button');
     nextButton.id = 'next-page';
     nextButton.innerText = 'Next';
-    nextButton.disabled = currentPage >= totalPages;
+    nextButton.disabled = !hasNextPage;
     nextButton.addEventListener('click', () => {
-        if (currentPage < totalPages) {
+        if (hasNextPage) {
             fetchAndRenderProducts(currentPage + 1, sortSelect.value);
         }
     });
