@@ -2,137 +2,275 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Poedagar Chronograph Leather Watch - Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Poedagar Chronograph Leather Watch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      color: #333;
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      color: #222;
     }
-
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 2rem;
-      background: white;
+    .top-banner {
+      background-color: #ffcc00;
+      color: #111;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      height: 2rem;
+      display: flex;
+      align-items: center;
     }
-
-    h1 {
-      text-align: center;
+    .top-banner span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 20s linear infinite;
+    }
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    header {
+      background-color: #111;
+      color: white;
+      padding: 0.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .logo {
+      max-width: 100px;
+      height: auto;
+    }
+    .header-text h1 {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
       color: #c0392b;
     }
-
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-      margin-bottom: 2rem;
+    .header-text p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #ccc;
     }
-
-    .gallery img {
-      width: 300px;
+    .gallery-container {
+      max-width: 500px;
+      margin: 2rem auto;
+      position: relative;
+    }
+    .main-image {
+      width: 100%;
       height: auto;
       border-radius: 8px;
-    }
-
-    video {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
       display: block;
-      margin: 2rem auto;
-      max-width: 100%;
-      border-radius: 8px;
     }
-
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.3);
+      color: white;
+      border: none;
+      font-size: 2rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s ease;
+      z-index: 10;
+    }
+    .arrow:hover {
+      background: rgba(0,0,0,0.6);
+    }
+    .arrow-left {
+      left: 10px;
+    }
+    .arrow-right {
+      right: 10px;
+    }
+    .video-container {
+      margin-top: 1rem;
+      max-width: 500px;
+      height: 280px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+    .buttons-row {
+      max-width: 700px;
+      margin: 2rem auto 1rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .tab-button {
+      padding: 0.6rem 1.2rem;
+      border: 1px solid #c0392b;
+      background: white;
+      color: #c0392b;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+      user-select: none;
+    }
+    .tab-button.active,
+    .tab-button:hover {
+      background-color: #c0392b;
+      color: white;
+    }
+    .tab-content {
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      min-height: 150px;
+      font-size: 0.9rem;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 2rem;
     }
-
-    table, th, td {
-      border: 1px solid #ccc;
-    }
-
-    th, td {
-      padding: 0.75rem;
+    table th,
+    table td {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
       text-align: left;
     }
-
-    th {
-      background-color: #eee;
+    table th {
+      background: #f4f4f4;
     }
-
     footer {
+      background-color: #111;
+      color: white;
       text-align: center;
       padding: 1rem;
-      background: #111;
-      color: white;
-      margin-top: 3rem;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Poedagar Luxury Men Wrist Watch Sports Leather Mens Chronograph</h1>
+  <div class="top-banner">
+    <span>Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up! &nbsp;&nbsp;&nbsp;&nbsp; Fresh Looks, Unbeatable Prices — Get 20% Off When You Sign Up!</span>
+  </div>
 
-    <div class="gallery">
-      <img src="https://s.alicdn.com/@sc04/kf/H1aa1ff4178184120bba2f3cd452a5373U.png_720x720q50.jpg" alt="Watch 1" />
-      <img src="https://s.alicdn.com/@sc04/kf/H5393a78b09b541ffa9327cc1cb09ec6f3.png_720x720q50.jpg" alt="Watch 2" />
-      <img src="https://s.alicdn.com/@sc04/kf/H684aed1347374543aab77048b32ce112C.png_720x720q50.jpg" alt="Watch 3" />
-      <img src="https://s.alicdn.com/@sc04/kf/H88623df3280a45729863ca3ada893524k.png_720x720q50.jpg" alt="Watch 4" />
+  <header>
+    <div class="header-left">
+      <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Logo" class="logo" />
+      <div class="header-text">
+        <h1>CLOKKA</h1>
+        <p>Style Meets Precision</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h1 style="text-align:center; margin-top:2rem;">Poedagar Chronograph Leather Watch</h1>
+
+    <div class="gallery-container">
+      <button class="arrow arrow-left">&#8592;</button>
+      <img src="" alt="Poedagar Chronograph Watch" class="main-image" id="main-image" />
+      <button class="arrow arrow-right">&#8594;</button>
+      <div class="video-container" id="video-container" style="display:none;">
+        <video autoplay muted loop playsinline width="100%" height="280" style="border-radius:8px; object-fit: cover;">
+          <source src="/mnt/data/20230804_5c6c2b9dc949f138_422304507065_mp4_264_hd_unlimit_taobao.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
     </div>
 
-    <video controls>
-      <source src="/mnt/data/20230804_5c6c2b9dc949f138_422304507065_mp4_264_hd_unlimit_taobao.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+    <div class="buttons-row">
+      <button class="tab-button active" data-tab="attributes">Attributes</button>
+    </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th colspan="2">Key Attributes</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div class="tab-content" id="tab-content">
+      <table>
         <tr><th colspan="2">Industry-specific attributes</th></tr>
         <tr><td>Dial Window Material Type</td><td>Hardlex</td></tr>
         <tr><td>Band Material Type</td><td>Leather</td></tr>
         <tr><td>Case Material</td><td>Alloy</td></tr>
-
         <tr><th colspan="2">Other attributes</th></tr>
         <tr><td>Case Shape</td><td>ROUND</td></tr>
         <tr><td>Band Length</td><td>21cm</td></tr>
         <tr><td>Clasp Type</td><td>Buckle</td></tr>
         <tr><td>Water Resistance Depth</td><td>3BAR</td></tr>
         <tr><td>Place of Origin</td><td>Guangdong, China</td></tr>
-        <tr><td>Feature</td><td>chronograph, Day/Date, water resistant, Waterproof, Luminous</td></tr>
+        <tr><td>Feature</td><td>Chronograph, Day/Date, Water Resistant, Waterproof, Luminous</td></tr>
         <tr><td>User</td><td>Men</td></tr>
         <tr><td>Dial Diameter</td><td>42mm</td></tr>
         <tr><td>Band Width</td><td>22mm</td></tr>
         <tr><td>Case Thickness</td><td>11mm</td></tr>
         <tr><td>Brand Name</td><td>Poedagar</td></tr>
         <tr><td>Model Number</td><td>928</td></tr>
-        <tr><td>Type</td><td>CHARM, Coin, Fashion, Luxury, sport, Business</td></tr>
+        <tr><td>Type</td><td>Charm, Coin, Fashion, Luxury, Sport, Business</td></tr>
         <tr><td>Material</td><td>Stainless Steel</td></tr>
         <tr><td>Age</td><td>Latest</td></tr>
         <tr><td>Dial Display</td><td>Pointer</td></tr>
         <tr><td>Battery Life</td><td>2 years</td></tr>
         <tr><td>Movement Brand</td><td>CHENLONG</td></tr>
-
         <tr><th colspan="2">Packaging and Delivery</th></tr>
         <tr><td>Selling Units</td><td>Single item</td></tr>
-        <tr><td>Single package size</td><td>18X9X4 cm</td></tr>
-        <tr><td>Single gross weight</td><td>0.120 kg</td></tr>
-      </tbody>
-    </table>
-  </div>
+        <tr><td>Package Size</td><td>18x9x4 cm</td></tr>
+        <tr><td>Gross Weight</td><td>0.120 kg</td></tr>
+      </table>
+    </div>
+  </main>
 
   <footer>
-    &copy; 2025 CLOKKA. All rights reserved.
+    <p>&copy; 2025 CLOKKA. All rights reserved.</p>
   </footer>
+
+  <script>
+    const images = [
+      "https://s.alicdn.com/@sc04/kf/H1aa1ff4178184120bba2f3cd452a5373U.png_720x720q50.jpg",
+      "https://s.alicdn.com/@sc04/kf/H5393a78b09b541ffa9327cc1cb09ec6f3.png_720x720q50.jpg",
+      "https://s.alicdn.com/@sc04/kf/H684aed1347374543aab77048b32ce112C.png_720x720q50.jpg",
+      "https://s.alicdn.com/@sc04/kf/H88623df3280a45729863ca3ada893524k.png_720x720q50.jpg",
+      "video"
+    ];
+    let currentIndex = 0;
+    const mainImage = document.getElementById('main-image');
+    const videoContainer = document.getElementById('video-container');
+    const leftArrow = document.querySelector('.arrow-left');
+    const rightArrow = document.querySelector('.arrow-right');
+
+    function updateGallery() {
+      if (images[currentIndex] === "video") {
+        mainImage.style.display = "none";
+        videoContainer.style.display = "flex";
+      } else {
+        videoContainer.style.display = "none";
+        mainImage.style.display = "block";
+        mainImage.src = images[currentIndex];
+        mainImage.alt = "Watch image " + (currentIndex + 1);
+      }
+    }
+
+    leftArrow.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateGallery();
+    });
+
+    rightArrow.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateGallery();
+    });
+
+    updateGallery();
+  </script>
 </body>
 </html>
-
