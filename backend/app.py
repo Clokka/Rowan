@@ -52,8 +52,10 @@ def require_api_key(f):
 # PROMO_API_ID is the API ID of the promotion code in Stripe
 # All keys should be lowercase in this dictionary
 DISCOUNT_CODES = {
-    "clokka123": os.getenv('PROMO_API_ID_CLOKKA123')
-}
+    "clokka123": os.getenv('
+LPa7trtR')
+ "clock123": os.getenv('
+D688y5Fv')}
 
 @app.route('/api/discount-details', methods=['GET'])
 def get_discount_details():
