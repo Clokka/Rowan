@@ -19,6 +19,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1rem;
     }
 
     .header-left {
@@ -68,19 +69,19 @@
       pointer-events: none;
     }
 
+    /* New Review Orders Button Style */
     .orders-button {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       background-color: #c0392b;
       color: white;
       padding: 10px 16px;
       border-radius: 6px;
       font-weight: bold;
       text-decoration: none;
-      margin-left: 1rem;
-      transition: background 0.3s ease;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      height: 40px;
+      transition: background-color 0.3s ease;
     }
 
     .orders-button:hover {
@@ -260,7 +261,8 @@
       <img src="https://i.imgur.com/VtMMSyI.png" alt="CLOKKA Red Logo" onclick="window.location.href='index.html'"/>
       <h1>CLOKKA Shop</h1>
     </div>
-    <div style="display: flex; align-items: center;">
+    
+    <div style="display: flex; align-items: center; gap: 15px;">
       <div class="basket-icon" onclick="window.location.href='checkout.html'" title="Go to Basket" aria-label="Cart with item count">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="24" height="24">
           <circle cx="9" cy="21" r="1"></circle>
@@ -269,7 +271,7 @@
         </svg>
         <div id="cart-count" class="cart-count-badge" style="display:none">0</div>
       </div>
-
+      <!-- Review Orders Button -->
       <a href="#" id="review-orders-btn" class="orders-button" title="Review your orders">📦 Review My Orders</a>
     </div>
   </header>
@@ -298,28 +300,14 @@
   <script src="shop.js" type="module"></script>
 
   <script>
-    document.getElementById('review-orders-btn').addEventListener('click', async () => {
-      const email = prompt('Please enter your email to view your orders:');
-      if (!email) return alert('Email is required to review orders.');
-
-      try {
-        const res = await fetch('/create-portal-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ customer_email: email })
-        });
-
-        const data = await res.json();
-
-        if (data.url) {
-          window.location.href = data.url; // Redirect to Stripe Customer Portal
-        } else {
-          alert(data.error || 'Could not open customer portal.');
-        }
-      } catch (err) {
-        alert('Error connecting to server.');
-        console.error(err);
-      }
+    // Example handler for Review Orders button
+    document.getElementById('review-orders-btn').addEventListener('click', function(event) {
+      event.preventDefault();
+      // Redirect users to your Stripe customer portal or orders page
+      // For now, just alert
+      alert('This will take you to your order history (implement Stripe Customer Portal link here).');
+      // Replace with actual Stripe portal link when backend is ready, e.g.:
+      // window.location.href = '/create-customer-portal-session';
     });
   </script>
 </body>
