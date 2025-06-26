@@ -83,4 +83,70 @@ async function fetchAndRenderProducts(page = 1, sortCriteria = 'newest') {
         });
 
         hasNextPage = data.hasNextPage;
-        currentPage =
+        currentPage = data.currentPage;
+
+        mainGrid.innerHTML = '';
+
+        if (productsData.length === 0 && currentPage === 1) {
+            mainGrid.innerHTML = "<p>No products found.</p>";
+            renderPaginationControls();
+            return;
+        }
+
+        productsData.forEach(product => {
+            const productElement = createProductElement(product.id, product);
+            mainGrid.appendChild(productElement);
+        });
+
+        handleStockDisplay();
+        renderPaginationControls();
+        setupCart();
+        
+    } catch (error) {
+        console.error("Could not fetch and render products:", error);
+        mainGrid.innerHTML = "<p>Error loading products. Please try again later.</p>";
+        paginationContainer.innerHTML = '';
+    }
+}
+
+function renderPaginationControls() {
+    paginationContainer.innerHTML = '';
+
+    if (currentPage === 1 && !hasNextPage) return;
+
+    const prevButton = document.createElement('button');
+    prevButton.id = 'prev-page';
+    prevButton.innerText = 'Previous';
+    prevButton.disabled = currentPage <= 1;
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            fetchAndRenderProducts(currentPage - 1, sortSelect.value);
+        }
+    });
+
+    const pageInfo = document.createElement('span');
+    pageInfo.id = 'page-info';
+    pageInfo.innerText = `Page ${currentPage}`;
+
+    const nextButton = document.createElement('button');
+    nextButton.id = 'next-page';
+    nextButton.innerText = 'Next';
+    nextButton.disabled = !hasNextPage;
+    nextButton.addEventListener('click', () => {
+        if (hasNextPage) {
+            fetchAndRenderProducts(currentPage + 1, sortSelect.value);
+        }
+    });
+    
+    paginationContainer.appendChild(prevButton);
+    paginationContainer.appendChild(pageInfo);
+    paginationContainer.appendChild(nextButton);
+}
+
+sortSelect.addEventListener('change', () => {
+    fetchAndRenderProducts(1, sortSelect.value);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAndRenderProducts(currentPage, sortSelect.value);
+});
