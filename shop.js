@@ -28,40 +28,40 @@ function createProductElement(id, product) {
     const titleHTML = `<h3>${product.name}</h3>`;
 
     if (product.page_url) {
-    imageAndTitleHTML = `<a href="${product.page_url}">${imageHTML}${titleHTML}</a>`;
+        imageAndTitleHTML = `<a href="${product.page_url}">${imageHTML}${titleHTML}</a>`;
     } else {
-    imageAndTitleHTML = imageHTML + titleHTML;
+        imageAndTitleHTML = imageHTML + titleHTML;
     }
     
     productDiv.innerHTML = `
-    ${isNew ? '<div class="new-badge">New</div>' : ''}
-    ${imageAndTitleHTML}
-    <p>£${product.price.toFixed(2)}</p>
-    <p class="review">★★★★★ (5/5)</p>
-    <button class="add-to-basket"
-            data-id="${id}"
-            data-name="${product.name}"
-            data-price="${product.price}"
-            data-image="${product.image}">
-        Add to Cart
-    </button>
+        ${isNew ? '<div class="new-badge">New</div>' : ''}
+        ${imageAndTitleHTML}
+        <p>£${product.price.toFixed(2)}</p>
+        <p class="review">★★★★★ (5/5)</p>
+        <button class="add-to-basket"
+                data-id="${id}"
+                data-name="${product.name}"
+                data-price="${product.price}"
+                data-image="${product.image}">
+            Add to Cart
+        </button>
     `;
     return productDiv;
 }
 
 function handleStockDisplay() {
     document.querySelectorAll('.product').forEach(product => {
-    if (product.dataset.stock === "0") {
-        product.classList.add('out-of-stock');
-        const badge = document.createElement('div');
-        badge.className = 'stock-badge';
-        badge.innerText = 'Out of Stock';
-        product.appendChild(badge);
+        if (product.dataset.stock === "0") {
+            product.classList.add('out-of-stock');
+            const badge = document.createElement('div');
+            badge.className = 'stock-badge';
+            badge.innerText = 'Out of Stock';
+            product.appendChild(badge);
 
-        const btn = product.querySelector('.add-to-basket');
-        btn.disabled = true;
-        btn.innerText = 'Out of Stock';
-    }
+            const btn = product.querySelector('.add-to-basket');
+            btn.disabled = true;
+            btn.innerText = 'Out of Stock';
+        }
     });
 }
 
@@ -74,71 +74,13 @@ async function fetchAndRenderProducts(page = 1, sortCriteria = 'newest') {
         }
         const data = await response.json();
         const productsData = data.products;
-        hasNextPage = data.hasNextPage;
-        currentPage = data.currentPage;
 
-        mainGrid.innerHTML = '';
-
-        if (productsData.length === 0 && currentPage === 1) {
-            mainGrid.innerHTML = "<p>No products found.</p>";
-            renderPaginationControls();
-            return;
-        }
-
-        productsData.forEach(product => {
-            const productElement = createProductElement(product.id, product);
-            mainGrid.appendChild(productElement);
+        // Sort: in-stock products first
+        productsData.sort((a, b) => {
+            const aInStock = parseInt(a.stock) > 0;
+            const bInStock = parseInt(b.stock) > 0;
+            return (bInStock ? 1 : 0) - (aInStock ? 1 : 0);
         });
 
-        handleStockDisplay();
-        renderPaginationControls();
-        setupCart();
-        
-    } catch (error) {
-        console.error("Could not fetch and render products:", error);
-        mainGrid.innerHTML = "<p>Error loading products. Please try again later.</p>";
-        paginationContainer.innerHTML = '';
-    }
-}
-
-function renderPaginationControls() {
-    paginationContainer.innerHTML = '';
-
-    if (currentPage === 1 && !hasNextPage) return;
-
-    const prevButton = document.createElement('button');
-    prevButton.id = 'prev-page';
-    prevButton.innerText = 'Previous';
-    prevButton.disabled = currentPage <= 1;
-    prevButton.addEventListener('click', () => {
-        if (currentPage > 1) {
-            fetchAndRenderProducts(currentPage - 1, sortSelect.value);
-        }
-    });
-
-    const pageInfo = document.createElement('span');
-    pageInfo.id = 'page-info';
-    pageInfo.innerText = `Page ${currentPage}`;
-
-    const nextButton = document.createElement('button');
-    nextButton.id = 'next-page';
-    nextButton.innerText = 'Next';
-    nextButton.disabled = !hasNextPage;
-    nextButton.addEventListener('click', () => {
-        if (hasNextPage) {
-            fetchAndRenderProducts(currentPage + 1, sortSelect.value);
-        }
-    });
-    
-    paginationContainer.appendChild(prevButton);
-    paginationContainer.appendChild(pageInfo);
-    paginationContainer.appendChild(nextButton);
-}
-
-sortSelect.addEventListener('change', () => {
-    fetchAndRenderProducts(1, sortSelect.value);
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    fetchAndRenderProducts(currentPage, sortSelect.value);
-});
+        hasNextPage = data.hasNextPage;
+        currentPage =
