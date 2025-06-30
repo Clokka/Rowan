@@ -314,8 +314,8 @@ def create_checkout_session():
             'payment_method_types': ['card'],
             'line_items': line_items,
             'mode': 'payment',
-            'success_url': DOMAIN + 'success.html',
-            'cancel_url': DOMAIN + 'cancel.html',
+            'success_url': DOMAIN + '/success.html',
+            'cancel_url': DOMAIN + '/cancel.html',
             'shipping_address_collection': {
                 'allowed_countries': ['GB']
             }
