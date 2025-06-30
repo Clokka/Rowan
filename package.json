@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "scss": "sass --watch static/scss:static/css",
-    "build": "sass static/scss:static/css"
+    "build:css": "sass static/scss:static/css",
+    "build": "rm -rf public && mkdir public && npm run build:css && cp templates/*.html public/ && cp -r static public/ && cp -r images public/ && cp -r videos public/ && cp favicon.ico public/ && cp CNAME public/"
   },
   "repository": {
     "type": "git",
