@@ -28,60 +28,54 @@ function createProductElement(id, product) {
     const titleHTML = `<h3>${product.name}</h3>`;
 
     if (product.page_url) {
-        imageAndTitleHTML = `<a href="${product.page_url}">${imageHTML}${titleHTML}</a>`;
+    imageAndTitleHTML = `<a href="${product.page_url}">${imageHTML}${titleHTML}</a>`;
     } else {
-        imageAndTitleHTML = imageHTML + titleHTML;
+    imageAndTitleHTML = imageHTML + titleHTML;
     }
     
     productDiv.innerHTML = `
-        ${isNew ? '<div class="new-badge">New</div>' : ''}
-        ${imageAndTitleHTML}
-        <p>£${product.price.toFixed(2)}</p>
-        <p class="review">★★★★★ (5/5)</p>
-        <button class="add-to-basket"
-                data-id="${id}"
-                data-name="${product.name}"
-                data-price="${product.price}"
-                data-image="${product.image}">
-            Add to Cart
-        </button>
+    ${isNew ? '<div class="new-badge">New</div>' : ''}
+    ${imageAndTitleHTML}
+    <p>£${product.price.toFixed(2)}</p>
+    <p class="review">★★★★★ (5/5)</p>
+    <button class="add-to-basket"
+            data-id="${id}"
+            data-name="${product.name}"
+            data-price="${product.price}"
+            data-image="${product.image}">
+        Add to Cart
+    </button>
     `;
     return productDiv;
 }
 
 function handleStockDisplay() {
     document.querySelectorAll('.product').forEach(product => {
-        if (product.dataset.stock === "0") {
-            product.classList.add('out-of-stock');
-            const badge = document.createElement('div');
-            badge.className = 'stock-badge';
-            badge.innerText = 'Out of Stock';
-            product.appendChild(badge);
+    if (product.dataset.stock === "0") {
+        product.classList.add('out-of-stock');
+        const badge = document.createElement('div');
+        badge.className = 'stock-badge';
+        badge.innerText = 'Out of Stock';
+        product.appendChild(badge);
 
-            const btn = product.querySelector('.add-to-basket');
-            btn.disabled = true;
-            btn.innerText = 'Out of Stock';
-        }
+        const btn = product.querySelector('.add-to-basket');
+        btn.disabled = true;
+        btn.innerText = 'Out of Stock';
+    }
     });
 }
 
 async function fetchAndRenderProducts(page = 1, sortCriteria = 'newest') {
     currentPage = page;
     try {
+        // If you are running locally, use http://127.0.0.1:5000
+        // If you are deploying online for production, use https://clokka-backend.onrender.com
         const response = await fetch(`https://clokka-backend.onrender.com/api/products?page=${page}&limit=${productsPerPage}&sort=${sortCriteria}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         const productsData = data.products;
-
-        // Sort: in-stock products first
-        productsData.sort((a, b) => {
-            const aInStock = parseInt(a.stock) > 0;
-            const bInStock = parseInt(b.stock) > 0;
-            return (bInStock ? 1 : 0) - (aInStock ? 1 : 0);
-        });
-
         hasNextPage = data.hasNextPage;
         currentPage = data.currentPage;
 
@@ -149,4 +143,4 @@ sortSelect.addEventListener('change', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchAndRenderProducts(currentPage, sortSelect.value);
-});
+}); 
