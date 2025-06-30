@@ -5,6 +5,11 @@
   color: var(--text-color);
 }
 
+.checkout-header {
+  all: unset;
+  display: block;
+}
+
 .checkout-title {
   text-align: center;
   margin-bottom: 1.5rem;
