@@ -1,4 +1,4 @@
 .env
 backend/venv/
 node_modules/
-static/css/main.css.map
+static/css/
