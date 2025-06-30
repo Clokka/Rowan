@@ -1,0 +1,203 @@
+.page-checkout {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  padding: 1.5rem;
+  background: var(--light-gray);
+  color: var(--text-color);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.cart {
+  max-width: 600px;
+  margin: auto;
+  background: var(--background-color);
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 0;
+}
+
+.cart-item:last-of-type {
+  border-bottom: none;
+}
+
+.item-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.item-info img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item-name {
+    font-weight: 600;
+}
+
+.checkout-qty {
+  width: 45px;
+  padding: 4px 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.item-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.item-price {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.checkout-remove {
+  background: transparent;
+  color: var(--red-color);
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.checkout-remove:hover {
+    background-color: #f1f1f1;
+    color: var(--red-color);
+}
+
+.cart-summary {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.action-button {
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.action-button:hover {
+    transform: translateY(-2px);
+}
+
+.checkout-btn {
+  background: var(--primary-color);
+  color: white;
+}
+
+.checkout-btn:hover {
+    background-color: #6b1e15;
+}
+
+.continue-shopping-btn {
+  background: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.continue-shopping-btn:hover {
+    background-color: #ffe6e6;
+}
+
+.logo-checkout {
+  width: 120px;
+  height: 100px;
+  margin-bottom: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.discount-area {
+    display: flex;
+    gap: 8px;
+    margin-top: 1rem;
+}
+
+.discount-area input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.discount-area button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--secondary-color);
+    color: white;
+    cursor: pointer;
+}
+
+.discount-area button:hover {
+    background-color: #5a6268;
+}
+
+#discount-message {
+    margin-top: 8px;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.discount-line {
+    color: green;
+    font-size: 0.9em;
+}
+
+.total-line {
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding-top: 0.5rem;
+}
+
+.cart-summary-block {
+    border-top: 2px solid var(--border-color);
+    margin-top: 1rem;
+    padding-top: 1rem;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.2rem 0;
+}

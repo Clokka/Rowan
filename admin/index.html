@@ -39,30 +39,49 @@
                 <h2>Edit Product</h2>
                 <span class="close-button">&times;</span>
             </div>
-            <form id="editProductForm">
-                <input type="hidden" id="edit-productId">
-                <div class="form-group">
-                    <label for="edit-name">Name:</label>
-                    <input type="text" id="edit-name" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit-price">Price:</label>
-                    <input type="number" step="0.01" id="edit-price" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit-stock">Stock: (0 or 1)</label>
-                    <input type="number" id="edit-stock" required min="0" max="1">
-                </div>
-                <div class="form-group">
-                    <label for="edit-image">Image URL:</label>
-                    <input type="text" id="edit-image" required>
-                </div>
-                <div class="form-group">
-                    <label for="edit-page_url">Page URL:</label>
-                    <input type="text" id="edit-page_url">
-                </div>
-                <button type="submit" class="admin-btn btn-primary">Save Changes</button>
-            </form>
+            <div class="modal-body">
+                <form id="editProductForm">
+                    <input type="hidden" id="edit-productId">
+                    <div class="form-group">
+                        <label for="edit-name">Name:</label>
+                        <input type="text" id="edit-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-price">Price:</label>
+                        <input type="number" step="0.01" id="edit-price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-image">Image URL:</label>
+                        <input type="text" id="edit-image" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-page_url">Page URL:</label>
+                        <input type="text" id="edit-page_url">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-description">Description:</label>
+                        <textarea id="edit-description" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-attributes">Attributes (JSON format):</label>
+                        <textarea id="edit-attributes" rows="6"></textarea>
+                    </div>
+
+                    <hr class="form-divider">
+                    <div class="admin-header">
+                        <h2>Color Variants</h2>
+                    </div>
+                    <div id="edit-color-variants-container">
+                        <!-- Dynamic color variant forms for editing -->
+                    </div>
+                    <button type="button" id="edit-add-color-btn" class="admin-btn btn-secondary">Add Color Variant</button>
+                    <hr class="form-divider">
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" form="editProductForm" class="admin-btn btn-primary">Save Changes</button>
+            </div>
         </div>
     </div>
 

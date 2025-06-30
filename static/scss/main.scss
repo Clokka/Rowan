@@ -1,0 +1,15 @@
+/*
+SCSS Entrypoint
+*/
+
+// 1. Global styles
+@use 'globals';
+
+// 2. Page-specific styles
+@use 'index';
+@use 'shop';
+@use 'checkout';
+@use 'contact';
+@use 'success';
+@use 'cancel';
+@use 'watch-details';
