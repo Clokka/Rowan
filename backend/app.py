@@ -59,7 +59,8 @@ def require_api_key(f):
 # PROMO_API_ID is the API ID of the promotion code in Stripe
 # All keys should be lowercase in this dictionary
 DISCOUNT_CODES = {
-    "clokka123": os.getenv('PROMO_API_ID_CLOKKA123')
+    "clokka123": os.getenv('LPa7trtR'),
+    "clock123": os.getenv('D688y5Fv')
 }
 
 
@@ -69,7 +70,6 @@ def get_discount_details():
     if not code:
         return jsonify({'error': 'Discount code is required.'}), 400
     
-    # Converting input to lowercase to match the keys in the DISCOUNT_CODES dictionary
     promo_id = DISCOUNT_CODES.get(code.lower())
     if not promo_id:
         return jsonify({'error': 'Invalid discount code.'}), 404
@@ -105,19 +105,25 @@ def get_products():
     page = int(request.args.get('page', 1))
     limit = int(request.args.get('limit', 12))
 
+    # Base sort: stock descending to show in-stock first
+    base_sort = [("stock", -1)]
+
+    # User-chosen sort criteria after stock sorting
     sort_map = {
         'newest': [('date', -1)],
         'price-low': [('price', 1)],
         'price-high': [('price', -1)],
         'bestselling': [('sales', -1)]
     }
-    sort_query = sort_map.get(sort_criteria, [('date', -1)])
+    user_sort = sort_map.get(sort_criteria, [('date', -1)])
+
+    # Combine base sort and user sort
+    sort_query = base_sort + user_sort
 
     start_index = (page - 1) * limit
-    
-    # Fetching one more document than the limit to check for a next page
+
     products_cursor = products_collection.find().sort(sort_query).skip(start_index).limit(limit + 1)
-    
+
     products_list = []
     for product in products_cursor:
         product['id'] = str(product['_id'])
@@ -139,10 +145,8 @@ def get_products():
 
         products_list.append(product)
 
-    # Determining if there's a next page
     has_next_page = len(products_list) > limit
-    
-    # Trimming the extra product if it exists
+
     if has_next_page:
         products_list = products_list[:-1]
 
