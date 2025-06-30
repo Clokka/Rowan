@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OLEVS Skeleton Watch - CLOKKA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/main.css">
+</head>
+<body class="page-watch-details">
+  <div class="top-banner">
+    <span>Luxe & Affordable: The CLOKKA Promise &nbsp;&nbsp;&nbsp;&nbsp; Luxe & Affordable: The CLOKKA Promise</span>
+  </div>
+
+  <header>
+    <div class="header-left">
+      <img src="../images/clokkalogo.png" alt="CLOKKA Logo" class="logo" onclick="window.location.href='index.html'" />
+      <div class="header-text">
+        <h1>CLOKKA</h1>
+        <p>Style Meets Precision</p>
+      </div>
+    </div>
+    <div class="menu-container">
+      <button id="menu-btn" aria-label="Menu" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div id="menu-dropdown" class="menu-dropdown hidden">
+        <a href="/signin.html">Sign In</a>
+        <a href="/contact.html">Contact Us</a>
+        <a href="/CLOKKAstreetwear.html">CLOKKA Streetwear</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h1 style="text-align:center; margin-top:2rem;">OLEVS Men's Skeleton Watch</h1>
+
+    <div class="gallery-container">
+      <button class="arrow arrow-left" aria-label="Previous image">&#8592;</button>
+      <img src="" alt="OLEVS Skeleton Watch" class="main-image" id="main-image" />
+      <button class="arrow arrow-right" aria-label="Next image">&#8594;</button>
+
+      <div class="video-container" id="video-container" style="display:none;">
+        <video autoplay muted loop playsinline width="100%" height="280" style="border-radius:8px; object-fit: cover;">
+          <source src="" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+
+    <div id="color-selector" class="color-selector-container">
+      <!-- Color options will be inserted here -->
+    </div>
+
+    <div class="buttons-row" role="tablist" aria-label="Product Information Tabs">
+      <button class="tab-button active" data-tab="attributes" role="tab" aria-selected="true" aria-controls="tab-attributes" id="tab-btn-attributes">Attributes</button>
+      <button class="tab-button" data-tab="performance" role="tab" aria-selected="false" aria-controls="tab-performance" id="tab-btn-performance">Performance</button>
+      <button class="tab-button" data-tab="supplier" role="tab" aria-selected="false" aria-controls="tab-supplier" id="tab-btn-supplier">Supplier</button>
+      <button class="tab-button" data-tab="description" role="tab" aria-selected="false" aria-controls="tab-description" id="tab-btn-description">Description</button>
+    </div>
+
+    <div class="tab-content" id="tab-content" role="tabpanel" aria-labelledby="tab-btn-attributes">
+      <!-- Content will be inserted here -->
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 CLOKKA. All rights reserved.</p>
+  </footer>
+
+  <script src="../static/js/main.js"></script>
+  <script src="../static/js/watch-details.js"></script>
+</body>
+</html> 

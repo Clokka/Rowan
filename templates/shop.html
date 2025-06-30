@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shop - CLOKKA</title>
+  <link rel="stylesheet" href="../static/css/main.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="page-shop">
+
+  <header>
+    <div class="header-left">
+      <img src="../images/clokkalogo.png" alt="CLOKKA Red Logo" onclick="window.location.href='index.html'"/>
+      <h1>CLOKKA Shop</h1>
+    </div>
+    <div class="basket-icon" onclick="window.location.href='checkout.html'" title="Go to Basket" aria-label="Cart with item count">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="24" height="24">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+      <div id="cart-count" class="cart-count-badge" style="display:none">0</div>
+    </div>
+  </header>
+
+  <div class="sort-container">
+    <label for="sort-select">Sort by: </label>
+    <select id="sort-select">
+      <option value="newest">Newest Arrivals</option>
+      <option value="price-low">Price: Low to High</option>
+      <option value="price-high">Price: High to Low</option>
+      <option value="bestselling">Best Selling</option>
+    </select>
+  </div>
+
+  <section class="product-grid" id="product-grid">
+    <!-- Products will be added here automatically -->
+    <!-- IMPORTANT: If you want to add or remove a product, you must add it to the PRODUCTS_DB in app.py -->
+  </section>
+
+  <div class="pagination-container" id="pagination-container">
+    <!-- Pagination controls will be added here automatically if there are more than 12 products -->
+  </div>
+
+  <!-- Script of this file can be found in shop.js -->
+  <script src="../static/js/shop.js" type="module"></script>
+
+  <footer>
+    <p>&copy; 2025 CLOKKA. All rights reserved.</p>
+  </footer>
+</body>
+</html>

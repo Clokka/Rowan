@@ -10,7 +10,9 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from functools import wraps
 
+
 load_dotenv() # Loading environment variables from a .env file (in the backend/ directory)
+
 
 # Initializing Flask app and enabling CORS
 # backend/.env file should have CORS_ORIGINS=http://localhost:5500,http://127.0.0.1:5500,https://clokka.co.uk
@@ -21,11 +23,13 @@ if origins:
 else:
     CORS(app)
 
+
 # Stripe API key and domain
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 DOMAIN = os.getenv('DOMAIN')
 
 ADMIN_API_KEY = os.getenv('ADMIN_API_KEY')
+
 
 # MongoDB Connection Setup
 mongo_uri = os.getenv('MONGO_URI')
@@ -33,10 +37,12 @@ client = MongoClient(mongo_uri)
 db = client.reicluster
 products_collection = db.products
 
+
 # Creating indexes to improve sort performance
 products_collection.create_index([("date", -1)])
 products_collection.create_index([("price", 1)])
 products_collection.create_index([("sales", -1)])
+
 
 # Security Decorator for Admin Routes
 def require_api_key(f):
@@ -48,12 +54,14 @@ def require_api_key(f):
             return jsonify({"message": "API key is missing or invalid."}), 401
     return decorated_function
 
+
 # Discount codes for the checkout page
 # PROMO_API_ID is the API ID of the promotion code in Stripe
 # All keys should be lowercase in this dictionary
 DISCOUNT_CODES = {
     "clokka123": os.getenv('PROMO_API_ID_CLOKKA123')
 }
+
 
 @app.route('/api/discount-details', methods=['GET'])
 def get_discount_details():
@@ -72,11 +80,15 @@ def get_discount_details():
     
     try:
         promo_code = stripe.PromotionCode.retrieve(promo_id, expand=['coupon'])
+        
         if not promo_code.active or not promo_code.coupon:
             return jsonify({'error': 'This discount code is not active.'}), 404
+            
         percent_off = promo_code.coupon.percent_off
+        
         if not percent_off:
             return jsonify({'error': 'This discount is for a fixed amount, not a percentage.'}), 400
+            
         return jsonify({'percent': percent_off})
     
     except stripe.error.StripeError as e:
@@ -85,6 +97,7 @@ def get_discount_details():
     except Exception as e:
         app.logger.error(f"Error fetching discount details: {e}")
         return jsonify({'error': 'An internal server error occurred.'}), 500
+
 
 @app.route('/api/products', methods=['GET'])
 def get_products():
@@ -109,6 +122,21 @@ def get_products():
     for product in products_cursor:
         product['id'] = str(product['_id'])
         del product['_id']
+
+        # All products are expected to have a 'colors' array.
+        # Calculate total stock from all variants for the admin list.
+        if 'colors' in product and product['colors']:
+            total_stock = sum(color.get('stock', 0) for color in product['colors'])
+            product['stock'] = total_stock
+        else:
+            # If a product somehow exists without colors, show 0 stock.
+            product['stock'] = 0
+
+        # Backwards compatibility: If a global image is missing, use one from a color variant.
+        if not product.get('image') and product.get('colors'):
+            if product['colors'][0].get('images'):
+                product['image'] = product['colors'][0]['images'][0]
+
         products_list.append(product)
 
     # Determining if there's a next page
@@ -124,22 +152,32 @@ def get_products():
         'currentPage': page
     })
 
+
 # Admin API Endpoints
 @app.route('/api/admin/products', methods=['POST'])
 @require_api_key
 def add_product():
     try:
         data = request.get_json()
-        required_fields = ['name', 'price', 'stock', 'image', 'date', 'sales']
-        if not all(field in data for field in required_fields):
-            return jsonify({'error': 'Missing required fields'}), 400      
+
+        # All products must have a name, price, and at least one color variant.
+        required_fields = ['name', 'price', 'date', 'sales', 'colors']
+        if not all(field in data for field in required_fields) or not data['colors']:
+            return jsonify({'error': 'Missing required fields, or the colors array is empty.'}), 400
+
+        # A global image is also required.
+        if 'image' not in data or not data['image']:
+             return jsonify({'error': 'Missing required field: image.'}), 400
+        
         result = products_collection.insert_one(data)
         new_product_id = str(result.inserted_id)
         
         return jsonify({'message': 'Product added successfully', 'productId': new_product_id}), 201
+        
     except Exception as e:
         app.logger.error(f"Error adding product: {e}")
         return jsonify({'error': "An internal server error occurred."}), 500
+
 
 @app.route('/api/admin/products/<product_id>', methods=['PUT'])
 @require_api_key
@@ -158,9 +196,11 @@ def update_product(product_id):
             return jsonify({'error': 'Product not found'}), 404
             
         return jsonify({'message': 'Product updated successfully'}), 200
+        
     except Exception as e:
         app.logger.error(f"Error updating product: {e}")
         return jsonify({'error': "An internal server error occurred."}), 500
+
 
 @app.route('/api/admin/products/<product_id>', methods=['DELETE'])
 @require_api_key
@@ -172,24 +212,56 @@ def delete_product(product_id):
             return jsonify({'error': 'Product not found'}), 404
             
         return jsonify({'message': 'Product deleted successfully'}), 200
+        
     except Exception as e:
         app.logger.error(f"Error deleting product: {e}")
         return jsonify({'error': "An internal server error occurred."}), 500
+
 
 @app.route('/api/products/<product_id>', methods=['GET'])
 def get_product(product_id):
     try:
         product = products_collection.find_one({'_id': ObjectId(product_id)})
+        
         if product:
-            # Converting ObjectId to string to be able to return it in the JSON response
             product['id'] = str(product['_id'])
             del product['_id']
             return jsonify(product)
         else:
             return jsonify({'error': 'Product not found'}), 404
+            
     except Exception as e:
         app.logger.error(f"Error fetching product: {e}")
         return jsonify({'error': 'An internal server error occurred'}), 500
+
+
+@app.route('/api/product-by-url', methods=['GET'])
+def get_product_by_url():
+    page_url = request.args.get('url')
+    if not page_url:
+        return jsonify({'error': 'URL parameter is required'}), 400
+        
+    try:
+        product = products_collection.find_one({'page_url': page_url})
+        
+        if product:
+            product['id'] = str(product['_id'])
+            del product['_id']
+            
+            # Apply global price to color variants for display consistency.
+            if 'colors' in product and product['colors'] and product.get('price') is not None:
+                product_price = product.get('price')
+                for color in product['colors']:
+                    color['price'] = product_price
+                    
+            return jsonify(product)
+        else:
+            return jsonify({'error': 'Product not found for this URL'}), 404
+            
+    except Exception as e:
+        app.logger.error(f"Error fetching product by URL: {e}")
+        return jsonify({'error': 'An internal server error occurred'}), 500
+
 
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
@@ -197,27 +269,57 @@ def create_checkout_session():
         data = request.get_json()
         cart_items_from_client = data.get('items', [])
         discount_code_from_client = data.get('discountCode')
+
         if not cart_items_from_client:
             return jsonify({'error': 'No items in cart'}), 400
+
         line_items = []
         for client_item in cart_items_from_client:
             product_id_str = str(client_item.get('id'))
             quantity = client_item.get('quantity', 1)
+            
             product_from_db = products_collection.find_one({'_id': ObjectId(product_id_str)})
+            
             if not product_from_db:
                 return jsonify({'error': f"Invalid product ID: {product_id_str}"}), 400
+                
             if product_from_db.get('stock', 0) == 0:
                 return jsonify({'error': f"Item out of stock: {product_from_db.get('name')}"}), 400
+                
             if quantity <= 0:
                 return jsonify({'error': f"Invalid quantity for item: {product_from_db.get('name')}"}), 400
+                
             try:
                 unit_amount = int(float(product_from_db.get('price')) * 100)
             except (ValueError, TypeError):
                 return jsonify({'error': f"Invalid price format for item: {product_from_db.get('name')} in database"}), 500
-            line_items.append({'price_data': {'currency': 'gbp','product_data': {'name': product_from_db.get('name'),'images': [product_from_db.get('image')] if product_from_db.get('image') else []},'unit_amount': unit_amount},'quantity': quantity})
-        session_params = {'payment_method_types': ['card'],'line_items': line_items,'mode': 'payment','success_url': DOMAIN + '/success.html','cancel_url': DOMAIN + '/cancel.html','shipping_address_collection': {'allowed_countries': ['GB']}}
+                
+            line_items.append({
+                'price_data': {
+                    'currency': 'gbp',
+                    'product_data': {
+                        'name': product_from_db.get('name'),
+                        'images': [product_from_db.get('image')] if product_from_db.get('image') else []
+                    },
+                    'unit_amount': unit_amount
+                },
+                'quantity': quantity
+            })
+            
+        session_params = {
+            'payment_method_types': ['card'],
+            'line_items': line_items,
+            'mode': 'payment',
+            'success_url': DOMAIN + '/templates/success.html',
+            'cancel_url': DOMAIN + '/templates/cancel.html',
+            'shipping_address_collection': {
+                'allowed_countries': ['GB']
+            }
+        }
+        
         if discount_code_from_client:
             stripe_id = DISCOUNT_CODES.get(discount_code_from_client.lower())
+            
             if stripe_id:
                 if stripe_id.startswith('promo_'):
                     session_params['discounts'] = [{'promotion_code': stripe_id}]
@@ -228,11 +330,15 @@ def create_checkout_session():
                     return jsonify({'error': 'Server configuration error for discount code.'}), 500
             else:
                 return jsonify({'error': 'Invalid discount code.'}), 400
+                
         checkout_session = stripe.checkout.Session.create(**session_params)
+        
         return jsonify({'url': checkout_session.url})
+        
     except Exception as e:
         app.logger.error(f"Error creating checkout session: {e}")
         return jsonify({'error': "An internal server error occurred."}), 500
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=False)

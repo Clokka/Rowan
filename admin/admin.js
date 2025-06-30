@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // If you are deploying online for production, use https://clokka-backend.onrender.com
     const API_BASE_URL = 'https://clokka-backend.onrender.com';
     let ADMIN_API_KEY = sessionStorage.getItem('adminApiKey');
+    let productBeingEdited = null;
 
     const promptForApiKey = () => {
         if (!ADMIN_API_KEY) {
@@ -35,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td data-label="Name">${product.name}</td>
-                    <td data-label="Price (£)">${product.price.toFixed(2)}</td>
-                    <td data-label="Stock">${product.stock}</td>
+                    <td data-label="Price (£)">${(product.price || 0).toFixed(2)}</td>
+                    <td data-label="Stock">${product.stock ?? 'N/A'}</td>
                     <td data-label="Sales">${product.sales}</td>
                     <td data-label="Actions" class="actions">
                         <button class="btn-edit" data-id="${product.id}">Edit</button>
@@ -94,11 +95,21 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('edit-productId').value = product.id;
             document.getElementById('edit-name').value = product.name;
             document.getElementById('edit-price').value = product.price;
-            document.getElementById('edit-stock').value = product.stock;
-            document.getElementById('edit-image').value = product.image;
+            document.getElementById('edit-image').value = product.image || '';
             document.getElementById('edit-page_url').value = product.page_url || '';
+            document.getElementById('edit-description').value = product.description || '';
+            document.getElementById('edit-attributes').value = JSON.stringify(product.attributes || {}, null, 2);
     
-            modal.style.display = 'block';
+            // Handle color variants
+            const editColorContainer = document.getElementById('edit-color-variants-container');
+            editColorContainer.innerHTML = ''; // Clear previous variants
+            if (product.colors && product.colors.length > 0) {
+                product.colors.forEach(color => addEditColorVariantForm(color));
+            }
+
+            toggleEditModalFields(); // Hide/show fields based on color variants
+            modal.style.display = 'flex';
+            productBeingEdited = product;
     
         } catch (error) {
             console.error('Error preparing edit modal:', error);
@@ -114,18 +125,58 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
+        document.getElementById('edit-add-color-btn').addEventListener('click', () => {
+            addEditColorVariantForm();
+            toggleEditModalFields();
+        });
+
+        const editColorContainer = document.getElementById('edit-color-variants-container');
+        editColorContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-color-variant-btn')) {
+                e.target.closest('.color-variant-group').remove();
+                toggleEditModalFields();
+            }
+        });
+
         document.getElementById('editProductForm').addEventListener('submit', async (event) => {
             event.preventDefault();
             const productId = document.getElementById('edit-productId').value;
+            const editColorContainer = document.getElementById('edit-color-variants-container');
             
-            const updatedProduct = {
-                name: document.getElementById('edit-name').value,
-                price: parseFloat(document.getElementById('edit-price').value),
-                stock: parseInt(document.getElementById('edit-stock').value),
-                image: document.getElementById('edit-image').value,
-                page_url: document.getElementById('edit-page_url').value || null
-            };
-        
+            const updatedProduct = { ...productBeingEdited }; // Start with existing data to prevent loss
+
+            // Update from form
+            updatedProduct.name = document.getElementById('edit-name').value;
+            updatedProduct.price = parseFloat(document.getElementById('edit-price').value); // Always get global price
+            updatedProduct.image = document.getElementById('edit-image').value;
+            updatedProduct.page_url = document.getElementById('edit-page_url').value || null;
+            updatedProduct.description = document.getElementById('edit-description').value;
+            try {
+                updatedProduct.attributes = JSON.parse(document.getElementById('edit-attributes').value);
+            } catch(e) {
+                alert('Attributes field contains invalid JSON.');
+                return;
+            }
+            
+            const colorGroups = editColorContainer.querySelectorAll('.color-variant-group');
+
+            if (colorGroups.length === 0) {
+                alert('A product must have at least one color variant.');
+                return;
+            }
+
+            updatedProduct.colors = [];
+            colorGroups.forEach(group => {
+                const colorVariant = {
+                    colorName: group.querySelector('.colorName').value,
+                    stock: parseInt(group.querySelector('.colorStock').value),
+                    images: group.querySelector('.colorImages').value.split(',').map(img => img.trim()),
+                    attributes: { Color: group.querySelector('.colorName').value }
+                };
+                updatedProduct.colors.push(colorVariant);
+            });
+            updatedProduct.stock = null;
+
             try {
                 const response = await fetch(`${API_BASE_URL}/api/admin/products/${productId}`, {
                     method: 'PUT',
@@ -150,6 +201,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const addProductForm = document.getElementById('addProductForm');
     if (addProductForm) {
         promptForApiKey();
+
+        const colorVariantsContainer = document.getElementById('color-variants-container');
+        const addColorVariantBtn = document.getElementById('add-color-variant-btn');
+
+        const originalPriceGroup = document.getElementById('price').parentElement.parentElement;
+        const originalImageGroup = document.getElementById('image').parentElement;
+
+
+        const toggleOriginalFields = () => {
+            if(originalPriceGroup) originalPriceGroup.style.display = 'block'; 
+            if(originalImageGroup) originalImageGroup.style.display = 'block'; 
+        };
+
+        const addColorVariantForm = (color = {}) => {
+            const variantId = "new-" + Date.now();
+            const newVariant = document.createElement('div');
+            newVariant.classList.add('color-variant-group');
+            newVariant.innerHTML = `
+                <h4>New Color</h4>
+                <div class="form-group">
+                    <label for="colorName-${variantId}">Color Name</label>
+                    <input type="text" id="colorName-${variantId}" class="colorName" value="${color.colorName || ''}" required>
+                </div>
+                <div class="form-group">
+                    <label for="colorStock-${variantId}">Stock</label>
+                    <input type="number" id="colorStock-${variantId}" class="colorStock" value="${color.stock ?? ''}" required>
+                </div>
+                <div class="form-group">
+                    <label for="colorImages-${variantId}">Image URLs (comma-separated)</label>
+                    <input type="text" id="colorImages-${variantId}" class="colorImages" value="${(color.images || []).join(', ')}" required>
+                </div>
+                <button type="button" class="admin-btn btn-danger remove-color-variant-btn">Remove Color</button>
+            `;
+            colorVariantsContainer.appendChild(newVariant);
+            toggleOriginalFields();
+        };
+
+        // Add one color form by default
+        addColorVariantForm();
+
+        addColorVariantBtn.addEventListener('click', () => addColorVariantForm());
+
+        colorVariantsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-color-variant-btn')) {
+                e.target.closest('.color-variant-group').remove();
+                toggleOriginalFields();
+            }
+        });
+
         addProductForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             if (!ADMIN_API_KEY) {
@@ -160,12 +260,30 @@ document.addEventListener('DOMContentLoaded', () => {
             const newProduct = {
                 name: document.getElementById('name').value,
                 price: parseFloat(document.getElementById('price').value),
-                stock: parseInt(document.getElementById('stock').value),
                 image: document.getElementById('image').value,
                 date: document.getElementById('date').value,
                 sales: parseInt(document.getElementById('sales').value),
-                page_url: document.getElementById('page_url').value || null
+                page_url: document.getElementById('page_url').value || null,
+                colors: []
             };
+
+            const colorGroups = colorVariantsContainer.querySelectorAll('.color-variant-group');
+            if (colorGroups.length === 0) {
+                alert('A product must have at least one color variant.');
+                return;
+            }
+            
+            colorGroups.forEach(group => {
+                const colorVariant = {
+                    colorName: group.querySelector('.colorName').value,
+                    stock: parseInt(group.querySelector('.colorStock').value),
+                    images: group.querySelector('.colorImages').value.split(',').map(img => img.trim()),
+                    attributes: {
+                        Color: group.querySelector('.colorName').value
+                    }
+                };
+                newProduct.colors.push(colorVariant);
+            });
             
             try {
                 const response = await fetch(`${API_BASE_URL}/api/admin/products`, {
@@ -186,4 +304,39 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // This function will be used by both add and edit forms
+    const addEditColorVariantForm = (color = {}) => {
+        const variantId = color.colorName ? `edit-${color.colorName.replace(/ /g, '-')}` : `edit-new-${Date.now()}`;
+        const container = document.getElementById('edit-color-variants-container');
+        const newVariant = document.createElement('div');
+        newVariant.classList.add('color-variant-group');
+        newVariant.innerHTML = `
+            <h4>${color.colorName || 'New Color'}</h4>
+            <div class="form-group">
+                <label for="colorName-${variantId}">Color Name</label>
+                <input type="text" id="colorName-${variantId}" class="colorName" value="${color.colorName || ''}" required>
+            </div>
+            <div class="form-group">
+                <label for="colorStock-${variantId}">Stock</label>
+                <input type="number" id="colorStock-${variantId}" class="colorStock" value="${color.stock ?? ''}" required>
+            </div>
+            <div class="form-group">
+                <label for="colorImages-${variantId}">Image URLs (comma-separated)</label>
+                <input type="text" id="colorImages-${variantId}" class="colorImages" value="${(color.images || []).join(', ')}" required>
+            </div>
+            <button type="button" class="admin-btn btn-danger remove-color-variant-btn">Remove Color</button>
+        `;
+        container.appendChild(newVariant);
+    };
+
+    const toggleEditModalFields = () => {
+        const editColorContainer = document.getElementById('edit-color-variants-container');
+    
+        const editPriceGroup = document.getElementById('edit-price').parentElement;
+        const editImageGroup = document.getElementById('edit-image').parentElement;
+    
+        if (editPriceGroup) editPriceGroup.style.display = 'block'; // Always show price
+        if (editImageGroup) editImageGroup.style.display = 'block'; // Always show image
+    };
 });
